@@ -25,7 +25,9 @@ Installation
 To run the app locally, follow these steps:
 
 Clone the repository:
-		git clone https://github.com/YourUsername/college-info-app.git	
+
+	git clone https://github.com/YourUsername/college-info-app.git	
+ 
 Open the project in Android Studio.
 Build the project and run it on an emulator or Android device.
 
