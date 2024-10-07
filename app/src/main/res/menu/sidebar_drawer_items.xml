@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <group>
+        <item
+            android:title=" "/>
+
+    </group>
+
+    <group android:id="@+id/group1">
+        <item
+            android:icon="@drawable/ic_nav_home"
+            android:id="@+id/navHome"
+            android:title="Home"
+            android:titleTextAppearance="@style/DrawerItemText"/>
+    </group>
+
+
+
+
+    <item
+        android:icon="@drawable/ic_nav_navigation"
+        android:id="@+id/navNavigation"
+        android:title="Navigation"
+        android:titleTextAppearance="@style/DrawerItemText"/>
+
+    <item
+        android:icon="@drawable/ic_nav_guidance"
+        android:id="@+id/navGuidance"
+        android:title="Guidance"
+        android:titleTextAppearance="@style/DrawerItemText"/>
+
+    <item
+        android:icon="@drawable/ic_nav_hostel"
+        android:id="@+id/navHostel"
+        android:title="Hostel"
+        android:titleTextAppearance="@style/DrawerItemText"/>
+
+    <item
+        android:icon="@drawable/ic_nav_faculties"
+        android:id="@+id/navFaculties"
+        android:title="Faculties"
+        android:titleTextAppearance="@style/DrawerItemText"/>
+
+    <item
+        android:icon="@drawable/ic_nav_syllabus"
+        android:id="@+id/navSyllabus"
+        android:title="Syllabus"
+        android:titleTextAppearance="@style/DrawerItemText"/>
+
+    <item
+        android:icon="@drawable/ic_nav_routine"
+        android:id="@+id/navRoutine"
+        android:title="Routine"
+        android:titleTextAppearance="@style/DrawerItemText"/>
+
+    <item
+        android:icon="@drawable/ic_nav_medical"
+        android:id="@+id/nav_Medical"
+        android:title="Medical"
+        android:titleTextAppearance="@style/DrawerItemText"/>
+
+    <item
+        android:icon="@drawable/ic_nav_nearby_places"
+        android:id="@+id/navNearbyPlaces"
+        android:title="Nearby Places"
+        android:titleTextAppearance="@style/DrawerItemText"/>
+
+
+    <group android:id="@+id/group3">
+        <item
+            android:icon="@drawable/ic_nav_admin"
+            android:id="@+id/navAdmin"
+            android:title="Admin"
+            android:titleTextAppearance="@style/DrawerItemText"/>
+    </group>
+</menu>
