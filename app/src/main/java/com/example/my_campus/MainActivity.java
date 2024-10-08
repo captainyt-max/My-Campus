@@ -18,6 +18,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.my_campus.Fragments.fragmentHomepage;
 import com.example.my_campus.Fragments.fragmentHostelInfo;
+import com.example.my_campus.Fragments.fragmentfacultiesinfo;
+import com.example.my_campus.Fragments.fragmentnavigation;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -85,6 +87,10 @@ public class MainActivity extends AppCompatActivity {
 
                 if (itemId == R.id.navNavigation){
                     Toast.makeText(MainActivity.this, "Clicked On Navigation", Toast.LENGTH_SHORT).show();
+                    fragmentnavigation fragmentnavigation = new fragmentnavigation();
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.mainLayout, fragmentnavigation);
+                    fragmentTransaction.commit();
                     drawerLayout.closeDrawer(GravityCompat.START);
                 }
 
@@ -103,6 +109,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if (itemId == R.id.navFaculties){
                     Toast.makeText(MainActivity.this, "Clicked On Faculties", Toast.LENGTH_SHORT).show();
+                    fragmentfacultiesinfo fragmentfacultiesinfo = new fragmentfacultiesinfo();
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.mainLayout, fragmentfacultiesinfo);
+                    fragmentTransaction.commit();
+                    drawerLayout.closeDrawer(GravityCompat.START);
                 }
 
                 if (itemId == R.id.navSyllabus){
