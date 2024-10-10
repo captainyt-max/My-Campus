@@ -170,6 +170,8 @@
                     android:height="32dp"
                     android:background="@drawable/text_input_background"
                     android:ems="10"
+                    app:flow_horizontalAlign="start"
+                    android:maxLength="200"
                     android:hint="Ask for help..."
                     android:padding="5dp"
 

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:fitsSystemWindows="false"
+    android:fitsSystemWindows="true"
     >
 
     <!-- Main content -->
@@ -19,15 +19,14 @@
         android:layout_height="match_parent"
         android:background="#F0ECEC"
         android:fitsSystemWindows="false"
-        android:paddingTop="36dp"
         tools:context=".MainActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="15dp"
             android:background="@drawable/menubar_background"
             app:layout_constraintEnd_toEndOf="parent"
@@ -78,9 +77,10 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-            app:layout_constraintVertical_bias="0.014">
+            app:layout_constraintVertical_bias="0.001">
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

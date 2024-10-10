@@ -16,14 +16,11 @@
             android:titleTextAppearance="@style/DrawerItemText"/>
     </group>
 
-
-
-
     <item
         android:icon="@drawable/ic_nav_navigation"
         android:id="@+id/navNavigation"
         android:title="Navigation"
-        android:titleTextAppearance="@style/DrawerItemText"/>
+        android:titleTextAppearance="@style/Base.Theme.DrawerItemText"/>
 
     <item
         android:icon="@drawable/ic_nav_guidance"
@@ -35,7 +32,7 @@
         android:icon="@drawable/ic_nav_hostel"
         android:id="@+id/navHostel"
         android:title="Hostel"
-        android:titleTextAppearance="@style/DrawerItemText"/>
+        android:titleTextAppearance="@style/Base.Theme.DrawerItemText"/>
 
     <item
         android:icon="@drawable/ic_nav_faculties"
