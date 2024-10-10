@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.fragmentfacultiesinfo"
-    android:background="#F0ECEC">
+    android:background="#F0ECEC"
+    android:id="@+id/facultyinfo">
 
     <TextView
         android:id="@+id/textView19"
@@ -25,13 +26,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:clickable="true"
-        android:id="@+id/constraintLayout5"
+        android:id="@+id/automobile"
         android:layout_width="match_parent"
         android:layout_height="53dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="15dp"
-        android:background="@drawable/help_tile_background"
+        android:background="@drawable/button_background_1"
+        android:focusable="true"
         app:flow_horizontalBias="0.0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,18 +66,19 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:clickable="true"
-        android:id="@+id/constraintLayout6"
+        android:id="@+id/civil"
         android:layout_width="match_parent"
         android:layout_height="53dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="15dp"
-        android:background="@drawable/help_tile_background"
+        android:background="@drawable/button_background_1"
+        android:focusable="true"
         app:flow_horizontalBias="0.0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout5">
+        app:layout_constraintTop_toBottomOf="@+id/automobile">
 
         <TextView
             android:id="@+id/textView21"
@@ -104,18 +107,19 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:clickable="true"
-        android:id="@+id/constraintLayout7"
+        android:id="@+id/cse"
         android:layout_width="match_parent"
         android:layout_height="53dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="15dp"
-        android:background="@drawable/help_tile_background"
+        android:background="@drawable/button_background_1"
+        android:focusable="true"
         app:flow_horizontalBias="0.0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout6">
+        app:layout_constraintTop_toBottomOf="@+id/civil">
 
         <TextView
             android:id="@id/textView25"
@@ -143,18 +147,19 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:clickable="true"
-        android:id="@+id/constraintLayout8"
+        android:id="@+id/electrical"
         android:layout_width="match_parent"
         android:layout_height="53dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="15dp"
-        android:background="@drawable/help_tile_background"
+        android:background="@drawable/button_background_1"
+        android:focusable="true"
         app:flow_horizontalBias="0.0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout7">
+        app:layout_constraintTop_toBottomOf="@+id/cse">
 
         <TextView
             android:id="@+id/textView23"
@@ -183,25 +188,26 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:clickable="true"
-        android:id="@+id/constraintLayout9"
+        android:id="@+id/electronics"
         android:layout_width="match_parent"
         android:layout_height="53dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="15dp"
-        android:background="@drawable/help_tile_background"
+        android:background="@drawable/button_background_1"
+        android:focusable="true"
         app:flow_horizontalBias="0.0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout8">
+        app:layout_constraintTop_toBottomOf="@+id/electrical">
 
         <TextView
             android:id="@+id/textView24"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:text="Electronic Engineering"
+            android:text="Electronics Engineering"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -222,18 +228,20 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:clickable="true"
+        android:id="@+id/mechanical"
         android:layout_width="match_parent"
         android:layout_height="53dp"
-        android:layout_marginTop="10dp"
         android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="15dp"
-        android:background="@drawable/help_tile_background"
+        android:background="@drawable/button_background_1"
+        android:clickable="true"
+        android:focusable="true"
         app:flow_horizontalBias="0.0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout9">
+        app:layout_constraintTop_toBottomOf="@+id/electronics">
 
         <TextView
             android:id="@+id/textView25"
