@@ -1,11 +1,16 @@
+
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.My_campus" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<style name="Base.Theme.my_campus" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <!-- Make the status bar transparent -->
+    <item name="android:statusBarColor">@android:color/transparent</item>
+    <!-- Make the navigation bar transparent -->
+    <item name="android:navigationBarColor">@android:color/transparent</item>
+    <!-- Light status bar text/icons -->
+    <item name="android:windowLightStatusBar">true</item>
+</style>
 
-        <item name="android:statusBarColor">#FF0000</item>
+    <style name="Base.Theme.DrawerItemText" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">25sp</item> <!-- Change this to your desired text size -->
+        <item name="android:textColor">#FFFFFF</item> <!-- Change to desired text color -->
     </style>
-
-    <style name="Theme.My_campus" parent="Base.Theme.My_campus" />
 </resources>
