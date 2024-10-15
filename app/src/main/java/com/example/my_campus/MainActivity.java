@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.my_campus.Fragments.fragmentHomepage;
 import com.example.my_campus.Fragments.fragmentHostelInfo;
+import com.example.my_campus.Fragments.fragmentSyllabus;
 import com.example.my_campus.Fragments.fragmentfacultiesinfo;
 import com.example.my_campus.Fragments.fragmentnavigation;
 import com.google.android.material.navigation.NavigationView;
@@ -118,6 +119,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if (itemId == R.id.navSyllabus){
                     Toast.makeText(MainActivity.this, "Clicked On Syllabus", Toast.LENGTH_SHORT).show();
+                    fragmentSyllabus fragmentsyllabus = new fragmentSyllabus();
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.mainLayout, fragmentsyllabus);
+                    fragmentTransaction.commit();
+                    drawerLayout.closeDrawer(GravityCompat.START);
                 }
 
                 if (itemId == R.id.navRoutine){
