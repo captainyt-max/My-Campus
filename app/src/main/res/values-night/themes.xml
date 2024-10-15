@@ -1,14 +1,7 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Base.Theme.my_campus" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Make the status bar transparent -->
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <!-- Make the navigation bar transparent -->
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-        <!-- Prevents app from overlapping system bars -->
-        <item name="android:fitsSystemWindows">true</item>
-        <!-- Light status bar text/icons -->
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="colorPrimaryVariant">@color/appAscent</item>
     </style>
 
 </resources>

@@ -1,16 +1,7 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools">
 <style name="Base.Theme.my_campus" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-    <!-- Make the status bar transparent -->
-    <item name="android:statusBarColor">@android:color/transparent</item>
-    <!-- Make the navigation bar transparent -->
-    <item name="android:navigationBarColor">@android:color/transparent</item>
-    <!-- Light status bar text/icons -->
-    <item name="android:windowLightStatusBar">true</item>
+    <item name="colorPrimaryVariant">@color/appAscent</item>
 </style>
 
-    <style name="Base.Theme.DrawerItemText" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:textSize">25sp</item> <!-- Change this to your desired text size -->
-        <item name="android:textColor">#FFFFFF</item> <!-- Change to desired text color -->
-    </style>
 </resources>
