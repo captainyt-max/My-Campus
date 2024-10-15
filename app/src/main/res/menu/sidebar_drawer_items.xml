@@ -16,9 +16,6 @@
             android:titleTextAppearance="@style/DrawerItemText"/>
     </group>
 
-
-
-
     <item
         android:icon="@drawable/ic_nav_navigation"
         android:id="@+id/navNavigation"
