@@ -62,7 +62,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageButton
-                    android:id="@+id/profileIcon"
+                    android:id="@+id/profileIconHome"
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:background="@android:color/transparent"

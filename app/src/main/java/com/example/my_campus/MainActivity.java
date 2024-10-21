@@ -1,6 +1,7 @@
 package com.example.my_campus;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -16,10 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -29,20 +27,49 @@ import com.example.my_campus.Fragments.fragmentSyllabus;
 import com.example.my_campus.Fragments.fragmentfacultiesinfo;
 import com.example.my_campus.Fragments.fragmentnavigation;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private ImageButton menuButton;
     private NavigationView navigationView;
-    private ImageButton profileIcon;
+    private ImageButton profileIconHome;
+
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+
+        // checking login state, if not logged in redirect to login page, else start the home layout
+        if (!loginState.getLoginState(this)){
+            Intent intent = new Intent(MainActivity.this, activityLogin.class);
+            startActivity(intent);
+            finish();
+        }
+
+        // starting home layout
         setContentView(R.layout.home_activity);
+
+        String mobileNumber = loginState.getUserMobileNumber(this);
+
+        if(mobileNumber == null){
+            Toast.makeText(this, "Mobile number null", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(this, mobileNumber, Toast.LENGTH_SHORT).show();
+        }
+
+        // Initialising firestore database
+
 
         //Set status bar and navigation bar color
         getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.appAscent));
@@ -60,14 +87,14 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         menuButton = findViewById(R.id.menuButton);
         navigationView = findViewById(R.id.navigation_view);
-        profileIcon = findViewById(R.id.profileIcon);
+        profileIconHome = findViewById(R.id.profileIconHome);
 
 
         // Temporary - Setting profile image
-        profileIcon.setImageResource(R.drawable.ic_home_profile);
+        profileIconHome.setImageResource(R.drawable.ic_default_user);
 
         //Opening profile Dialog box
-        profileIcon.setOnClickListener(new View.OnClickListener() {
+        profileIconHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 clickAnimation(view);
@@ -88,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
 
         // action for every item in navigation drawer
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -170,62 +196,69 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //function to handle profile dialog box
     public void openProfileDialog(){
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.profile_dialouge_box);
 
-        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
-        params.gravity = Gravity.TOP; // Set the gravity to Top
+        // Ensure dialog window is not null
+        if (dialog.getWindow() != null) {
+            WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+            params.gravity = Gravity.TOP; // Set the gravity to Top
+            params.y = 40; // Set Y offset from the top
+            dialog.getWindow().setAttributes(params);
 
-        params.y = 40;
-        dialog.getWindow().setAttributes(params);
-        dialog.getWindow().setLayout(
-                (int) (getResources().getDisplayMetrics().widthPixels * 0.96),
-                WindowManager.LayoutParams.WRAP_CONTENT
-                //(int) (getResources().getDisplayMetrics().heightPixels * 0.43)
-        );
-        dialog.getWindow().setBackgroundDrawableResource(R.drawable.profile_dialouge_background);
-        dialog.show();
+            dialog.getWindow().setLayout(
+                    (int) (getResources().getDisplayMetrics().widthPixels * 0.96),
+                    WindowManager.LayoutParams.WRAP_CONTENT
+            );
+            dialog.getWindow().setBackgroundDrawableResource(R.drawable.profile_dialouge_background);
+        }
 
-        //finding views from profile box
+        // Finding views from profile box
         ConstraintLayout logoutButton = dialog.findViewById(R.id.logoutButton);
         ImageView profileIcon = dialog.findViewById(R.id.profileIcon);
         TextView name = dialog.findViewById(R.id.name);
         TextView branch = dialog.findViewById(R.id.branch);
-        TextView semester = dialog.findViewById(R.id.semester);
-        TextView rollno = dialog.findViewById(R.id.rollno);
-        TextView phoneno = dialog.findViewById(R.id.phoneno);
+        TextView year = dialog.findViewById(R.id.year);
+        TextView rollNo = dialog.findViewById(R.id.rollno);
+        TextView phoneNo = dialog.findViewById(R.id.phoneNo);
+        TextView emailId = dialog.findViewById(R.id.emailId);
         TextView changePassword = dialog.findViewById(R.id.changePassword);
         TextView changeProfile = dialog.findViewById(R.id.changeProfile);
 
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
-                clickAnimation(view);
-            }
+        name.setText(loginState.getUserName(this));
+        branch.setText(loginState.getUserBranch(this));
+        year.setText(loginState.getUserYear(this));
+        rollNo.setText(loginState.getUserRollNo(this));
+        emailId.setText(loginState.getUserEmail(this));
+        phoneNo.setText(loginState.getUserMobileNumber(this));
+        profileIcon.setImageResource(R.drawable.ic_default_user);
+
+        // Set onClickListeners
+        logoutButton.setOnClickListener(view -> {
+            Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
+            clickAnimation(view);
+            loginState.setLoginState(MainActivity.this, false);
+            Intent loginIntent = new Intent(MainActivity.this, activityLogin.class);
+            startActivity(loginIntent);
+            finish();
         });
 
-        changeProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Change Profile", Toast.LENGTH_SHORT).show();
-                clickAnimation(view);
-            }
+        changeProfile.setOnClickListener(view -> {
+            Toast.makeText(MainActivity.this, "Change Profile", Toast.LENGTH_SHORT).show();
+            clickAnimation(view);
         });
 
-        changePassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Change Password", Toast.LENGTH_SHORT).show();
-                clickAnimation(view);
-            }
+        changePassword.setOnClickListener(view -> {
+            Toast.makeText(MainActivity.this, "Change Password", Toast.LENGTH_SHORT).show();
+            clickAnimation(view);
         });
 
+        dialog.show();
     }
 
-    public void clickAnimation(View v){
+
+    public static void clickAnimation(View v){
         v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).withEndAction(new Runnable() {
             @Override
             public void run() {
