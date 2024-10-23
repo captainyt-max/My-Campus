@@ -3,9 +3,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string-array name="dropdown_items">
-        <item>First</item>
-        <item>Second</item>
-        <item>Third</item>
-    </string-array>
+
+    <string name="find_email_hint"><u><b>Make sure to fill your Roll No. as follows :</b> </u> \n Automobile : YYYY-A-000 (eg : 2023-A-001)\n Civil : YYYY-C-000 (eg : 2023-C-001)\n CSE : YYYY-CSE-000 (eg : 2023-A-001)\n Electrical : YYYY-E-000 (eg : 2023-E-001)\n Electronics : YYYY-EC-000 (eg : 2023-EC-001)\n Mechanical : YYYY-M-000 (eg : 2023-A-001)</string>
+
+
 </resources>

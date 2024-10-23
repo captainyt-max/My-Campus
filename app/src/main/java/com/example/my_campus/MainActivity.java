@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,16 +17,20 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.Group;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.chaquo.python.Python;
+import com.chaquo.python.android.AndroidPlatform;
 import com.example.my_campus.Fragments.fragmentHomepage;
 import com.example.my_campus.Fragments.fragmentHostelInfo;
 import com.example.my_campus.Fragments.fragmentSyllabus;
 import com.example.my_campus.Fragments.fragmentfacultiesinfo;
 import com.example.my_campus.Fragments.fragmentnavigation;
+import com.example.my_campus.Fragments.fragmentAdmin;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -41,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton profileIconHome;
 
 
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
@@ -49,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
+        if (! Python.isStarted()) {
+            Python.start(new AndroidPlatform(this));
+        }
+
+
         // checking login state, if not logged in redirect to login page, else start the home layout
         if (!loginState.getLoginState(this)){
             Intent intent = new Intent(MainActivity.this, activityLogin.class);
@@ -56,17 +67,14 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
+
+
+
         // starting home layout
         setContentView(R.layout.home_activity);
 
         String mobileNumber = loginState.getUserMobileNumber(this);
 
-        if(mobileNumber == null){
-            Toast.makeText(this, "Mobile number null", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            Toast.makeText(this, mobileNumber, Toast.LENGTH_SHORT).show();
-        }
 
         // Initialising firestore database
 
@@ -115,6 +123,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Menu menu = navigationView.getMenu();
+        MenuItem admin = menu.findItem(R.id.navAdmin);
+        if(loginState.getUserRole(getBaseContext()).equals("admin")){
+            admin.setVisible(true);
+        }
+
 
         // action for every item in navigation drawer
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -185,10 +200,19 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (itemId == R.id.navAdmin){
-                    Toast.makeText(MainActivity.this, "Clicked On admin", Toast.LENGTH_SHORT).show();
+                    if(!loginState.getUserRole(getBaseContext()).equals("admin")){
+                        Toast.makeText(MainActivity.this, "You are not admin", Toast.LENGTH_SHORT).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                    }
+                    else{
+                        fragmentAdmin fragmentadmin = new fragmentAdmin();
+                        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.mainLayout, fragmentadmin);
+                        fragmentTransaction.commit();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                    }
+
                 }
-
-
                 return false;
             }
         });

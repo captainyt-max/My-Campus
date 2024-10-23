@@ -3,8 +3,6 @@
 
 
     <group>
-        <item
-            android:title=" "/>
 
     </group>
 
@@ -64,9 +62,9 @@
         android:title="Nearby Places"
         android:titleTextAppearance="@style/DrawerItemText"/>
 
-
     <group android:id="@+id/group3">
         <item
+            android:visible="false"
             android:icon="@drawable/ic_nav_admin"
             android:id="@+id/navAdmin"
             android:title="Admin"
