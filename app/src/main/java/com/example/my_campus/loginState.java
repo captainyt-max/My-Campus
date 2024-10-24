@@ -74,11 +74,14 @@ public class loginState {
             if(task.isSuccessful()){
                 DocumentSnapshot document = task.getResult();
                 String role = document.getString("role");
-                if(!role.isEmpty()){
-                    SharedPreferences sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString("role", role);
-                    editor.apply();
+                if (role != null){
+                    if(!role.isEmpty()){
+                        SharedPreferences sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("role", role);
+                        editor.apply();
+                }
+
                 }
             }
             else{
