@@ -25,6 +25,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
+import com.example.my_campus.Fragments.fragmentGuidance;
 import com.example.my_campus.Fragments.fragmentHomepage;
 import com.example.my_campus.Fragments.fragmentHostelInfo;
 import com.example.my_campus.Fragments.fragmentSyllabus;
@@ -158,6 +159,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if (itemId == R.id.navGuidance){
                     Toast.makeText(MainActivity.this, "Clicked On Guidance", Toast.LENGTH_SHORT).show();
+                    fragmentGuidance fragment_Guidance = new fragmentGuidance();
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.mainLayout, fragment_Guidance);
+                    fragmentTransaction.commit();
+                    drawerLayout.closeDrawer(GravityCompat.START);
                 }
 
                 if (itemId == R.id.navHostel){
