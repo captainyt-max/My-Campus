@@ -17,7 +17,6 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.Group;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -25,17 +24,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
+import com.example.my_campus.Fragments.fragmentAdmin;
 import com.example.my_campus.Fragments.fragmentHomepage;
 import com.example.my_campus.Fragments.fragmentHostelInfo;
 import com.example.my_campus.Fragments.fragmentSyllabus;
 import com.example.my_campus.Fragments.fragmentfacultiesinfo;
 import com.example.my_campus.Fragments.fragmentnavigation;
-import com.example.my_campus.Fragments.fragmentAdmin;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
