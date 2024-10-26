@@ -10,11 +10,10 @@ import android.view.ViewGroup;
 
 import com.example.my_campus.R;
 
+public class fragment_selected_syllabus extends Fragment {
 
-public class fragmentSyllabus extends Fragment {
 
-
-    public fragmentSyllabus() {
+    public fragment_selected_syllabus() {
         // Required empty public constructor
     }
 
@@ -22,7 +21,7 @@ public class fragmentSyllabus extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_syllabus, container, false);
+        View view = inflater.inflate(R.layout.fragment_selected_syllabus, container, false);
         return view;
     }
 }
