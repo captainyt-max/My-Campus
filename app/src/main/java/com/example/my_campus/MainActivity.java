@@ -31,10 +31,11 @@ import com.example.my_campus.Fragments.fragmentSyllabus;
 import com.example.my_campus.Fragments.fragmentfacultiesinfo;
 import com.example.my_campus.Fragments.fragmentnavigation;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
-
+    private String [] role = {"student"};
     private DrawerLayout drawerLayout;
     private ImageButton menuButton;
     private NavigationView navigationView;
@@ -62,16 +63,40 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
+        DocumentReference docRef = db.collection("users").document(loginState.getUserEmail(this));
+        docRef.addSnapshotListener((documentSnapshot, e) ->{
+            if(e != null){
+                // Handle the error
+                return;
+            }
+
+            if (documentSnapshot != null && documentSnapshot.exists()){
+                String role = documentSnapshot.getString("role");
+                Toast.makeText(this, role, Toast.LENGTH_SHORT).show();
+                Menu menu = navigationView.getMenu();
+                MenuItem admin = menu.findItem(R.id.navAdmin);
+                if(role.equals("admin")){
+                    admin.setVisible(true);
+                }
+                else {
+                    admin.setVisible(false);
+                }
+            }
+
+        });
 
 
 
         // starting home layout
         setContentView(R.layout.home_activity);
-
-        String mobileNumber = loginState.getUserMobileNumber(this);
-
+        utility ut = new utility();
+        if(!ut.isNetworkAvailable(this)){
+            Toast.makeText(MainActivity.this, "Offline", Toast.LENGTH_SHORT).show();
+        }
 
         // Initialising firestore database
+
+
 
 
         //Set status bar and navigation bar color
@@ -119,11 +144,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Menu menu = navigationView.getMenu();
-        MenuItem admin = menu.findItem(R.id.navAdmin);
-        if(loginState.getUserRole(getBaseContext()).equals("admin")){
-            admin.setVisible(true);
-        }
+
 
 
         // action for every item in navigation drawer
@@ -195,17 +216,17 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (itemId == R.id.navAdmin){
-                    if(!loginState.getUserRole(getBaseContext()).equals("admin")){
-                        Toast.makeText(MainActivity.this, "You are not admin", Toast.LENGTH_SHORT).show();
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                    }
-                    else{
+//                    if(!role[0].equals("admin")){
+//                        Toast.makeText(MainActivity.this, "You are not admin", Toast.LENGTH_SHORT).show();
+//                        drawerLayout.closeDrawer(GravityCompat.START);
+//                    }
+//                    else{
                         fragmentAdmin fragmentadmin = new fragmentAdmin();
                         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.mainLayout, fragmentadmin);
                         fragmentTransaction.commit();
                         drawerLayout.closeDrawer(GravityCompat.START);
-                    }
+//                    }
 
                 }
                 return false;
@@ -255,12 +276,23 @@ public class MainActivity extends AppCompatActivity {
 
         // Set onClickListeners
         logoutButton.setOnClickListener(view -> {
-            Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
-            clickAnimation(view);
-            loginState.setLoginState(MainActivity.this, false);
-            Intent loginIntent = new Intent(MainActivity.this, activityLogin.class);
-            startActivity(loginIntent);
-            finish();
+            utility ut = new utility();
+            ut.dialogBox(this, "Are you sure to logout ?", new utility.DialogCallback() {
+                @Override
+                public void onConfirm() {
+                    Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
+                    clickAnimation(view);
+                    loginState.setLoginState(MainActivity.this, false);
+                    Intent loginIntent = new Intent(MainActivity.this, activityLogin.class);
+                    startActivity(loginIntent);
+                    finish();
+                }
+                @Override
+                public void onCancel() {
+                    //Do nothing
+                }
+            });
+
         });
 
         changeProfile.setOnClickListener(view -> {

@@ -25,7 +25,7 @@ android {
 
 
         ndk {
-            abiFilters += listOf("arm64-v8a")
+            abiFilters += listOf("arm64-v8a", "x86_64")
         }
     }
 
@@ -42,13 +42,16 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    tasks.withType<JavaCompile> {
+        options.compilerArgs.add("-Xlint:deprecation")
+    }
 
 
 }
 
 chaquopy {
     defaultConfig {
-        version = "3.8"
+        version = "3.9"
         buildPython("C:\\Program Files\\Python39\\python.exe")
     }
 }
@@ -68,3 +71,4 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
+
