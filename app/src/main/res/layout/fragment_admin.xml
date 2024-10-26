@@ -20,7 +20,7 @@
             android:textStyle="bold" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/campusCurrentMassageLayout"
+            android:id="@+id/campusCurrentMessageLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
@@ -43,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="Current massage"
+                    android:text="Current message"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -54,8 +54,8 @@
                     android:id="@+id/campusActivityUpdateTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="15dp"
-                    android:text="TextView"
+                    android:layout_marginEnd="10dp"
+                    android:text=""
                     android:textSize="13sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -75,21 +75,21 @@
                 app:layout_constraintTop_toBottomOf="@id/constraintLayout167">
 
                 <TextView
-                    android:id="@+id/campusActivityCurrentMassage"
+                    android:id="@+id/campusActivityCurrentMessage"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:minHeight="0dp"
-                    android:text="No massage"
+                    android:text="This place is left empty"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/campusActivityEditMassageSendBtn"
+                    app:layout_constraintEnd_toStartOf="@+id/campusActivityEditMessageSendBtn"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/campusActivityEditMassageSendBtn"
+                    android:id="@+id/campusActivityEditMessageSendBtn"
                     android:visibility="gone"
                     android:clickable="true"
                     android:layout_width="45dp"
@@ -130,6 +130,7 @@
 
                 <ImageView
                     android:id="@+id/campusActivityDelBtn"
+                    android:visibility="gone"
                     android:layout_width="25dp"
                     android:layout_height="26dp"
                     android:layout_marginStart="15dp"
@@ -141,6 +142,7 @@
 
                 <ImageView
                     android:id="@+id/campusActivityEditBtn"
+                    android:visibility="gone"
                     android:layout_width="27dp"
                     android:layout_height="24dp"
                     android:layout_marginStart="10dp"
@@ -151,7 +153,7 @@
                     app:srcCompat="@drawable/ic_edit" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/currentMassageCancelBtn"
+                    android:id="@+id/currentMessageCancelBtn"
                     android:layout_width="60dp"
                     android:layout_height="35dp"
                     android:layout_marginEnd="20dp"
@@ -202,7 +204,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="New massage"
+                    android:text="New message"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -222,24 +224,24 @@
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout15">
 
                 <EditText
-                    android:id="@+id/campusActivtyNewMassage"
+                    android:id="@+id/campusActivtyNewMessage"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:background="@drawable/massage_input_background"
-                    android:hint="Type a new massage.."
+                    android:background="@drawable/message_input_background"
+                    android:hint="Type a new message.."
                     android:paddingStart="10dp"
                     android:paddingTop="10dp"
                     android:paddingEnd="10dp"
                     android:paddingBottom="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/campusActivityNewMassageSendBtn"
+                    app:layout_constraintEnd_toStartOf="@+id/campusActivityNewMessageSendBtn"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/campusActivityNewMassageSendBtn"
+                    android:id="@+id/campusActivityNewMessageSendBtn"
                     android:clickable="true"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
