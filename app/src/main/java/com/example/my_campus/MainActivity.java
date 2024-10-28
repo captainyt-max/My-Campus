@@ -28,6 +28,7 @@ import com.example.my_campus.Fragments.fragmentAdmin;
 import com.example.my_campus.Fragments.fragmentGuidance;
 import com.example.my_campus.Fragments.fragmentHomepage;
 import com.example.my_campus.Fragments.fragmentHostelInfo;
+import com.example.my_campus.Fragments.fragmentRoutine;
 import com.example.my_campus.Fragments.fragmentSyllabus;
 import com.example.my_campus.Fragments.fragmentfacultiesinfo;
 import com.example.my_campus.Fragments.fragmentnavigation;
@@ -210,6 +211,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if (itemId == R.id.navRoutine){
                     Toast.makeText(MainActivity.this, "Clicked On Routine", Toast.LENGTH_SHORT).show();
+                    fragmentRoutine fragmentroutine = new fragmentRoutine();
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.mainLayout, fragmentroutine);
+                    fragmentTransaction.commit();
+                    drawerLayout.closeDrawer(GravityCompat.START);
                 }
 
                 if (itemId == R.id.nav_Medical){
