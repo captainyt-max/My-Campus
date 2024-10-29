@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="65dp"
+    android:layout_height="wrap_content"
     android:background="#CDE8E1"
-    android:orientation="vertical"
-
-    >
+    android:orientation="vertical">
 
 
     <TextView
         android:id="@+id/textView13"
         android:layout_width="209dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="45dp"
         android:fontFamily="@font/sail"
         android:text="Pocket Campus"
         android:textColor="#171D1B"
         android:textSize="30sp"
         android:textStyle="bold" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCA2C5C4"
+        />
 </LinearLayout>
 

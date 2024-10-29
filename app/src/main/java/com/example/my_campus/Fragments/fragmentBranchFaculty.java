@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fragmentBranchFaculty#newInstance} factory method to
+ * Use the {@link fragmentBranchFaculty #newInstance} factory method to
  * create an instance of this fragment.
  */
 public class fragmentBranchFaculty extends Fragment {
@@ -69,26 +69,27 @@ public class fragmentBranchFaculty extends Fragment {
         //adding items to automobile faculties array list
         automobileFacultieslist.add(new ListItem("Mr. Ashutosh Kumar", R.drawable.faculty_automobile_ashutosh, "lecturer(HOD)", "8011242454", "ashutosh.mech@iitg.ac.in"));
 
-        //adding items to electectrical faculties array list
+        //adding items to electrical faculties array list
         electricalFacultieslist.add(new ListItem("Mrs. Jaya Bharati", R.drawable.faculty_electrical_jayabharti, "Lecturer", "8777024993", "jbharatiele@gmail.com"));
         electricalFacultieslist.add(new ListItem("Mrs. Anuradha Krishna", 0, "Lecturer", "9431647490", "anuradha.krishna4@gmail.com"));
         electricalFacultieslist.add(new ListItem("Prashant Kumar", R.drawable.faculty_electrical_prashantkumar, "Lecturer", "8471053860", "prashant.kumar830@gmail.com"));
-        electricalFacultieslist.add(new ListItem("Mr. Daya Shankar Singh", R.drawable.faculty_electrical_dayashankar, "Lecturer", "", "dssingh1770@gmail.com"));
-        electricalFacultieslist.add(new ListItem("Mrs. Puja Kumari", R.drawable.faculty_electrical_pujakumari, "Lecturer", "", ""));
-        electricalFacultieslist.add(new ListItem("Ms. Diksha", R.drawable.faculty_electrical_diksha, "Lecturer", "", "singh.diksha1007@gmail.com"));
+        electricalFacultieslist.add(new ListItem("Mr. Daya Shankar Singh", R.drawable.faculty_electrical_dayashankar, "Lecturer", "9430465850", "dssingh1770@gmail.com"));
+        electricalFacultieslist.add(new ListItem("Mrs. Puja Kumari", R.drawable.faculty_electrical_pujakumari, "Lecturer", "9861578760", ""));
+        electricalFacultieslist.add(new ListItem("Ms. Diksha", R.drawable.faculty_electrical_diksha, "Lecturer", "6299560624", "singh.diksha1007@gmail.com"));
 
         //adding items to electronics faculties array list
-        electronicsFacultieslist.add(new ListItem("", 0, "Lecturer", "", ""));
-        electronicsFacultieslist.add(new ListItem("", 0, "Lecturer", "", ""));
-        electronicsFacultieslist.add(new ListItem("", 0, "Lecturer", "", ""));
-        electronicsFacultieslist.add(new ListItem("", 0, "Lecturer", "", ""));
-        electronicsFacultieslist.add(new ListItem("", 0, "Lecturer", "", ""));
+        electronicsFacultieslist.add(new ListItem("Mrs. Roma Rani", R.drawable.faculties_electronics_romarani, "Lecturer", "", "romangpp13@gmail.com"));
+        electronicsFacultieslist.add(new ListItem("Mrs. Anushka Pradhan", R.drawable.faculties_electronics_anushkapradhan, "Lecturer", "", "a.pradhan2780@gmail.com"));
+        electronicsFacultieslist.add(new ListItem("Ambul Prakash", R.drawable.faculties_electronics_ambulprakash, "Lecturer", "", "ambulngpp13@gmail.com"));
+        electronicsFacultieslist.add(new ListItem("Dr. K. L. Pushkar", R.drawable.faculties_electronics_klpushkar, "Lecturer", "", "hodelectronics.ngpp13@gmail.com"));
+        electronicsFacultieslist.add(new ListItem("Pratyaya Amrit", R.drawable.faculties_electronics_pratyayamrit, "Lecturer", "", ""));
+        electronicsFacultieslist.add(new ListItem("Mrs. Anita Kumari", R.drawable.faculties_electronics_anita, "Lecturer", "9006313088", "anitangp13@gmail.com"));
 
         //adding items to mechanical faculties array list
         mechanicalFacultieslist.add(new ListItem("Mr. Shambhu Kumar", R.drawable.faculties_mechanical_shambhukumar, "Lecturer", "", "shambhu752@gmail.com"));
         mechanicalFacultieslist.add(new ListItem("Mr. Nishant Kumar",R.drawable.faculties_mechanical_nishantkumar , "Lecturer", "8800844748", "kumar.nishant57@gmail.com"));
         mechanicalFacultieslist.add(new ListItem("Mr. Amit Narayan Mishra", R.drawable.faculties_mechanical_amitnarayan, "Lecturer", "", "amitprof93@gmail.com"));
-        mechanicalFacultieslist.add(new ListItem("Mr. Ranjeet Kumar", R.drawable.faculties_mechanical_ranjeetsir, "Lecturer", "", "ranjeet31may@gmail.com"));
+        mechanicalFacultieslist.add(new ListItem("Mr. Ranjeet Kumar", R.drawable.faculties_mechanical_ranjeetsir, "Lecturer", "9931867592", "ranjeet31may@gmail.com"));
         mechanicalFacultieslist.add(new ListItem("Mr. Saurabh Kumar", R.drawable.faculties_mechanical_saurabhkumar, "Lecturer", "", "kumarsaurabhmech@gmail.com"));
         mechanicalFacultieslist.add(new ListItem("Praveen Kumar", R.drawable.faculties_mechanical_praveen, "Lecturer", "", "praveen23pro@gmail.com"));
         mechanicalFacultieslist.add(new ListItem("Mahesh kumar", R.drawable.faculties_mechanical_maheshkumar, "Lecturer", "", "mkgbitpg27@gmail.com"));
