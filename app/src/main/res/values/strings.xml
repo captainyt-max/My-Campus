@@ -6,5 +6,159 @@
 
     <string name="find_email_hint"><u><b>Make sure to fill your Roll No. as follows :</b> </u> \n Automobile : YYYY-A-000 (eg : 2023-A-001)\n Civil : YYYY-C-000 (eg : 2023-C-001)\n CSE : YYYY-CSE-000 (eg : 2023-A-001)\n Electrical : YYYY-E-000 (eg : 2023-E-001)\n Electronics : YYYY-EC-000 (eg : 2023-EC-001)\n Mechanical : YYYY-M-000 (eg : 2023-A-001)</string>
 
+    <string name="scholarship_article"> <b>BIHAR POST MATRIC SCHOLARSHIP</b> \n
+        The Bihar Post Matric Scholarship is available to economically disadvantaged state-sponsored minority students.\n
+        Bihar PMS Scholarship is an official portal for deserving students from SC, ST, OBC, BC or EBC categories to register for the scholarship via this portal.\n\n
+        <b>HOW TO REGISTER ON PMS WEBSITE-</b>\n
+        <b>Step 1:</b> Go to the Post Matric Bihar Scholarship Portal http://www.pmsonline.bih.nic.in \n
+        <b>Step 2:</b> Choose and click on the “New Registration”.\n
+        <b>Step 3:</b> Fill in the required columns like Fathe’s name, category. Email Address, DOB, etc.\n
+        <b>Step 4:</b> Confirm and verify your details using the OTP sent to your mobile number and Email Address.\n
+        <b>Step 5:</b> Enter your name and Aadhaar Card, UID Number then Select Preview to check the document and ensure the document is correct or not.\n
+        <b>Step 6:</b> After reviewing your registration form and making any necessary corrections, click the “Register Here” Button.\n\n
+        <b>HOW TO LOGIN AND APPLY FOR POST MATRIC SCHOLARSHIP</b>\n
+        <b>Step 1:</b> After registering return to the Login page. Enter your password. User ID and captcha and then press the Login Button.\n
+        <b>Step 2:</b> Click on “Save” after choosing the update option and enter your Permanent address, caste and sub-caste.\n
+        <b>Step 3:</b> Return to the Home Page and select the option for Bank Details. Enter the Account Number, IFSC Code and Bank Name, then click “Save”.\n
+        <b>Step 4:</b> Choose “Certificate Details”, enter your residential income and caste certificate information and click “Save”.\n
+        <b>Step 5:</b> Select “Upload Image” and submit your picture.\n
+        <b>Step 6:</b> Select the option to apply for a scholarship.\n
+        <b>Step 7:</b> Choose whether to submit a fresh or renewal application. Enter the name of the college or school, the course you are taking and the academic year.\n
+        <b>Step 8:</b> Enter the information about your present course such as the registration/roll number and the date of admission.\n
+        <b>Step 9:</b> Enter the information from your prior year’s course and press “Save”.\n
+        <b>Step 10:</b> Scroll down to upload documents from the institute such as details for class 10 and 12.\n
+        <b>Step 11:</b> Select “Print and Application Status”.\n
+        <b>Step 12:</b> Press “Finalize Application” to complete the process and submit the form.\n\n
+        <b>LIST OF REQUIRED DOCUMENTS FOR BIHAR PMS SCHOLARSHIP-</b>\n
+        <b>1.</b>	The applicant’s bank account details\n
+        <b>2.</b>	Aadhaar Card\n
+        <b>3.</b>	Residential Certificate\n
+        <b>4.</b>	Passport Size Photo\n
+        <b>5.</b>	Income Certificate\n
+        <b>6.</b>	Receipt for the admission fees\n
+        <b>7.</b>	Previous Course Passing Certificate\n
+        <b>8.</b>	Previous Course Marksheet\n
+        <b>9.</b>	Bonafide Certificate\n
+        <b>10.</b>	Previous Academic Marksheet\n
+    </string>
 
+    <string name="drcc_article">
+    Bihar Student Credit Card Scheme is a state funds scheme for students in Bihar, that helps financially needy students pursue their higher education.\n\n
+    <b>How to apply for Bihar Student Credit Card:</b>\n
+    <b>1.</b> Visit the official portal of Bihar Student Credit Card website https://www.7nishchay-yuvaupmission.bihar.gov.in \n
+    <b>2.</b> Go to the official Mukhyamantri Nishchay Swayam Sahayata Yojana (MNSSBY) portal.\n
+    <b>3.</b> Register as a new user.\n
+    <b>4.</b> Click on the new applicant registration link.\n
+    <b>5.</b> Fill the required details such as your name, email Id, mobile number and create a password.\n
+    <b>6.</b> Submit the registration form to receive a registration Id and password to login to MNSSBY portal.\n
+    <b>7.</b> Fill out the application, select the Bihar Student Credit Card Scheme from the available schemes. Complete the online application form with the necessary personal, educational, and financial details.\n
+    <b>8.</b> Scan and upload the required documents.\n
+    <b>9.</b> Review the filled application form and uploaded documents.\n
+    <b>10.</b> Click on “Submit” Button to complete the application process.\n
+    <b>11.</b> Print the application form.\n
+    <b>12.</b> Check the status of your application through the MNSSBY portal using your registration Id or password.\n\n
+    <b>Required Documents for Student Credit Card:</b>\n
+    <b>1.</b> Photograph and Signature.\n
+    <b>2.</b> Class 12th marksheet.\n
+    <b>3.</b> Admission Confirmation Letter.\n
+    <b>4.</b> Fee Structure Details.\n
+    <b>5.</b> Domicile Certificate, ID Proof (Aadhar Card, Voter ID, etc).\n
+    <b>6.</b> Income Certificate (Family).\n
+    <b>7.</b> Bank Account Details.\n
+</string>
+
+
+    <string name="kyp_article">
+        <b>1. Visit the Official Website:</b>\n
+    • Go to the official \"Bihar Skill Development Mission (BSDM)\" website for KYP registration.\n
+        <b>2. Create an account:</b>\n
+    • Enter your name, mobile number, email, and Aadhaar number to create an account.\n
+    • Verify your mobile and email using the OTP sent to them.\n
+        <b>3. Fill the application form:</b>\n
+    • Provide personal details like name, address, and date of birth.\n
+    • Enter your educational details (10th/12th).\n
+    • If applicable, fill in your bank account details.\n
+        <b>4. Upload Documents:</b>\n
+    • Aadhaar card (for identity).\n
+    • Residential proof.\n
+    • Educational certificates (10th/12th).\n
+    • Passport-size photo.\n
+    • Bank details (Account number, IFSC code, Bank name).\n
+        <b>5. Document verification:</b>\n
+    • Your submitted documents are verified.\n
+    • Once verified, you will receive confirmation via SMS or email.\n
+        <b>6. Fee payment:</b>\n
+    • At our college, the fee for KYP registration is Rs. 1000. Pay this fee online through the portal.\n
+        <b>7. Receive confirmation:</b>\n
+    • After successful registration and payment, you will receive a message with your training schedule and session details.\n
+        <b>8. Join the Program:</b>\n
+    • Start attending your classes as per the schedule provided. Here, you will learn important skills like computer literacy and communication.\n
+    </string>
+
+
+    <string name="exam_form_article">
+        <b>Step1:</b> visit the official website\n
+        <b>Step2:</b> Before filling the examination form, student have make the online payment So, click on the link before filling the examination form. Students are advised to make the online payment by clicking here.\n
+        <b>Step3:</b> After clicking on the link fill in the Registration No., Date of Birth, and Roll No. click on login button\n
+        <b>Step4:</b> you will see the student dashboard and click on pay fee\n
+        <b>Step5:</b> Now you will see different payment types option but We advise using “Internet Banking”.\n
+        <b>Step6:</b> Fill in the required details for “Internet Banking”.\n
+        <b>Step7:</b> Click on “pay now”.\n
+        <b>Step8:</b> Then you get an OTP on your mobile phone.\n
+        <b>Step9:</b> You will see an interface showing a field to enter the OTP sent. Fill in the OTP and click on the Submit button within 3 minutes.\n
+        <b>Step10:</b> Click on the Print button and print the payment slip.\n
+        <b>Step11:</b> Click on "Click here to go to SBTE page for further process."\n
+        <b>Step12:</b> Login to your account.\n
+        <b>Step13:</b> Click on the Examination Form.\n
+        <b>Step14:</b> Click on "Program Term" and select "1st" (Semester No.).\n
+        <b>Step15:</b> Click on the Search button.\n
+        <b>Step16:</b> Click on Submit Examination Form.\n
+        <b>Step17:</b> Click "Yes" for kyp completion or "No" for no kyp completing.\n
+        <b>Step18:</b>Click on submit.\n
+        <b>Step19:</b> You receive a message "information  saved successfully.”
+        <b>Step20:</b> Again click “Program Team” and select the semester no. as 1st then click “submit button.”
+        <b>Step21:</b> Click on "Download Examination Form" and your examination form is download now.
+    </string>
+
+    <string name="enrollment_article">
+        <b>STEP 01:-</b> Visit  the official website of SBTE <a href=""></a> and click on “For semester enrollment\n
+        <b>STEP 02:-</b> Enter your user id and password for login. For new student, click in "New Registration". Fill in the required details and check once again then click on “Register”. Once you click on “Register” Button, You get a User ID and Password on your registered email and you can change your password according to your need by clicking the link  given to change the password.\n
+        <b>STEP 03:-</b> Click on ‘login’ button.\n
+        <b>STEP 04:-</b> Now you will be taken to an interface named showing respective course name semester enrollment new\n
+        <b>STEP 05:-</b> Scroll  down. First you show “add on course completed in previous semester” or internship. CLICK “Yes” for the courses you have completed and “No” for the courses or internship not completed.\n
+        <b>STEP 06:-</b>  For the courses ticked to “Yes” you should have to add (fill) some related details like Certificate No, Mentors Name, Email Of Mentor, Contact No of Mentor, HOD name For the respective branch, Email Id of HOD, Contact No. of HOD and and same for all Other courses.\n
+        <b>STEP 07:-</b> Then You Show a column named “Add on Courses to be enrolled in this semester”. Click “Yes” to the courses on internship You would to be enrolled in current semester and “No” for the courses or internship you are enrolled for.\n
+        <b>STEP 08:-</b> The courses which are ticked “Yes” should be added some information like Certificate No, Mentor Name, Mentor Email ID,Mentor Contact No.,HOD Name, HOD Email ID, HOD Contact, and for the detail which are not currently available, you can fill “N/A”.\n
+        <b>STEP 09:-</b> Click “Submit” Button.\n
+        <b>STEP 10:-</b> Then you receive a message,”You Semester Enrollment Is Successfully Completed”.\n
+        <b>STEP 11:-</b> Click again on “Semester Enrollment New”.\n
+        <b>STEP 12:-</b> Click on “Download Your Semester Enrollment”. Now you will receive your Enrollment form in (.pdf) format.\n
+        <b>STEP 13:-</b> Now You Have to Submit Your Enrollment Form to Your Institute.
+
+    </string>
+
+    <string name="result_article">
+        <b>1.</b>	Visit the official website of the SBTE https://sbte.bihar.gov.in\n
+        <b>2.</b>	Select the “Student” section and click on the “Examination Result” option available there.\n
+        <b>3.</b>	Fill the required information.\n
+        <b>4.</b>	Click on “Get Result”.
+
+    </string>
+
+    <string name="library_article">
+        <b>1.</b> Library will be kept open from 9. 15 a. m. to 4.45 p.m. on all working days.
+        <b>2.</b> Silence shall be strictly observed in the library.
+        <b>3.</b> Each students having ID Card are permitted to borrow the books from the library and at the end of the semester, students should return the books taking with the ID card.\n
+        <b>4.</b> Students must satisfy themselves about the physical condition of books before borrowing, otherwise they shall be responsible for any damage at the time of returning.\n
+        <b>5.</b> If any book borrowed in any semester is not returned at the end of the course. Students should have to pay fee for the bok to the library manager.\n
+        <b>6.</b> Students make their attendance while entering in the library for study.
+    </string>
+
+    <string name="rules_article">
+
+    </string>
+
+    <string name="links_article">
+
+    </string>
 </resources>
