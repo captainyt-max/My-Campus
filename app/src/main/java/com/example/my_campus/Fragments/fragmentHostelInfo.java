@@ -10,11 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.my_campus.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link fragmentHostelInfo#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class fragmentHostelInfo extends Fragment {
 
 
