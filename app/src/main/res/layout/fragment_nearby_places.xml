@@ -1,50 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.fragmentfacultiesinfo"
-    android:background="#F0ECEC"
-    android:id="@+id/syllabus">
+    tools:context=".Fragments.fragmentNearbyPlaces"
+    android:background="#F0ECEC">
+
 
     <TextView
-        android:id="@+id/textView19"
+        android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginTop="16dp"
-        android:text="Curriculum"
+        android:text="Nearby Places"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:flow_horizontalBias="0.005"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.003"
+        app:layout_constraintHorizontal_bias="0.005"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:clickable="true"
-        android:id="@+id/automobile"
+        android:id="@+id/reference"
         android:layout_width="match_parent"
         android:layout_height="53dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="15dp"
-        android:background="@drawable/button_background_1"
-        android:focusable="true"
-        app:flow_horizontalBias="0.0"
+        android:background="@drawable/help_tile_background"
+        android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView19">
+        app:layout_constraintTop_toBottomOf="@+id/textView14">
 
         <TextView
-            android:id="@+id/textView20"
+            android:id="@+id/textView15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:text="Automobile Engineering"
+            android:text="Reference"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +49,7 @@
             app:layout_constraintVertical_bias="0.529" />
 
         <ImageView
-            android:id="@+id/imageView11"
+            android:id="@+id/imageView"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="4dp"
@@ -61,31 +58,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.461" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:clickable="true"
-        android:id="@+id/civil"
+        android:id="@+id/stationary"
         android:layout_width="match_parent"
         android:layout_height="53dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="15dp"
-        android:background="@drawable/button_background_1"
-        android:focusable="true"
-        app:flow_horizontalBias="0.0"
+        android:background="@drawable/help_tile_background"
+        android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/automobile">
+        app:layout_constraintTop_toBottomOf="@+id/reference">
 
         <TextView
-            android:id="@+id/textView21"
+            android:id="@+id/textView16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:text="Civil Engineering"
+            android:text="Stationary"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -93,7 +87,7 @@
             app:layout_constraintVertical_bias="0.529" />
 
         <ImageView
-            android:id="@+id/image12"
+            android:id="@+id/imageView2"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="4dp"
@@ -102,31 +96,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.461" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:clickable="true"
-        android:id="@+id/cse"
+        android:id="@+id/cybercafe"
         android:layout_width="match_parent"
         android:layout_height="53dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="15dp"
-        android:background="@drawable/button_background_1"
-        android:focusable="true"
-        app:flow_horizontalBias="0.0"
+        android:background="@drawable/help_tile_background"
+        android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/civil">
+        app:layout_constraintTop_toBottomOf="@+id/stationary">
 
         <TextView
-            android:id="@id/textView25"
+            android:id="@+id/textView17"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:text="Computer Science and Engineering"
+            android:text="Cyber Cafe"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -134,6 +125,7 @@
             app:layout_constraintVertical_bias="0.529" />
 
         <ImageView
+            android:id="@+id/imageView3"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="4dp"
@@ -142,31 +134,27 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.461" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:clickable="true"
-        android:id="@+id/electrical"
+        android:id="@+id/hospital"
         android:layout_width="match_parent"
         android:layout_height="53dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="15dp"
-        android:background="@drawable/button_background_1"
-        android:focusable="true"
-        app:flow_horizontalBias="0.0"
+        android:background="@drawable/help_tile_background"
+        android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cse">
+        app:layout_constraintTop_toBottomOf="@+id/cybercafe">
 
         <TextView
-            android:id="@+id/textView23"
+            android:id="@+id/textView18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:text="Electrical Engineering"
+            android:text="Hospital "
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -174,7 +162,7 @@
             app:layout_constraintVertical_bias="0.529" />
 
         <ImageView
-            android:id="@+id/imageView14"
+            android:id="@+id/imageView4"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="4dp"
@@ -183,72 +171,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.461" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:clickable="true"
-        android:id="@+id/electronics"
+        android:id="@+id/medical"
         android:layout_width="match_parent"
         android:layout_height="53dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="15dp"
-        android:background="@drawable/button_background_1"
-        android:focusable="true"
-        app:flow_horizontalBias="0.0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/electrical">
-
-        <TextView
-            android:id="@+id/textView24"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:text="Electronics Engineering"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.529" />
-
-        <ImageView
-            android:id="@+id/imageView15"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="4dp"
-            android:src="@drawable/ic_arrow"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.461" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/mechanical"
-        android:layout_width="match_parent"
-        android:layout_height="53dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/button_background_1"
+        android:background="@drawable/help_tile_background"
         android:clickable="true"
-        android:focusable="true"
-        app:flow_horizontalBias="0.0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/electronics">
+        app:layout_constraintTop_toBottomOf="@+id/hospital">
 
         <TextView
-            android:id="@+id/textView25"
+            android:id="@+id/textView19"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:text="Mechanical Engineering"
+            android:text="Medical Store"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -256,7 +200,7 @@
             app:layout_constraintVertical_bias="0.529" />
 
         <ImageView
-            android:id="@+id/imageView16"
+            android:id="@+id/imageView5"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="4dp"
@@ -265,7 +209,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.461" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

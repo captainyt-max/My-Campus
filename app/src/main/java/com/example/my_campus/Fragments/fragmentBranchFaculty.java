@@ -17,11 +17,6 @@ import com.example.my_campus.R;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link fragmentBranchFaculty #newInstance} factory method to
- * create an instance of this fragment.
- */
 public class fragmentBranchFaculty extends Fragment {
 
     //define ArrayList for all branch faculties
@@ -46,10 +41,10 @@ public class fragmentBranchFaculty extends Fragment {
         View view = inflater.inflate(R.layout.fragment_branch_faculty, container, false);
 
         branchName = view.findViewById(R.id.branch);
+        //adding items to cse faculties array list
         listView = view.findViewById(R.id.facultyListView);
 
 
-        //adding items to cse faculties array list
         cseFacultieslist.add(new ListItem("S.N. Singh", R.drawable.faculty_cse_saktinath, "Lecturer(HOD)", "9873647576", "snsngpp@ngpp.ac.in"));
         cseFacultieslist.add(new ListItem("Umar Farooque", R.drawable.faculty_cse_faruk, "Lecturer", "9771861868", "umarfarooque10@ngpp.ac.in"));
         cseFacultieslist.add(new ListItem("Mr. Sudhakar Kumar", R.drawable.faculty_cse_sudhakar, "Lecturer", "9673373296", "skumarngp13@gmail.com"));
