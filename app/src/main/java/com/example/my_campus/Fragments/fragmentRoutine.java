@@ -1,5 +1,7 @@
 package com.example.my_campus.Fragments;
 
+import static com.example.my_campus.MainActivity.clickAnimation;
+
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -12,20 +14,20 @@ import android.view.ViewGroup;
 
 import com.example.my_campus.R;
 
-
-public class fragmentSyllabus extends Fragment {
+public class fragmentRoutine extends Fragment {
 
     ConstraintLayout buttonAutomobile, buttonCivil, buttonCSE, buttonElectrical, buttonElectronic, buttonMechanical;
 
-    public fragmentSyllabus() {
+    public fragmentRoutine() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_syllabus, container, false);
+        View view = inflater.inflate(R.layout.fragment_routine, container, false);
 
         buttonAutomobile = view.findViewById(R.id.automobile);
         buttonCivil = view.findViewById(R.id.civil);
@@ -86,16 +88,16 @@ public class fragmentSyllabus extends Fragment {
         });
 
 
-        return view;
 
+        return view;
     }
 
-    public void nextFragment(String Syllabus) {
+    private void nextFragment(String Routine) {
         Bundle bundle = new Bundle();
-        bundle.putString("Syllabus", Syllabus);
+        bundle.putString("Routine", Routine);
 
-        fragmentSelectedSyllabus fragmentselectedsyllabus = new fragmentSelectedSyllabus();
-        fragmentselectedsyllabus.setArguments(bundle);
+        fragmentSelectedRoutine fragmentselectedroutine = new fragmentSelectedRoutine();
+        fragmentselectedroutine.setArguments(bundle);
 
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.setCustomAnimations(
@@ -104,17 +106,8 @@ public class fragmentSyllabus extends Fragment {
                 R.anim.slide_in_left,   // pop enter (when returning back)
                 R.anim.slide_out_right  // pop exit (when returning back)
         );
-        transaction.replace(R.id.mainLayout, fragmentselectedsyllabus);
+        transaction.replace(R.id.mainLayout, fragmentselectedroutine);
         transaction.addToBackStack(null);
         transaction.commit();
-    }
-
-    public void clickAnimation(View v) {
-        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).withEndAction(new Runnable() {
-            @Override
-            public void run() {
-                v.animate().scaleX(1f).scaleY(1f).setDuration(100);
-            }
-        });
     }
 }

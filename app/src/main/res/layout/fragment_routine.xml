@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.fragmentfacultiesinfo"
     android:background="#F0ECEC"
-    android:id="@+id/syllabus">
+    android:id="@+id/facultyinfo">
 
     <TextView
         android:id="@+id/textView19"
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginTop="16dp"
-        android:text="Curriculum"
+        android:text="Routine"
         android:textSize="16sp"
         android:textStyle="bold"
         app:flow_horizontalBias="0.005"

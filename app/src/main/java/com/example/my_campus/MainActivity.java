@@ -28,12 +28,15 @@ import com.example.my_campus.Fragments.fragmentAdmin;
 import com.example.my_campus.Fragments.fragmentGuidance;
 import com.example.my_campus.Fragments.fragmentHomepage;
 import com.example.my_campus.Fragments.fragmentHostelInfo;
+import com.example.my_campus.Fragments.fragmentNearbyPlaces;
+import com.example.my_campus.Fragments.fragmentRoutine;
 import com.example.my_campus.Fragments.fragmentSyllabus;
 import com.example.my_campus.Fragments.fragmentfacultiesinfo;
 import com.example.my_campus.Fragments.fragmentnavigation;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 
 public class MainActivity extends AppCompatActivity {
     private String [] role = {"student"};
@@ -210,6 +213,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if (itemId == R.id.navRoutine){
                     Toast.makeText(MainActivity.this, "Clicked On Routine", Toast.LENGTH_SHORT).show();
+                    fragmentRoutine fragmentroutine = new fragmentRoutine();
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.mainLayout, fragmentroutine);
+                    fragmentTransaction.commit();
+                    drawerLayout.closeDrawer(GravityCompat.START);
                 }
 
                 if (itemId == R.id.nav_Medical){
@@ -218,6 +226,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if (itemId == R.id.navNearbyPlaces){
                     Toast.makeText(MainActivity.this, "Clicked On Nearby Places", Toast.LENGTH_SHORT).show();
+                    fragmentNearbyPlaces fragmentNearbyPlaces = new fragmentNearbyPlaces();
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.mainLayout, fragmentNearbyPlaces);
+                    fragmentTransaction.commit();
+                    drawerLayout.closeDrawer(GravityCompat.START);
                 }
 
                 if (itemId == R.id.navAdmin){

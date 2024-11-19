@@ -1,5 +1,7 @@
 package com.example.my_campus.Fragments;
 
+import static com.example.my_campus.MainActivity.clickAnimation;
+
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -13,89 +15,72 @@ import android.view.ViewGroup;
 import com.example.my_campus.R;
 
 
-public class fragmentSyllabus extends Fragment {
+public class fragmentNearbyPlaces extends Fragment {
 
-    ConstraintLayout buttonAutomobile, buttonCivil, buttonCSE, buttonElectrical, buttonElectronic, buttonMechanical;
+    ConstraintLayout buttonReference, buttonStationary, buttonCybercafe, buttonHospital, buttonMedical;
 
-    public fragmentSyllabus() {
-        // Required empty public constructor
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_syllabus, container, false);
+        View view = inflater.inflate(R.layout.fragment_nearby_places, container, false);
 
-        buttonAutomobile = view.findViewById(R.id.automobile);
-        buttonCivil = view.findViewById(R.id.civil);
-        buttonCSE = view.findViewById(R.id.cse);
-        buttonElectrical = view.findViewById(R.id.electrical);
-        buttonElectronic = view.findViewById(R.id.electronics);
-        buttonMechanical = view.findViewById(R.id.mechanical);
+        buttonReference = view.findViewById(R.id.reference);
+        buttonStationary = view.findViewById(R.id.stationary);
+        buttonCybercafe = view.findViewById(R.id.cybercafe);
+        buttonHospital = view.findViewById(R.id.hospital);
+        buttonMedical = view.findViewById(R.id.medical);
 
-
-
-
-        buttonAutomobile.setOnClickListener(new View.OnClickListener() {
+        buttonReference.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nextFragment("automobile");
+                nextFragment("reference");
                 clickAnimation(view);
             }
         });
 
-        buttonCivil.setOnClickListener(new View.OnClickListener() {
+        buttonStationary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nextFragment("civil");
+                nextFragment("stationary");
                 clickAnimation(view);
             }
         });
 
-        buttonCSE.setOnClickListener(new View.OnClickListener() {
+        buttonCybercafe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nextFragment("cse");
+                nextFragment("cybercafe");
                 clickAnimation(view);
             }
         });
 
-        buttonElectrical.setOnClickListener(new View.OnClickListener() {
+        buttonHospital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nextFragment("electrical");
+                nextFragment("hospital");
                 clickAnimation(view);
             }
         });
 
-        buttonElectronic.setOnClickListener(new View.OnClickListener() {
+        buttonMedical.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nextFragment("electronics");
+                nextFragment("medical");
                 clickAnimation(view);
             }
         });
-
-        buttonMechanical.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                nextFragment("mechanical");
-                clickAnimation(view);
-            }
-        });
-
 
         return view;
-
     }
 
-    public void nextFragment(String Syllabus) {
+    private void nextFragment(String reference) {
         Bundle bundle = new Bundle();
-        bundle.putString("Syllabus", Syllabus);
+        bundle.putString("reference", reference);
 
-        fragmentSelectedSyllabus fragmentselectedsyllabus = new fragmentSelectedSyllabus();
-        fragmentselectedsyllabus.setArguments(bundle);
+        fragmentSelectedNearbyPlaces fragmentSelectedNearbyPlaces = new fragmentSelectedNearbyPlaces();
+        fragmentSelectedNearbyPlaces.setArguments(bundle);
 
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.setCustomAnimations(
@@ -104,7 +89,7 @@ public class fragmentSyllabus extends Fragment {
                 R.anim.slide_in_left,   // pop enter (when returning back)
                 R.anim.slide_out_right  // pop exit (when returning back)
         );
-        transaction.replace(R.id.mainLayout, fragmentselectedsyllabus);
+        transaction.replace(R.id.mainLayout, fragmentSelectedNearbyPlaces);
         transaction.addToBackStack(null);
         transaction.commit();
     }

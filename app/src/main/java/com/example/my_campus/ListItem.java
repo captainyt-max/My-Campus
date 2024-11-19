@@ -18,7 +18,6 @@ public class ListItem {
     public String getName() {
         return name;
     }
-
     public int getIcon() {
         return icon;
     }
