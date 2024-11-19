@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +11,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.my_campus.CustomListAdapter;
-import com.example.my_campus.NearbyAdapter;
-import com.example.my_campus.routineCustomAdapter;
+import com.example.my_campus.nearbyAdapter;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import com.example.my_campus.R;
-import com.example.my_campus.nearbyListItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +77,7 @@ public class fragmentSelectedNearbyPlaces extends Fragment {
                                 Toast.makeText(getContext(), "No data found for this location.", Toast.LENGTH_SHORT).show();
                             }
 
-                            NearbyAdapter adapter = new NearbyAdapter(getContext(), locationNames, locationUrls);
+                            nearbyAdapter adapter = new nearbyAdapter(getContext(), locationNames, locationUrls);
                             listView.setAdapter(adapter);
 
                         });
@@ -118,7 +114,7 @@ public class fragmentSelectedNearbyPlaces extends Fragment {
                                 Toast.makeText(getContext(), "No data found for this location.", Toast.LENGTH_SHORT).show();
                             }
 
-                            NearbyAdapter adapter = new NearbyAdapter(getContext(), locationNames, locationUrls);
+                            nearbyAdapter adapter = new nearbyAdapter(getContext(), locationNames, locationUrls);
                             listView.setAdapter(adapter);
 
                         });
@@ -159,7 +155,7 @@ public class fragmentSelectedNearbyPlaces extends Fragment {
                                 Toast.makeText(getContext(), "No data found for this location.", Toast.LENGTH_SHORT).show();
                             }
 
-                            NearbyAdapter adapter = new NearbyAdapter(getContext(), locationNames, locationUrls);
+                            nearbyAdapter adapter = new nearbyAdapter(getContext(), locationNames, locationUrls);
                             listView.setAdapter(adapter);
 
                         });
@@ -200,7 +196,7 @@ public class fragmentSelectedNearbyPlaces extends Fragment {
                                 Toast.makeText(getContext(), "No data found for this location.", Toast.LENGTH_SHORT).show();
                             }
 
-                            NearbyAdapter adapter = new NearbyAdapter(getContext(), locationNames, locationUrls);
+                            nearbyAdapter adapter = new nearbyAdapter(getContext(), locationNames, locationUrls);
                             listView.setAdapter(adapter);
 
                         });
@@ -218,7 +214,7 @@ public class fragmentSelectedNearbyPlaces extends Fragment {
                                 if (documentSnapshot.contains("sawan")) {
                                     String url = documentSnapshot.getString("sawan");
                                     locationUrls.add(url);
-                                    locationNames.add("Sawan Meddical");
+                                    locationNames.add("Sawan Medical");
                                 }
                                 if (documentSnapshot.contains("bharat")) {
                                     String url = documentSnapshot.getString("bharat");
@@ -245,7 +241,7 @@ public class fragmentSelectedNearbyPlaces extends Fragment {
                                 Toast.makeText(getContext(), "No data found for this location.", Toast.LENGTH_SHORT).show();
                             }
 
-                            NearbyAdapter adapter = new NearbyAdapter(getContext(), locationNames, locationUrls);
+                            nearbyAdapter adapter = new nearbyAdapter(getContext(), locationNames, locationUrls);
                             listView.setAdapter(adapter);
 
                         });

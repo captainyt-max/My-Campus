@@ -51,9 +51,9 @@
         android:titleTextAppearance="@style/DrawerItemText"/>
 
     <item
-        android:icon="@drawable/ic_nav_medical"
+        android:icon="@drawable/link"
         android:id="@+id/nav_Medical"
-        android:title="Medical"
+        android:title="Links"
         android:titleTextAppearance="@style/DrawerItemText"/>
 
     <item

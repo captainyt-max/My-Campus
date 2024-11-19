@@ -39,7 +39,7 @@
         <b>7.</b>	Previous Course Passing Certificate\n
         <b>8.</b>	Previous Course Marksheet\n
         <b>9.</b>	Bonafide Certificate\n
-        <b>10.</b>	Previous Academic Marksheet\n
+        <b>10.</b>	Previous Academic Marksheet\n\n\n\n
     </string>
 
     <string name="drcc_article">
@@ -64,7 +64,7 @@
     <b>4.</b> Fee Structure Details.\n
     <b>5.</b> Domicile Certificate, ID Proof (Aadhar Card, Voter ID, etc).\n
     <b>6.</b> Income Certificate (Family).\n
-    <b>7.</b> Bank Account Details.\n
+    <b>7.</b> Bank Account Details.\n\n\n\n
 </string>
 
 
@@ -92,7 +92,7 @@
         <b>7. Receive confirmation:</b>\n
     • After successful registration and payment, you will receive a message with your training schedule and session details.\n
         <b>8. Join the Program:</b>\n
-    • Start attending your classes as per the schedule provided. Here, you will learn important skills like computer literacy and communication.\n
+    • Start attending your classes as per the schedule provided. Here, you will learn important skills like computer literacy and communication.\n\n\n\n
     </string>
 
 
@@ -115,9 +115,9 @@
         <b>Step16:</b> Click on Submit Examination Form.\n
         <b>Step17:</b> Click "Yes" for kyp completion or "No" for no kyp completing.\n
         <b>Step18:</b>Click on submit.\n
-        <b>Step19:</b> You receive a message "information  saved successfully.”
-        <b>Step20:</b> Again click “Program Team” and select the semester no. as 1st then click “submit button.”
-        <b>Step21:</b> Click on "Download Examination Form" and your examination form is download now.
+        <b>Step19:</b> You receive a message "information  saved successfully".\n
+        <b>Step20:</b> Again click "Program Team" and select the semester no. as 1st then click "submit button".\n
+        <b>Step21:</b> Click on "Download Examination Form" and your examination form is download now.\n\n\n\n
     </string>
 
     <string name="enrollment_article">
@@ -133,7 +133,7 @@
         <b>STEP 10:-</b> Then you receive a message,”You Semester Enrollment Is Successfully Completed”.\n
         <b>STEP 11:-</b> Click again on “Semester Enrollment New”.\n
         <b>STEP 12:-</b> Click on “Download Your Semester Enrollment”. Now you will receive your Enrollment form in (.pdf) format.\n
-        <b>STEP 13:-</b> Now You Have to Submit Your Enrollment Form to Your Institute.
+        <b>STEP 13:-</b> Now You Have to Submit Your Enrollment Form to Your Institute.\n\n\n\n
 
     </string>
 
@@ -141,17 +141,17 @@
         <b>1.</b>	Visit the official website of the SBTE https://sbte.bihar.gov.in\n
         <b>2.</b>	Select the “Student” section and click on the “Examination Result” option available there.\n
         <b>3.</b>	Fill the required information.\n
-        <b>4.</b>	Click on “Get Result”.
+        <b>4.</b>	Click on “Get Result”.\n\n\n\n
 
     </string>
 
     <string name="library_article">
-        <b>1.</b> Library will be kept open from 9. 15 a. m. to 4.45 p.m. on all working days.
-        <b>2.</b> Silence shall be strictly observed in the library.
+        <b>1.</b> Library will be kept open from 9. 15 a. m. to 4.45 p.m. on all working days.\n
+        <b>2.</b> Silence shall be strictly observed in the library.\n
         <b>3.</b> Each students having ID Card are permitted to borrow the books from the library and at the end of the semester, students should return the books taking with the ID card.\n
         <b>4.</b> Students must satisfy themselves about the physical condition of books before borrowing, otherwise they shall be responsible for any damage at the time of returning.\n
         <b>5.</b> If any book borrowed in any semester is not returned at the end of the course. Students should have to pay fee for the bok to the library manager.\n
-        <b>6.</b> Students make their attendance while entering in the library for study.
+        <b>6.</b> Students make their attendance while entering in the library for study.\n\n\n\n
     </string>
 
     <string name="rules_article">
