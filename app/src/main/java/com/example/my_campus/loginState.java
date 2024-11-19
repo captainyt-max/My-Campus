@@ -24,7 +24,6 @@ public class loginState {
         editor.putString("branch", branch);
         editor.putString("year", year);
         editor.putString("rollNo", rollNo);
-//        editor.putString("role", role);
         editor.apply(); // Save the changes asynchronously
     }
     public static void setLoginState(Context context, boolean isLoggedIn) {

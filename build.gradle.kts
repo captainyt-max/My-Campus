@@ -4,3 +4,14 @@ plugins {
     alias(libs.plugins.google.gms.google.services) apply false
     id("com.chaquo.python") version "16.0.0" apply false
 }
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // Add Google services classpath for Firebase
+        classpath(libs.google.services)
+    }
+}
