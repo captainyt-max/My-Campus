@@ -52,7 +52,7 @@
 
     <item
         android:icon="@drawable/link"
-        android:id="@+id/nav_Medical"
+        android:id="@+id/nav_Links"
         android:title="Links"
         android:titleTextAppearance="@style/DrawerItemText"/>
 

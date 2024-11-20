@@ -28,6 +28,7 @@ import com.example.my_campus.Fragments.fragmentAdmin;
 import com.example.my_campus.Fragments.fragmentGuidance;
 import com.example.my_campus.Fragments.fragmentHomepage;
 import com.example.my_campus.Fragments.fragmentHostelInfo;
+import com.example.my_campus.Fragments.fragmentLinks;
 import com.example.my_campus.Fragments.fragmentNearbyPlaces;
 import com.example.my_campus.Fragments.fragmentRoutine;
 import com.example.my_campus.Fragments.fragmentSyllabus;
@@ -220,8 +221,13 @@ public class MainActivity extends AppCompatActivity {
                     drawerLayout.closeDrawer(GravityCompat.START);
                 }
 
-                if (itemId == R.id.nav_Medical){
-                    Toast.makeText(MainActivity.this, "Clicked On Medical", Toast.LENGTH_SHORT).show();
+                if (itemId == R.id.nav_Links){
+                    Toast.makeText(MainActivity.this, "Clicked On Links", Toast.LENGTH_SHORT).show();
+                    fragmentLinks fragmentlinks = new fragmentLinks();
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.mainLayout, fragmentlinks);
+                    fragmentTransaction.commit();
+                    drawerLayout.closeDrawer(GravityCompat.START);
                 }
 
                 if (itemId == R.id.navNearbyPlaces){
