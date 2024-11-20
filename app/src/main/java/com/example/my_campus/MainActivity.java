@@ -1,12 +1,27 @@
 package com.example.my_campus;
 
+import static android.content.ContentValues.TAG;
+
+import android.Manifest;
 import android.app.Dialog;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
+import java.util.concurrent.TimeUnit;
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowInsetsController;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -15,8 +30,11 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -34,25 +52,32 @@ import com.example.my_campus.Fragments.fragmentRoutine;
 import com.example.my_campus.Fragments.fragmentSyllabus;
 import com.example.my_campus.Fragments.fragmentfacultiesinfo;
 import com.example.my_campus.Fragments.fragmentnavigation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 public class MainActivity extends AppCompatActivity {
-    private String [] role = {"student"};
+    private static final int NOTIFICATION_PERMISSION_REQUEST_CODE = 0;
     private DrawerLayout drawerLayout;
-    private ImageButton menuButton;
     private NavigationView navigationView;
-    private ImageButton profileIconHome;
-
-
+    private static final String CHANNEL_ID = "campus_activity_channel";
+    private String lastMessage = null;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
@@ -68,27 +93,42 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
+        // Check and request notification permission for Android 13+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                        NOTIFICATION_PERMISSION_REQUEST_CODE);
+            }
+        }
+
+        Intent serviceIntent = new Intent(this, notificationService.class);
+        startService(serviceIntent);
+
+
+
+        //Setting Admin Section Visibility
         DocumentReference docRef = db.collection("users").document(loginState.getUserEmail(this));
         docRef.addSnapshotListener((documentSnapshot, e) ->{
             if(e != null){
                 // Handle the error
                 return;
             }
-
             if (documentSnapshot != null && documentSnapshot.exists()){
                 String role = documentSnapshot.getString("role");
                 Toast.makeText(this, role, Toast.LENGTH_SHORT).show();
                 Menu menu = navigationView.getMenu();
                 MenuItem admin = menu.findItem(R.id.navAdmin);
-                if(role.equals("admin")){
-                    admin.setVisible(true);
-                }
-                else {
-                    admin.setVisible(false);
-                }
+                assert role != null;
+                admin.setVisible(role.equals("admin"));
             }
 
         });
+
+        //Notification Testing
+
+
 
 
 
@@ -99,15 +139,22 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Offline", Toast.LENGTH_SHORT).show();
         }
 
+
+
+
         // Initialising firestore database
 
 
 
 
         //Set status bar and navigation bar color
-        getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.appAscent));
-        getWindow().setNavigationBarColor(ContextCompat.getColor(MainActivity.this, R.color.appAscent));
+        Window window = getWindow();
+        // Set status bar color
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.appAscent));
+        // Set navigation bar color
+        window.setNavigationBarColor(ContextCompat.getColor(this, R.color.appAscent));
 
+// You can use this fallback if WindowInsetsController is giving issues
 
         // set homepage fragment as default on start
         fragmentHomepage fragmentHomepage = new fragmentHomepage();
@@ -118,9 +165,9 @@ public class MainActivity extends AppCompatActivity {
 
         //finding views of main layout(Drawer layout) by id
         drawerLayout = findViewById(R.id.drawer_layout);
-        menuButton = findViewById(R.id.menuButton);
+        ConstraintLayout menuButton = findViewById(R.id.menuButton);
         navigationView = findViewById(R.id.navigation_view);
-        profileIconHome = findViewById(R.id.profileIconHome);
+        ImageView profileIconHome = findViewById(R.id.profileIconHome);
 
 
         // Temporary - Setting profile image
@@ -240,6 +287,10 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (itemId == R.id.navAdmin){
+                    if(!ut.isNetworkAvailable(getBaseContext())){
+                        Toast.makeText(MainActivity.this, "This feature is not available offline", Toast.LENGTH_SHORT).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                    }
                     fragmentAdmin fragmentadmin = new fragmentAdmin();
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.mainLayout, fragmentadmin);
@@ -334,4 +385,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == NOTIFICATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, proceed with notifications
+                // You can initialize notifications here if needed
+            } else {
+                // Permission denied, show a message or handle accordingly
+            }
+        }
+    }
+
 }

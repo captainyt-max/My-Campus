@@ -161,4 +161,5 @@
     <string name="links_article">
 
     </string>
+    <string name="msg_token_fmt" />
 </resources>

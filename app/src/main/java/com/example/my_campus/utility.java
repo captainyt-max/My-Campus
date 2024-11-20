@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Objects;
 
 public class utility {
@@ -75,6 +77,14 @@ public class utility {
             }
         }
         return false;
+    }
+
+    public String getDateTime(){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM hh:mm a");
+        String capturedTime = dateFormat.format(calendar.getTime());
+        assert capturedTime != null;
+        return capturedTime;
     }
 
 }
