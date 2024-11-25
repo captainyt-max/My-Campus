@@ -53,7 +53,7 @@
     <item
         android:icon="@drawable/link"
         android:id="@+id/nav_Links"
-        android:title="Links"
+        android:title="Important Links"
         android:titleTextAppearance="@style/DrawerItemText"/>
 
     <item
