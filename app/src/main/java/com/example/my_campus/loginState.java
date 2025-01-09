@@ -65,31 +65,4 @@ public class loginState {
         SharedPreferences sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         return sharedPref.getString("rollNo", "No such data"); //Null if Mobile number not available
     }
-
-    public static String getUserRole(Context context){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference docRef = db.collection("users").document(getUserEmail(context));
-        docRef.get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                DocumentSnapshot document = task.getResult();
-                String role = document.getString("role");
-                if (role != null){
-                    if(!role.isEmpty()){
-                        SharedPreferences sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.putString("role", role);
-                        editor.apply();
-                }
-
-                }
-            }
-            else{
-                Toast.makeText(context, "Unable to set role", Toast.LENGTH_SHORT).show();
-            }
-        });
-        SharedPreferences sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        return sharedPref.getString("role", "none");
-
-    }
-
 }

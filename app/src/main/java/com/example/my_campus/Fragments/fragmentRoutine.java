@@ -2,112 +2,105 @@ package com.example.my_campus.Fragments;
 
 import static com.example.my_campus.MainActivity.clickAnimation;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.my_campus.R;
+import com.example.my_campus.loginState;
+import com.example.my_campus.utility;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class fragmentRoutine extends Fragment {
 
-    ConstraintLayout buttonAutomobile, buttonCivil, buttonCSE, buttonElectrical, buttonElectronic, buttonMechanical;
 
-    public fragmentRoutine() {
-        // Required empty public constructor
-    }
-
+    private TextView pdfName;
+    private ConstraintLayout btnDownload;
+    private String documentName;
+    private String fieldName;
+    private String pdfUrl;
+    private ImageView pdfIcon;
+    utility ut = new utility();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_routine, container, false);
-
-        buttonAutomobile = view.findViewById(R.id.automobile);
-        buttonCivil = view.findViewById(R.id.civil);
-        buttonCSE = view.findViewById(R.id.cse);
-        buttonElectrical = view.findViewById(R.id.electrical);
-        buttonElectronic = view.findViewById(R.id.electronics);
-        buttonMechanical = view.findViewById(R.id.mechanical);
+        pdfName = view.findViewById(R.id.pdfName);
+        btnDownload = view.findViewById(R.id.btnDonwload);
+        pdfIcon = view.findViewById(R.id.pdf_icon);
 
 
+        Map<String, String> branchMap = new HashMap<>();
+        branchMap.put("Computer Science & Engineering", "cse");
+        branchMap.put("Civil Engineering", "civil");
+        branchMap.put("Electrical Engineering", "electrical");
+        branchMap.put("Electronics Engineering", "electronics");
+        branchMap.put("Mechanical Engineering", "mech");
+        branchMap.put("Automobile Engineering", "auto");
 
+        documentName = branchMap.get(loginState.getUserBranch(requireContext()));
+        fieldName = loginState.getUserYear(requireContext());
 
-        buttonAutomobile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                nextFragment("automobile");
-                clickAnimation(view);
-            }
+        getPdf(documentName, fieldName);
+
+        btnDownload.setOnClickListener(click -> {
+            clickAnimation(btnDownload);
+            downloadPdf(pdfUrl);
         });
 
-        buttonCivil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                nextFragment("civil");
-                clickAnimation(view);
-            }
-        });
-
-        buttonCSE.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                nextFragment("cse");
-                clickAnimation(view);
-            }
-        });
-
-        buttonElectrical.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                nextFragment("electrical");
-                clickAnimation(view);
-            }
-        });
-
-        buttonElectronic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                nextFragment("electronics");
-                clickAnimation(view);
-            }
-        });
-
-        buttonMechanical.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                nextFragment("mechanical");
-                clickAnimation(view);
-            }
-        });
 
 
 
         return view;
     }
 
-    private void nextFragment(String Routine) {
-        Bundle bundle = new Bundle();
-        bundle.putString("Routine", Routine);
+    private void getPdf(String documentName, String fieldName){
+        DocumentReference docref = db.collection("routine").document(documentName);
+        docref.addSnapshotListener((documentSnapshot, e) -> {
+            if (e != null) {
+                Toast.makeText(getContext(), "Error: "+ e.getMessage(), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (documentSnapshot != null && documentSnapshot.exists()){
+                pdfUrl = documentSnapshot.getString(fieldName);
+                String fileName = documentSnapshot.getString(fieldName + " File Name");
+                if (pdfUrl != null && !pdfUrl.isEmpty()){
+                    btnDownload.setVisibility(View.VISIBLE);
+                    pdfIcon.setVisibility(View.VISIBLE);
+                    pdfName.setText(fileName);
+                }
+                else {
+                    btnDownload.setVisibility(View.GONE);
+                    pdfIcon.setVisibility(View.GONE);
+                    pdfName.setText("No such file uploaded");
+                }
+            }
+        });
+    }
 
-        fragmentSelectedRoutine fragmentselectedroutine = new fragmentSelectedRoutine();
-        fragmentselectedroutine.setArguments(bundle);
-
-        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(
-                R.anim.slide_in_right,  // enter animation
-                R.anim.slide_out_left,  // exit animation
-                R.anim.slide_in_left,   // pop enter (when returning back)
-                R.anim.slide_out_right  // pop exit (when returning back)
-        );
-        transaction.replace(R.id.mainLayout, fragmentselectedroutine);
-        transaction.addToBackStack(null);
-        transaction.commit();
+    private void downloadPdf(String url){
+        if(url == null || url.isEmpty()){
+            Toast.makeText(requireContext(), "No routine is uploaded", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(pdfUrl));
+        requireContext().startActivity(intent);
     }
 }

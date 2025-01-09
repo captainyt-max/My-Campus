@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
                 assert role != null;
                 admin.setVisible(role.equals("admin"));
             }
-
         });
 
         //Notification Testing
@@ -163,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
 
 
-        //finding views of main layout(Drawer layout) by id
+        //finding views of main layout(Drawer layout) by id+
         drawerLayout = findViewById(R.id.drawer_layout);
         ConstraintLayout menuButton = findViewById(R.id.menuButton);
         navigationView = findViewById(R.id.navigation_view);
@@ -206,7 +205,6 @@ public class MainActivity extends AppCompatActivity {
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.navHome){
-                    Toast.makeText(MainActivity.this, "Clicked On Home", Toast.LENGTH_SHORT).show();
                     fragmentHomepage fragmentHomepage = new fragmentHomepage();
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.mainLayout, fragmentHomepage);
@@ -216,7 +214,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (itemId == R.id.navNavigation){
-                    Toast.makeText(MainActivity.this, "Clicked On Navigation", Toast.LENGTH_SHORT).show();
                     fragmentnavigation fragmentnavigation = new fragmentnavigation();
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.mainLayout, fragmentnavigation);
@@ -233,7 +230,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (itemId == R.id.navHostel){
-                    Toast.makeText(MainActivity.this, "Clicked On Hostel", Toast.LENGTH_SHORT).show();
                     fragmentHostelInfo fragmentHostelInfo = new fragmentHostelInfo();
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.mainLayout, fragmentHostelInfo);
@@ -242,7 +238,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (itemId == R.id.navFaculties){
-                    Toast.makeText(MainActivity.this, "Clicked On Faculties", Toast.LENGTH_SHORT).show();
                     fragmentfacultiesinfo fragmentfacultiesinfo = new fragmentfacultiesinfo();
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.mainLayout, fragmentfacultiesinfo);
@@ -251,7 +246,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (itemId == R.id.navSyllabus){
-                    Toast.makeText(MainActivity.this, "Clicked On Syllabus", Toast.LENGTH_SHORT).show();
                     fragmentSyllabus fragmentsyllabus = new fragmentSyllabus();
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.mainLayout, fragmentsyllabus);
@@ -260,7 +254,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (itemId == R.id.navRoutine){
-                    Toast.makeText(MainActivity.this, "Clicked On Routine", Toast.LENGTH_SHORT).show();
                     fragmentRoutine fragmentroutine = new fragmentRoutine();
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.mainLayout, fragmentroutine);
@@ -269,7 +262,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (itemId == R.id.nav_Links){
-                    Toast.makeText(MainActivity.this, "Clicked On Links", Toast.LENGTH_SHORT).show();
                     fragmentLinks fragmentlinks = new fragmentLinks();
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.mainLayout, fragmentlinks);
@@ -278,7 +270,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (itemId == R.id.navNearbyPlaces){
-                    Toast.makeText(MainActivity.this, "Clicked On Nearby Places", Toast.LENGTH_SHORT).show();
                     fragmentNearbyPlaces fragmentNearbyPlaces = new fragmentNearbyPlaces();
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.mainLayout, fragmentNearbyPlaces);
@@ -291,11 +282,13 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "This feature is not available offline", Toast.LENGTH_SHORT).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                     }
-                    fragmentAdmin fragmentadmin = new fragmentAdmin();
-                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.mainLayout, fragmentadmin);
-                    fragmentTransaction.commit();
-                    drawerLayout.closeDrawer(GravityCompat.START);
+                    else {
+                        fragmentAdmin fragmentadmin = new fragmentAdmin();
+                        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.mainLayout, fragmentadmin);
+                        fragmentTransaction.commit();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                    }
                 }
                 return false;
             }
@@ -348,7 +341,7 @@ public class MainActivity extends AppCompatActivity {
             ut.dialogBox(this, "Are you sure to logout ?", new utility.DialogCallback() {
                 @Override
                 public void onConfirm() {
-                    Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Logout successful", Toast.LENGTH_SHORT).show();
                     clickAnimation(view);
                     loginState.setLoginState(MainActivity.this, false);
                     Intent loginIntent = new Intent(MainActivity.this, activityLogin.class);
@@ -394,8 +387,9 @@ public class MainActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted, proceed with notifications
                 // You can initialize notifications here if needed
+                Toast.makeText(this, "Notification permission granted", Toast.LENGTH_SHORT).show();
             } else {
-                // Permission denied, show a message or handle accordingly
+                Toast.makeText(this, "No notification permission found, go to permissions settings and grant", Toast.LENGTH_SHORT).show();
             }
         }
     }

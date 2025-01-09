@@ -52,7 +52,6 @@ public class fragmentHomepage extends Fragment {
 
             if (documentSnapshot != null && documentSnapshot.exists()) {
                 // Get the updated data
-                // Get the updated data
                 String message = documentSnapshot.getString("message");
                 String updateTime = documentSnapshot.getString("updateTime");
 
