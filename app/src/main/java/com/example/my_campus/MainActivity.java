@@ -12,7 +12,9 @@ import java.util.concurrent.TimeUnit;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -61,6 +63,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.rpc.context.AttributeContext;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -69,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private static final String CHANNEL_ID = "campus_activity_channel";
     private String lastMessage = null;
+    private final utility ut = new utility();
+    private ImageView profileIconHome;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -93,14 +98,28 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
+        //Fetching profile image url
+        DocumentReference docref = db.collection("users").document(loginState.getUserEmail(this));
+        docref.addSnapshotListener((documentSnapshot, e) -> {
+            if( e != null){
+                Toast.makeText(this, "Profile Image error" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (documentSnapshot != null && documentSnapshot.exists()){
+                String profileImageUrl = documentSnapshot.getString("profileImage");
+                loginState.setProfileImageUrl(this, profileImageUrl);
+            }
+        });
+
         // Check and request notification permission for Android 13+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
-                        NOTIFICATION_PERMISSION_REQUEST_CODE);
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, NOTIFICATION_PERMISSION_REQUEST_CODE);
             }
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
         }
 
         Intent serviceIntent = new Intent(this, notificationService.class);
@@ -117,6 +136,9 @@ public class MainActivity extends AppCompatActivity {
             }
             if (documentSnapshot != null && documentSnapshot.exists()){
                 String role = documentSnapshot.getString("role");
+                String profileImageUrl = documentSnapshot.getString("profileImage");
+                ut.setProfileImage(this, profileImageUrl, profileIconHome);
+                loginState.setUserRole(this, role);
                 Toast.makeText(this, role, Toast.LENGTH_SHORT).show();
                 Menu menu = navigationView.getMenu();
                 MenuItem admin = menu.findItem(R.id.navAdmin);
@@ -125,25 +147,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //Notification Testing
-
-
-
-
 
         // starting home layout
         setContentView(R.layout.home_activity);
         utility ut = new utility();
+
         if(!ut.isNetworkAvailable(this)){
             Toast.makeText(MainActivity.this, "Offline", Toast.LENGTH_SHORT).show();
         }
-
-
-
-
-        // Initialising firestore database
-
-
 
 
         //Set status bar and navigation bar color
@@ -153,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
         // Set navigation bar color
         window.setNavigationBarColor(ContextCompat.getColor(this, R.color.appAscent));
 
-// You can use this fallback if WindowInsetsController is giving issues
 
         // set homepage fragment as default on start
         fragmentHomepage fragmentHomepage = new fragmentHomepage();
@@ -166,20 +176,20 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         ConstraintLayout menuButton = findViewById(R.id.menuButton);
         navigationView = findViewById(R.id.navigation_view);
-        ImageView profileIconHome = findViewById(R.id.profileIconHome);
+        profileIconHome = findViewById(R.id.profileIconHome);
 
 
-        // Temporary - Setting profile image
-        profileIconHome.setImageResource(R.drawable.ic_default_user);
 
         //Opening profile Dialog box
         profileIconHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clickAnimation(view);
+                ut.clickAnimation(view);
                 openProfileDialog();  //calling function created to handle dialog box
             }
         });
+
+        ut.setProfileImage(this, loginState.getProfileImageUrl(this), profileIconHome);
 
 
 
@@ -297,6 +307,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
     public void openProfileDialog(){
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.profile_dialouge_box);
@@ -333,7 +345,13 @@ public class MainActivity extends AppCompatActivity {
         rollNo.setText(loginState.getUserRollNo(this));
         emailId.setText(loginState.getUserEmail(this));
         phoneNo.setText(loginState.getUserMobileNumber(this));
-        profileIcon.setImageResource(R.drawable.ic_default_user);
+        int profileImageRes = (R.drawable.ic_default_user);
+
+        ut.setProfileImage(this, loginState.getProfileImageUrl(this), profileIcon);
+
+        profileIcon.setOnClickListener( click -> {
+            ut.navigateToProfileImage(this,profileImageRes, "Profile Photo", "profileImage");
+        });
 
         // Set onClickListeners
         logoutButton.setOnClickListener(view -> {
@@ -342,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onConfirm() {
                     Toast.makeText(MainActivity.this, "Logout successful", Toast.LENGTH_SHORT).show();
-                    clickAnimation(view);
+                    ut.clickAnimation(view);
                     loginState.setLoginState(MainActivity.this, false);
                     Intent loginIntent = new Intent(MainActivity.this, activityLogin.class);
                     startActivity(loginIntent);
@@ -357,31 +375,22 @@ public class MainActivity extends AppCompatActivity {
         });
 
         changeProfile.setOnClickListener(view -> {
-            Toast.makeText(MainActivity.this, "Change Profile", Toast.LENGTH_SHORT).show();
-            clickAnimation(view);
+            ut.clickAnimation(view);
+            Intent intent2 = new Intent(MainActivity.this, activityEditProfile.class);
+            startActivity(intent2);
         });
 
         changePassword.setOnClickListener(view -> {
-            Toast.makeText(MainActivity.this, "Change Password", Toast.LENGTH_SHORT).show();
-            clickAnimation(view);
+            ut.clickAnimation(view);
+            Intent intent1 = new Intent(MainActivity.this, activityChangePassword.class);
+            startActivity(intent1);
         });
 
         dialog.show();
     }
 
 
-    public static void clickAnimation(View v){
-        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).withEndAction(new Runnable() {
-            @Override
-            public void run() {
-                v.animate().scaleX(1f).scaleY(1f).setDuration(100);
-            }
-        });
-    }
-
-
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == NOTIFICATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

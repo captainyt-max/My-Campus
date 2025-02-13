@@ -27,7 +27,6 @@
 
             <ImageView
                 android:id="@+id/profileIcon"
-                android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:srcCompat="@drawable/ic_default_user"/>
@@ -172,7 +171,7 @@
 
         <LinearLayout
             android:id="@+id/linearLayout5"
-            android:layout_width="130dp"
+            android:layout_width="wrap_content"
             android:layout_height="68dp"
             android:layout_marginStart="20dp"
             android:orientation="vertical"
@@ -196,7 +195,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:clickable="true"
-                android:text="Change Profile"
+                android:text="Change Profile Photo"
                 android:textColor="#1441DF"
                 android:textSize="15sp" />
         </LinearLayout>

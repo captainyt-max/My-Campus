@@ -59,12 +59,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/registerValidate"
+                android:id="@+id/btnVerify"
                 android:layout_width="79dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
@@ -98,7 +96,7 @@
                 android:background="@drawable/registration_details_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/registerValidate">
+                app:layout_constraintTop_toBottomOf="@+id/btnVerify">
 
                 <TextView
                     android:id="@+id/setName"
@@ -216,10 +214,10 @@
                 android:paddingEnd="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/createPassword" />
+                app:layout_constraintTop_toBottomOf="@+id/newPassword" />
 
             <EditText
-                android:id="@+id/registerMobileno"
+                android:id="@+id/otp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="22dp"
@@ -237,7 +235,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/registerOtp" />
 
             <EditText
-                android:id="@+id/createPassword"
+                android:id="@+id/newPassword"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="22dp"
@@ -251,10 +249,10 @@
                 android:paddingEnd="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/registerMobileno" />
+                app:layout_constraintTop_toBottomOf="@+id/otp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/registerButton"
+                android:id="@+id/btnChange"
                 android:layout_width="138dp"
                 android:layout_height="61dp"
                 android:layout_marginTop="25dp"

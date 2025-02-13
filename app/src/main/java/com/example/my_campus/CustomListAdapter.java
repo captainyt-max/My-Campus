@@ -1,6 +1,8 @@
 package com.example.my_campus;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +58,17 @@ public class CustomListAdapter extends BaseAdapter {
         faculty_designation.setText(currentItem.getDesignation());
         faculty_phone.setText(currentItem.getPhone());
         faculty_email.setText(currentItem.getEmail());
+
+        utility ut = new utility();
+
+        imageView.setOnClickListener(click -> {
+            ut.navigateToProfileImage(context, currentItem.getIcon(), currentItem.getName(), "facultiesProfileImage");
+
+        });
+
+
+
+
 
         return convertView;
     }

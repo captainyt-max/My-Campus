@@ -1,7 +1,6 @@
 package com.example.my_campus.Fragments;
 
 import static androidx.core.content.ContextCompat.getSystemService;
-import static com.example.my_campus.MainActivity.clickAnimation;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -46,6 +45,7 @@ public class fragmentAdmin extends Fragment {
     private FirebaseFirestore firestore;
     private FirebaseAuth firebaseAuth;
     private boolean [] campusMessageUpdated = {true};
+    utility ut = new utility();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,7 +53,7 @@ public class fragmentAdmin extends Fragment {
         // Inflate the layout for this fragment
 
      View view = inflater.inflate(R.layout.fragment_admin, container, false);
-     utility ut = new utility();
+     
 
 
      TextView campusActivityCurrentMessage = view.findViewById(R.id.campusActivityCurrentMessage);
@@ -78,6 +78,7 @@ public class fragmentAdmin extends Fragment {
      EditText convertToEditTextClass = new EditText(getActivity());
 
      ConstraintLayout btnManageRoutine = view.findViewById(R.id.btnManageRoutine);
+     ConstraintLayout btnManageNotices = view.findViewById(R.id.btnManageNotices);
 
 
      firestore = FirebaseFirestore.getInstance();
@@ -116,7 +117,7 @@ public class fragmentAdmin extends Fragment {
     campusCurrentMessageCancelBtn.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            clickAnimation(view);
+            ut.clickAnimation(view);
             ut.dialogBox(requireContext(), "Are you sure to cancel ?", new utility.DialogCallback() {
                 @Override
                 public void onConfirm() {
@@ -151,7 +152,7 @@ public class fragmentAdmin extends Fragment {
     campusActivityNewMessageSendBtn.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            clickAnimation(view);
+            ut.clickAnimation(view);
             if(!ut.isNetworkAvailable(requireContext())){
                 Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
                 return;
@@ -238,7 +239,7 @@ public class fragmentAdmin extends Fragment {
         campusActivityEditMessageSendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clickAnimation(view);
+                ut.clickAnimation(view);
                 if(!ut.isNetworkAvailable(requireContext())){
                     Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
                     return;
@@ -304,7 +305,7 @@ public class fragmentAdmin extends Fragment {
         campusActivityDelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clickAnimation(view);
+                ut.clickAnimation(view);
                 if(!ut.isNetworkAvailable(requireContext())){
                     Toast.makeText(getActivity(), "No internet Connection", Toast.LENGTH_SHORT).show();
                     return;
@@ -371,7 +372,7 @@ public class fragmentAdmin extends Fragment {
         classCurrentMessageCancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clickAnimation(view);
+                ut.clickAnimation(view);
                 ut.dialogBox(requireContext(), "Are you sure to cancel ?", new utility.DialogCallback() {
                     @Override
                     public void onConfirm() {
@@ -400,7 +401,7 @@ public class fragmentAdmin extends Fragment {
         classActivityNewMessageSendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clickAnimation(view);
+                ut.clickAnimation(view);
                 if(!ut.isNetworkAvailable(requireContext())){
                     Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
                     return;
@@ -1321,7 +1322,7 @@ public class fragmentAdmin extends Fragment {
         classActivityDelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clickAnimation(view);
+                ut.clickAnimation(view);
                 if(!ut.isNetworkAvailable(requireContext())){
                     Toast.makeText(getActivity(), "No internet Connection", Toast.LENGTH_SHORT).show();
                     return;
@@ -2218,6 +2219,11 @@ public class fragmentAdmin extends Fragment {
             transaction.addToBackStack(null);
             transaction.commit();
         });
+
+        btnManageNotices.setOnClickListener( click -> {
+            ut.replaceFragment(getParentFragmentManager(), new fragementManageNotice(), R.id.mainLayout);
+        });
+
 
 
         return view;

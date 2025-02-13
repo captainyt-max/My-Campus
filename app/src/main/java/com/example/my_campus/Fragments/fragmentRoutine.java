@@ -1,6 +1,5 @@
 package com.example.my_campus.Fragments;
 
-import static com.example.my_campus.MainActivity.clickAnimation;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -61,7 +60,7 @@ public class fragmentRoutine extends Fragment {
         getPdf(documentName, fieldName);
 
         btnDownload.setOnClickListener(click -> {
-            clickAnimation(btnDownload);
+            ut.clickAnimation(btnDownload);
             downloadPdf(pdfUrl);
         });
 

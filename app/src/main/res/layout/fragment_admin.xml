@@ -229,10 +229,7 @@
                     android:layout_marginEnd="10dp"
                     android:background="@drawable/message_input_background"
                     android:hint="Type a new message.."
-                    android:paddingStart="10dp"
-                    android:paddingTop="10dp"
-                    android:paddingEnd="10dp"
-                    android:paddingBottom="10dp"
+                    android:padding="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/campusActivityNewMessageSendBtn"
                     app:layout_constraintStart_toStartOf="parent"
@@ -245,6 +242,7 @@
                     android:layout_height="45dp"
                     android:layout_marginEnd="10dp"
                     android:background="@drawable/circle_green"
+                    android:focusable="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
 
@@ -448,7 +446,7 @@
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout19"
+                android:id="@+id/messageInputParent"
                 android:layout_width="match_parent"
                 android:layout_height="24dp"
                 android:layout_marginTop="5dp"
@@ -479,7 +477,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout19">
+                app:layout_constraintTop_toBottomOf="@+id/messageInputParent">
 
                 <EditText
                     android:id="@+id/classActivtyNewMessage"
@@ -489,10 +487,7 @@
                     android:layout_marginEnd="10dp"
                     android:background="@drawable/message_input_background"
                     android:hint="Type a new message.."
-                    android:paddingStart="10dp"
-                    android:paddingTop="10dp"
-                    android:paddingEnd="10dp"
-                    android:paddingBottom="10dp"
+                    android:padding="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/classActivityNewMessageSendBtn"
                     app:layout_constraintStart_toStartOf="parent"
@@ -535,13 +530,46 @@
             android:layout_width="match_parent"
             android:clickable="true"
             android:id="@+id/btnManageRoutine"
-            android:layout_height="53dp">
+            android:layout_height="53dp"
+            android:focusable="true">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:text="Manage Routine"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="4dp"
+                android:src="@drawable/ic_arrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.461" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/button_background_1"
+            android:layout_width="match_parent"
+            android:clickable="true"
+            android:id="@+id/btnManageNotices"
+            android:layout_height="53dp"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="Manage Notices"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

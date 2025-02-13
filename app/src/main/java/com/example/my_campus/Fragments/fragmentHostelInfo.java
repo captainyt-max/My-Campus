@@ -1,6 +1,5 @@
 package com.example.my_campus.Fragments;
 
-import static com.example.my_campus.MainActivity.clickAnimation;
 
 import android.os.Bundle;
 

@@ -88,7 +88,7 @@ public class fragmentManageRoutines extends Fragment {
 
         btnUploadPdf.setOnClickListener(click -> {
             ut.clickAnimation(btnUploadPdf);
-            ut.dialogBox(requireContext(), "You are going to upload " + getFileName(selectedPdfUri) + " as your class routine", new utility.DialogCallback() {
+            ut.dialogBox(requireContext(), "You are going to upload " + ut.getFileName(requireContext(), selectedPdfUri) + " as your class routine", new utility.DialogCallback() {
                 @Override
                 public void onConfirm() {
                     uploadPdf(documentName, userYear, selectedPdfUri);
@@ -112,7 +112,7 @@ public class fragmentManageRoutines extends Fragment {
                         if (selectedPdfUri != null){
                             btnReset.setVisibility(View.VISIBLE);
                         }
-                        String fileName = getFileName(selectedPdfUri);
+                        String fileName = ut.getFileName(requireContext(), selectedPdfUri);
                         selectedPdfName.setText(fileName);
                         btnUploadPdf.setVisibility(View.VISIBLE);
                         // Handle your upload logic here if needed
@@ -131,12 +131,12 @@ public class fragmentManageRoutines extends Fragment {
     private void handelRoutine(String documentName, String fieldName){
         isPdfUploaded(documentName, fieldName);
         btnDeleteRoutine.setOnClickListener(click -> {
-            deleteMessage(documentName, fieldName);
+            deleteFile("routine", documentName, fieldName);
         });
     }
 
-    void deleteMessage(String documentName, String fieldName){
-        DocumentReference docref = db.collection("routine").document(documentName);
+    void deleteFile(String collection, String documentName, String fieldName){
+        DocumentReference docref = db.collection(collection).document(documentName);
         docref.get().addOnSuccessListener( documentSnapshot -> {
                     if (documentSnapshot.exists()){
                         String pdfUrl = documentSnapshot.getString(fieldName);
@@ -216,14 +216,12 @@ public class fragmentManageRoutines extends Fragment {
         uploadTask.addOnSuccessListener(taskSnapshot -> {
             fileRef.getDownloadUrl().addOnSuccessListener(DownloadUri -> {
                 String pdfDownloadUrl = DownloadUri.toString();
-                //Toast.makeText(requireContext(), "File Uploaded" + pdfDownloadUrl, Toast.LENGTH_SHORT).show();
                 DocumentReference docref = db.collection("routine").document(userBranch);
                 docref.get().addOnSuccessListener( documentSnapshot -> {
                     if (documentSnapshot.exists()){
                         docref.update(userYear, pdfDownloadUrl, userYear + " File Name", "routine " + ut.getDateTime() + ".pdf").addOnSuccessListener( unused -> {
                             Toast.makeText(requireContext(), "File uploaded successfully", Toast.LENGTH_SHORT).show();
                             resetSelectedPdf();
-                            btnUploadPdf.setVisibility(View.VISIBLE);
                         }).addOnFailureListener(e -> {
                             Toast.makeText(requireContext(), "Error" + e.getMessage(), Toast.LENGTH_SHORT).show();
                         });

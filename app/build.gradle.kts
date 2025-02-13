@@ -23,7 +23,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-
         ndk {
             abiFilters += listOf("arm64-v8a", "x86_64")
         }
@@ -38,10 +37,12 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     tasks.withType<JavaCompile> {
         options.compilerArgs.add("-Xlint:deprecation")
     }
@@ -54,8 +55,6 @@ chaquopy {
     }
 }
 
-
-
 dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -66,17 +65,20 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.crashlytics.buildtools)
     implementation(libs.firebase.storage)
-
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
     implementation(libs.firebase.messaging)
     implementation(libs.guava)
-    implementation(libs.appcompat)
     implementation("androidx.work:work-runtime-ktx:2.9.0")
     implementation("androidx.work:work-runtime:2.9.0")
+    implementation("com.github.yalantis:ucrop:2.2.10") // UCrop latest version
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    implementation("com.github.chrisbanes:PhotoView:2.3.0")
+
+
+    // Testing dependencies
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test:runner:1.5.2")
+    androidTestImplementation("androidx.test:rules:1.5.0")
+    testImplementation("junit:junit:4.13.2")
 }
 
-
 apply(plugin = "com.google.gms.google-services")
-

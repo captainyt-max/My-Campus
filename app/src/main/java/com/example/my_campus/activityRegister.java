@@ -1,14 +1,12 @@
 package com.example.my_campus;
 
-import static com.example.my_campus.MainActivity.clickAnimation;
+
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.service.voice.VoiceInteractionSession;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +32,7 @@ public class activityRegister extends AppCompatActivity {
     boolean [] isOtpSent = {false};
     private LinearLayout loadingLayout;
     private TextView loadingText;
+    private final utility ut = new utility();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,15 +53,15 @@ public class activityRegister extends AppCompatActivity {
 
         //finding views of registration layout
         ConstraintLayout noEditField = findViewById(R.id.constraintLayout14);
-        EditText registerMobileno = findViewById(R.id.registerMobileno);
+        EditText registerMobileno = findViewById(R.id.otp);
         EditText registerEmail = findViewById(R.id.registerEmail);
-        EditText createPassword = findViewById(R.id.createPassword);
+        EditText createPassword = findViewById(R.id.newPassword);
         EditText confirmPassword = findViewById(R.id.confirmPassword);
         TextView setName = findViewById(R.id.setName);
         TextView setBranch = findViewById(R.id.setBranch);
         TextView setYear = findViewById(R.id.setYear);
-        ConstraintLayout registerButton = findViewById(R.id.registerButton);
-        ConstraintLayout registerValidate = findViewById(R.id.registerValidate);
+        ConstraintLayout registerButton = findViewById(R.id.btnChange);
+        ConstraintLayout registerValidate = findViewById(R.id.btnVerify);
         EditText registerOtp = findViewById(R.id.registerOtp);
         ConstraintLayout registerSendOtp = findViewById(R.id.sendOtp);
         TextView otpButtonText = findViewById(R.id.textView34);
@@ -94,7 +93,7 @@ public class activityRegister extends AppCompatActivity {
                 isValidated[0] = false;
                 registerSendOtp.setVisibility(View.GONE);
                 registerOtp.setVisibility(View.GONE);
-                clickAnimation(view);
+                ut.clickAnimation(view);
 
                 String email = registerEmail.getText().toString();
 
@@ -158,7 +157,7 @@ public class activityRegister extends AppCompatActivity {
         registerSendOtp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clickAnimation(view);
+                ut.clickAnimation(view);
                 showLoading("Sending OTP");
                 sendOtp();
             }
@@ -167,7 +166,7 @@ public class activityRegister extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clickAnimation(view);
+                ut.clickAnimation(view);
 
                 String otp = registerOtp.getText().toString();
                 String mobileNumber = registerMobileno.getText().toString();

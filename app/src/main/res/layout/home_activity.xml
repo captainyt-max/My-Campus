@@ -73,7 +73,6 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:padding="3dp"
                     android:clickable="true"
                     android:id="@+id/profileIconHome"
                     android:layout_width="match_parent"

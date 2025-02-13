@@ -65,4 +65,29 @@ public class loginState {
         SharedPreferences sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         return sharedPref.getString("rollNo", "No such data"); //Null if Mobile number not available
     }
+
+    public static void setProfileImageUrl(Context context, String url){
+        SharedPreferences sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("profileImageUrl", url);
+        editor.apply();
+    }
+
+    public static String getProfileImageUrl(Context context){
+        SharedPreferences sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPref.getString("profileImageUrl", "No such data");
+    }
+
+    public static void setUserRole(Context context, String role){
+        SharedPreferences sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("userRole", role);
+        editor.apply();
+    }
+
+    public static String getUserRole(Context context){
+        SharedPreferences sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPref.getString("userRole", "No such data");
+    }
+
 }

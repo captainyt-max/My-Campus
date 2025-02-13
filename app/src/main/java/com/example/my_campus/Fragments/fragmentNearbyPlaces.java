@@ -1,6 +1,6 @@
 package com.example.my_campus.Fragments;
 
-import static com.example.my_campus.MainActivity.clickAnimation;
+
 
 import android.os.Bundle;
 
@@ -13,11 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.my_campus.R;
+import com.example.my_campus.utility;
 
 
 public class fragmentNearbyPlaces extends Fragment {
 
     ConstraintLayout buttonReference, buttonStationary, buttonCybercafe, buttonHospital, buttonMedical;
+    private utility ut = new utility();
 
 
     @Override
@@ -36,7 +38,7 @@ public class fragmentNearbyPlaces extends Fragment {
             @Override
             public void onClick(View view) {
                 nextFragment("reference");
-                clickAnimation(view);
+                ut.clickAnimation(view);
             }
         });
 
@@ -44,7 +46,7 @@ public class fragmentNearbyPlaces extends Fragment {
             @Override
             public void onClick(View view) {
                 nextFragment("stationary");
-                clickAnimation(view);
+                ut.clickAnimation(view);
             }
         });
 
@@ -52,7 +54,7 @@ public class fragmentNearbyPlaces extends Fragment {
             @Override
             public void onClick(View view) {
                 nextFragment("cybercafe");
-                clickAnimation(view);
+                ut.clickAnimation(view);
             }
         });
 
@@ -60,7 +62,7 @@ public class fragmentNearbyPlaces extends Fragment {
             @Override
             public void onClick(View view) {
                 nextFragment("hospital");
-                clickAnimation(view);
+                ut.clickAnimation(view);
             }
         });
 
@@ -68,7 +70,7 @@ public class fragmentNearbyPlaces extends Fragment {
             @Override
             public void onClick(View view) {
                 nextFragment("medical");
-                clickAnimation(view);
+                ut.clickAnimation(view);
             }
         });
 
@@ -94,12 +96,4 @@ public class fragmentNearbyPlaces extends Fragment {
         transaction.commit();
     }
 
-    public void clickAnimation(View v) {
-        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).withEndAction(new Runnable() {
-            @Override
-            public void run() {
-                v.animate().scaleX(1f).scaleY(1f).setDuration(100);
-            }
-        });
-    }
 }
