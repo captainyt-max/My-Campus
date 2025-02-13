@@ -53,14 +53,6 @@ public class nearbyAdapter extends BaseAdapter {
         // Set location name
         locationTextView.setText(locationNames.get(position));
 
-        // Set click listener on the "Locate" button to open the map link
-//        openButton.setOnClickListener(v -> {
-//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(item.getUrl()));
-//            context.startActivity(intent);
-//        });
-
-
-        //
         openButton.setOnClickListener(v -> {
 
             String locationUrl = locationUrls.get(position);
