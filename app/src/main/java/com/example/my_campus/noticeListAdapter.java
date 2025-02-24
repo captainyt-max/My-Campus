@@ -1,10 +1,14 @@
 package com.example.my_campus;
 
 import android.app.AlertDialog;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -31,10 +36,13 @@ public class noticeListAdapter extends BaseAdapter {
     private ArrayList<noticeListItems> listItems;
     private utility ut = new utility();
     private String downloadUrl = "";
+    private long downloadId;
+    private File file;
 
     public noticeListAdapter (Context context, ArrayList<noticeListItems> listItems){
         this.context = context;
         this.listItems = listItems;
+        context.registerReceiver(broadcastReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     @Override
@@ -83,14 +91,17 @@ public class noticeListAdapter extends BaseAdapter {
             downloadUrl = currentItem.getDownloadUrl();
         }
 
+        file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)+"/Pocket Campus/Notices", fileNameText);
 
 
         btnOpen.setOnClickListener(click -> {
-            if (!downloadUrl.isEmpty()){
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(downloadUrl));
-                context.startActivity(intent);
+            ut.clickAnimation(click);
+            if ( file.exists()){
+                ut.openPdf(context, file);
             }
-
+            else {
+                downloadId = ut.downloadFile(context, downloadUrl, file);
+            }
         });
 
         convertView.setOnLongClickListener(view -> {
@@ -205,6 +216,17 @@ public class noticeListAdapter extends BaseAdapter {
         Objects.requireNonNull(fileInfoDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         fileInfoDialog.show();
     }
+
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+            if (id == downloadId){
+                Toast.makeText(context, "Downloaded", Toast.LENGTH_SHORT).show();
+                ut.openPdf(context, file);
+            }
+        }
+    };
 
 
 }

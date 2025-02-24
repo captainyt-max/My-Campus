@@ -1,13 +1,20 @@
 package com.example.my_campus.Fragments;
 
 
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import android.os.Environment;
+import android.os.FileObserver;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +28,14 @@ import com.example.my_campus.utility;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 public class fragmentRoutine extends Fragment {
 
 
-    private TextView pdfName;
+    private TextView pdfName, btnText;
     private ConstraintLayout btnDownload;
     private String documentName;
     private String fieldName;
@@ -35,6 +43,9 @@ public class fragmentRoutine extends Fragment {
     private ImageView pdfIcon;
     utility ut = new utility();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private File file;
+    private long downloadId;
+    private FileObserver fileObserver;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +55,9 @@ public class fragmentRoutine extends Fragment {
         pdfName = view.findViewById(R.id.pdfName);
         btnDownload = view.findViewById(R.id.btnDonwload);
         pdfIcon = view.findViewById(R.id.pdf_icon);
+        btnText = view.findViewById(R.id.btnText);
+
+        requireContext().registerReceiver(broadcastReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
 
         Map<String, String> branchMap = new HashMap<>();
@@ -57,20 +71,7 @@ public class fragmentRoutine extends Fragment {
         documentName = branchMap.get(loginState.getUserBranch(requireContext()));
         fieldName = loginState.getUserYear(requireContext());
 
-        getPdf(documentName, fieldName);
-
-        btnDownload.setOnClickListener(click -> {
-            ut.clickAnimation(btnDownload);
-            downloadPdf(pdfUrl);
-        });
-
-
-
-
-        return view;
-    }
-
-    private void getPdf(String documentName, String fieldName){
+        //Getting pdf
         DocumentReference docref = db.collection("routine").document(documentName);
         docref.addSnapshotListener((documentSnapshot, e) -> {
             if (e != null) {
@@ -90,16 +91,49 @@ public class fragmentRoutine extends Fragment {
                     pdfIcon.setVisibility(View.GONE);
                     pdfName.setText("No such file uploaded");
                 }
+                file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)+ "/Pocket Campus/Routine/", "Routine.pdf" );
+                if (file.exists()){
+                    btnText.setText("Open");
+                }
+                else {
+                    btnText.setText("Download");
+                }
+
             }
         });
+
+        btnDownload.setOnClickListener(click -> {
+            ut.clickAnimation(btnDownload);
+            if (file.exists()){
+                ut.openPdf(requireContext(), file);
+            }
+            else {
+                downloadId = ut.downloadFile(requireContext(), pdfUrl, file);
+            }
+        });
+
+        return view;
     }
 
-    private void downloadPdf(String url){
-        if(url == null || url.isEmpty()){
-            Toast.makeText(requireContext(), "No routine is uploaded", Toast.LENGTH_SHORT).show();
-            return;
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+            Log.d("Routine", "completed Id : " + id);
+            if (downloadId == id) {
+                Toast.makeText(context, "Downloaded", Toast.LENGTH_SHORT).show();
+                btnText.setText("Open"); // Refresh the adapter
+            }
         }
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(pdfUrl));
-        requireContext().startActivity(intent);
+    };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        requireContext().unregisterReceiver(broadcastReceiver);
     }
+
+
+
 }
+

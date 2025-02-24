@@ -5,6 +5,7 @@ import static android.app.PendingIntent.getActivity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -16,6 +17,7 @@ import android.net.NetworkCapabilities;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.OpenableColumns;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -41,6 +44,7 @@ import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Objects;
@@ -338,6 +342,46 @@ public class utility {
         mediaPlayer.setOnCompletionListener(mp -> {
             mp.release();
         });
+    }
+
+    public long downloadFile(Context context, String fileUrl, File file) {
+        File directory = file.getParentFile();
+        if (directory != null && !directory.exists()) {
+            directory.mkdirs();
+        }
+        long downloadID = 0;
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(fileUrl));
+        request.setTitle(file.getName());
+        request.setDescription("Downloading...");
+        request.setDestinationUri(Uri.fromFile(file));
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        if (downloadManager != null) {
+            downloadID = downloadManager.enqueue(request);
+            Toast.makeText(context, "Downloading...", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Download Manager not available", Toast.LENGTH_SHORT).show();
+        }
+        return downloadID;
+    }
+
+    public void openPdf(Context context, File file) {
+        Uri fileUri = FileProvider.getUriForFile(context, context.getPackageName() + ".provider", file);
+        if (file.exists()) {
+            Log.d("PDF_URI", "File Exists: " + file.getAbsolutePath());
+        } else {
+            Log.e("PDF_ERROR", "File Does Not Exist at: " + file.getAbsolutePath());
+        }
+
+        Log.d("PDF URI", "Opening file: " + fileUri.toString()); // Debugging
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(fileUri, "application/pdf");
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+        context.startActivity(intent);
+
     }
 
 

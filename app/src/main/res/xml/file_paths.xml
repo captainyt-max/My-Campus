@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- Grant access to the Documents folder -->
+    <external-path name="external_files" path="Documents/" />
+
+    <!-- Optionally, grant access to other folders -->
+    <!-- <cache-path name="cache" path="Android/data/com.example.my_campus/cache/" /> -->
+    <!-- <files-path name="files" path="Android/data/com.example.my_campus/files/" /> -->
+</paths>

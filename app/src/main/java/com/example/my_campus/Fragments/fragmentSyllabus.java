@@ -40,7 +40,7 @@ public class fragmentSyllabus extends Fragment {
         buttonAutomobile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nextFragment("automobile");
+                nextFragment("auto");
                 clickAnimation(view);
             }
         });
@@ -72,7 +72,7 @@ public class fragmentSyllabus extends Fragment {
         buttonElectronic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nextFragment("electronics");
+                nextFragment("electronic");
                 clickAnimation(view);
             }
         });
@@ -80,7 +80,7 @@ public class fragmentSyllabus extends Fragment {
         buttonMechanical.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nextFragment("mechanical");
+                nextFragment("mech");
                 clickAnimation(view);
             }
         });
