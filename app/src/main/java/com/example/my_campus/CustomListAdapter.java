@@ -1,5 +1,7 @@
 package com.example.my_campus;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -59,15 +61,24 @@ public class CustomListAdapter extends BaseAdapter {
         faculty_phone.setText(currentItem.getPhone());
         faculty_email.setText(currentItem.getEmail());
 
+        faculty_phone.setOnClickListener( v -> {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + currentItem.getPhone()));
+            context.startActivity(intent);
+        });
+
+        faculty_email.setOnClickListener( v -> {
+            Intent intent = new Intent(Intent.ACTION_SENDTO);
+            intent.setData(Uri.parse("mailto:" + currentItem.getEmail()));
+            context.startActivity(intent);
+        });
+
         utility ut = new utility();
 
         imageView.setOnClickListener(click -> {
             ut.navigateToProfileImage(context, currentItem.getIcon(), currentItem.getName(), "facultiesProfileImage");
 
         });
-
-
-
 
 
         return convertView;
