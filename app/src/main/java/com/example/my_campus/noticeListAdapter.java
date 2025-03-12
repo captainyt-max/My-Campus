@@ -42,7 +42,7 @@ public class noticeListAdapter extends BaseAdapter {
     public noticeListAdapter (Context context, ArrayList<noticeListItems> listItems){
         this.context = context;
         this.listItems = listItems;
-        context.registerReceiver(broadcastReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        context.registerReceiver(broadcastReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE), Context.RECEIVER_NOT_EXPORTED);
     }
 
     @Override
@@ -157,9 +157,9 @@ public class noticeListAdapter extends BaseAdapter {
 
         firestore.collection("notice pdfs").document(documentId)
                 .delete()
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show();
-                    });
+                .addOnFailureListener(e -> {
+                    Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show();
+                });
         storageReference.delete().addOnSuccessListener( success -> {
             Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
         }).addOnFailureListener( e -> {

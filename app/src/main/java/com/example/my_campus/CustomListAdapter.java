@@ -1,7 +1,5 @@
 package com.example.my_campus;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -48,7 +46,7 @@ public class CustomListAdapter extends BaseAdapter {
         ListItem currentItem = (ListItem) getItem(position);
 
         ImageView imageView = convertView.findViewById(R.id.icon);
-        TextView faculty_name = convertView.findViewById(R.id.itemName);
+        TextView faculty_name = convertView.findViewById(R.id.Itemname);
         TextView faculty_designation = convertView.findViewById(R.id.designation);
         TextView faculty_phone = convertView.findViewById(R.id.phone);
         TextView faculty_email = convertView.findViewById(R.id.email);

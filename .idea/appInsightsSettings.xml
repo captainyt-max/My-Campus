@@ -10,7 +10,7 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.example.my_campus" />
-                  <option name="mobileSdkAppId" value="1:800450613867:android:4b2f2f5a1fb864cf1e172e" />
+                  <option name="mobileSdkAppId" value="1:800450613867:android:49ce7c74e40854841e172e" />
                   <option name="projectId" value="my-campus-afa26" />
                   <option name="projectNumber" value="800450613867" />
                 </ConnectionSetting>
