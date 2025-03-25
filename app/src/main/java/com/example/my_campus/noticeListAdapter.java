@@ -79,8 +79,8 @@ public class noticeListAdapter extends BaseAdapter {
         String fileSizeText = currentItem.getFileSize();
         String uploadedByText = currentItem.getUploadedBy();
 
-        if (fileNameText.length()>20){
-            fileName.setText(fileNameText.substring(0,20) + "....");
+        if (fileNameText.length()>15){
+            fileName.setText(fileNameText.substring(0,15) + "....");
         }
         else {
             fileName.setText(fileNameText);
