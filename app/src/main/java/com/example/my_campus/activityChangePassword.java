@@ -1,22 +1,26 @@
 package com.example.my_campus;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.chaquo.python.PyObject;
 import com.chaquo.python.Python;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -179,5 +183,40 @@ public class activityChangePassword extends AppCompatActivity {
                 }
             }
         }).start();
+    }
+
+    public static class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.ViewHolder> {
+
+        private final List<Integer> imageList;
+
+        public ImageSliderAdapter(List<Integer> imageList) {
+            this.imageList = imageList;
+        }
+
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.slider_image_item, parent, false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+            holder.imageView.setImageResource(imageList.get(position));
+        }
+
+        @Override
+        public int getItemCount() {
+            return imageList.size();
+        }
+
+        public static class ViewHolder extends RecyclerView.ViewHolder {
+            ImageView imageView;
+
+            public ViewHolder(@NonNull View itemView) {
+                super(itemView);
+                imageView = itemView.findViewById(R.id.sliderImage);
+            }
+        }
     }
 }

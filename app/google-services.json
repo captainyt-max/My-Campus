@@ -1,13 +1,14 @@
 {
   "project_info": {
     "project_number": "800450613867",
+    "firebase_url": "https://my-campus-afa26-default-rtdb.firebaseio.com",
     "project_id": "my-campus-afa26",
     "storage_bucket": "my-campus-afa26.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:800450613867:android:4b2f2f5a1fb864cf1e172e",
+        "mobilesdk_app_id": "1:800450613867:android:49ce7c74e40854841e172e",
         "android_client_info": {
           "package_name": "com.example.my_campus"
         }

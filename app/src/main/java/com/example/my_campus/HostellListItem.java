@@ -2,28 +2,19 @@ package com.example.my_campus;
 
 public class HostellListItem {
     private String name;
-    private int icon;
+    private String iconUrl; // Changed from int to String
     private String designation;
-    private String phone;
+    private String phoneNumber;
 
-    public HostellListItem(String name, int icon, String designation, String phone) {
+    public HostellListItem(String name, String iconUrl, String designation, String phoneNumber) {
         this.name = name;
-        this.icon = icon;
+        this.iconUrl = iconUrl;
         this.designation = designation;
-        this.phone=phone;
+        this.phoneNumber = phoneNumber;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getIcon() {
-        return icon;
-    }
-
-    public String getDesignation(){ return designation; }
-
-    public String getPhone() {
-        return phone;
-    }
+    public String getName() { return name; }
+    public String getIconUrl() { return iconUrl; }
+    public String getDesignation() { return designation; }
+    public String getPhoneNumber() { return phoneNumber; }
 }

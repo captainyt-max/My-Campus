@@ -1,136 +1,127 @@
 package com.example.my_campus.Fragments;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
-
-import com.example.my_campus.CustomListAdapter;
+import android.widget.Toast;
 import com.example.my_campus.HostelListAdapter;
 import com.example.my_campus.HostellListItem;
+import com.example.my_campus.ImageSliderAdapter;
 import com.example.my_campus.R;
-import com.google.firestore.bundle.BundledDocumentMetadata;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
-
+import java.util.Arrays;
+import java.util.List;
 
 public class fragmentSelectedHostelInfo extends Fragment {
-
-    ArrayList<HostellListItem> aryabhataHostellist = new ArrayList<>();
-    ArrayList<HostellListItem> buddhaHostellist = new ArrayList<>();
-    ArrayList<HostellListItem> chanakayaHostellist = new ArrayList<>();
-    ArrayList<HostellListItem> godavariHostellist = new ArrayList<>();
-
-    TextView hostelName;
-    ListView listView;
-
+    private TextView hostelName;
+    private RecyclerView recyclerView;
+    private ViewPager2 imageSlider;
+    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    private HostelListAdapter adapter;
+    private ArrayList<HostellListItem> hostelList;
 
     public fragmentSelectedHostelInfo() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_selected_hostel_info, container, false);
 
         hostelName = view.findViewById(R.id.hostel);
-        listView = view.findViewById(R.id.HostelListView);
+        recyclerView = view.findViewById(R.id.recyclerView);
+        imageSlider = view.findViewById(R.id.imageSlider);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        //adding item to aryabhata array list
-        aryabhataHostellist.add(new HostellListItem("Dr. Alka Kumari", 0, "Chief warden", "7549127280"));
-        aryabhataHostellist.add(new HostellListItem("Roma Rani", 0, "Warden", ""));
-        aryabhataHostellist.add(new HostellListItem("Prof. Binita Kumari", 0, "Warden Superitendent", ""));
-        aryabhataHostellist.add(new HostellListItem("Dr. Alka Kumari", 0, "Chief warden", "7549127280"));
-        aryabhataHostellist.add(new HostellListItem("Roma Rani", 0, "Warden", ""));
-        aryabhataHostellist.add(new HostellListItem("Prof. Binita Kumari", 0, "Warden Superitendent", ""));
-        aryabhataHostellist.add(new HostellListItem("", 0, "Mess Chief Incharge", ""));
-        aryabhataHostellist.add(new HostellListItem("", 0, "Mess Incharge", ""));
+        hostelList = new ArrayList<>();
+        adapter = new HostelListAdapter(getContext(), hostelList);
+        recyclerView.setAdapter(adapter);
 
-        //adding item to chankaya array list
-        chanakayaHostellist.add(new HostellListItem("Dr. R N Singh", 0 ,"Chief Warden", ""));
-        chanakayaHostellist.add(new HostellListItem("Prof. Ranjit Kumar", 0, "Boys Hostel Superitendent", ""));
-        chanakayaHostellist.add(new HostellListItem("Prof. Prashant Kumar", 0, "Boys Hostel Superitendent",""));
-        chanakayaHostellist.add(new HostellListItem("Prof. Anandi Prasad Yadav", 0, "Boys Warden", ""));
-        chanakayaHostellist.add(new HostellListItem("Prof. Ramendra Rahul", 0, "Boys Assistant Warden", ""));
-        chanakayaHostellist.add(new HostellListItem("Shri Lalo Choudhary", 0, "Boys Assistant Warden", ""));
-        chanakayaHostellist.add(new HostellListItem("Mr. Shubham Kumar Vats", 0, "Floor Incharge (1st + Ground Floor)", ""));
-        chanakayaHostellist.add(new HostellListItem("Mr. Binit Kumar (NATS) ", 0, "Floor Incharge (2nd Floor)", ""));
-        chanakayaHostellist.add(new HostellListItem("Mr. Rahul Kumar(Instractor)", 0, "Floor Incharge (3rd + 4th Floor)", ""));
-        chanakayaHostellist.add(new HostellListItem("", 0, "Mess Chief Incharge", ""));
-        chanakayaHostellist.add(new HostellListItem("", 0, "Mess Incharge", ""));
-
-
-
-        //adding item to buddha array list
-        buddhaHostellist.add(new HostellListItem("", 0, "", ""));
-        buddhaHostellist.add(new HostellListItem("Dr. R N Singh", 0, "Chief Warden", ""));
-        buddhaHostellist.add(new HostellListItem("Prof. Ranjit Kumar", 0, "Boys Hostel Superitendent", ""));
-        buddhaHostellist.add(new HostellListItem("Prof. Prashant Kumar", 0, "Boys Hostel Superitendent", ""));
-        buddhaHostellist.add(new HostellListItem("Prof. Anandi Prasad Yadav", 0, "Boys Warden", ""));
-        buddhaHostellist.add(new HostellListItem("Prof. Ramendra Rahul", 0, "Boys Assistant Warden", ""));
-        buddhaHostellist.add(new HostellListItem("Shri Lalo Choudhary", 0, "Boys Assistant Warden", ""));
-        buddhaHostellist.add(new HostellListItem("Mr. Binit Kumar (NATS)", 0, "Floor Incharge (2nd + 3rd Floor)", ""));
-        buddhaHostellist.add(new HostellListItem("Mr. Rahul Kumar", 0, "Floor Incharge (1st + Ground Floor)", ""));
-        buddhaHostellist.add(new HostellListItem("", 0, "Mess Chief Incharge", ""));
-        buddhaHostellist.add(new HostellListItem("", 0, "Mess Incharge",""));
-
-
-        //adding item to godavari array list
-        godavariHostellist.add(new HostellListItem("Dr. R N Singh", 0, "Chief Warden", ""));
-        godavariHostellist.add(new HostellListItem("Prof. Ranjit Kumar", 0, "Boys Hostel Superitendent", ""));
-        godavariHostellist.add(new HostellListItem("Prof. Prashant Kumar", 0, "Boys Hostel Superitendent", ""));
-        godavariHostellist.add(new HostellListItem("Prof. Anandi Prasad Yadav", 0, "Boys Warden", ""));
-        godavariHostellist.add(new HostellListItem("Prof. Ramendra Rahul", 0, "Boys Assistant Warden", ""));
-        godavariHostellist.add(new HostellListItem("Shri Lalo Choudhary", 0, "Boys Assistant Warden", ""));
-        godavariHostellist.add(new HostellListItem("Mr. Ganesh Kumar", 0, "Floor Incharge (1st + Ground Floor)", ""));
-        godavariHostellist.add(new HostellListItem("Mr. Dinkar Dayal Nirala ", 0, "Floor Incharge (2nd Floor)", ""));
-        godavariHostellist.add(new HostellListItem("", 0, "Mess Chief Incharge", ""));
-        godavariHostellist.add(new HostellListItem("", 0, "Mess Incharge", ""));
-
-
-
-        // getting bundle containing hostel name from previous fragment
         Bundle bundle = getArguments();
-        if (bundle != null){
-            String hostelname = bundle.getString("hostel");
-
-            if (hostelname.equals("aryabhata")){
-                hostelName.setText("Aryabhatta Girls Hostel");
-
-                HostelListAdapter adapter = new HostelListAdapter(getContext(), aryabhataHostellist);
-                listView.setAdapter(adapter);
-            }
-            if (hostelname.equals("chanakya")){
-                hostelName.setText("Chanakaya Boys Hostel");
-
-                HostelListAdapter adapter = new HostelListAdapter(getContext(), chanakayaHostellist);
-                listView.setAdapter(adapter);
-            }
-            if (hostelname.equals("godavari")){
-                hostelName.setText("Godavari Boys Hostel");
-
-                HostelListAdapter adapter = new HostelListAdapter(getContext(), godavariHostellist);
-                listView.setAdapter(adapter);
-            }
-            if (hostelname.equals("buddha")){
-                hostelName.setText("Buddha Boys Hostel");
-
-                HostelListAdapter adapter = new HostelListAdapter(getContext(), buddhaHostellist);
-                listView.setAdapter(adapter);
+        if (bundle != null) {
+            String hostel = bundle.getString("hostel");
+            if (hostel != null) {
+                hostelName.setText(getHostelFullName(hostel));
+                loadHostelData(hostel);
+                loadImagesForHostel(hostel);
             }
         }
-
-
         return view;
     }
+
+    private void loadHostelData(String hostel) {
+        CollectionReference hostelRef = firestore.collection("Hostels").document(hostel).collection("People");
+
+        hostelRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot snapshot, FirebaseFirestoreException error) {
+                if (error != null) {
+                    showToast("Error fetching data: " + error.getMessage());
+                    return;
+                }
+
+                hostelList.clear();
+                for (QueryDocumentSnapshot document : snapshot) {
+                    String name = document.getString("name");
+                    String designation = document.getString("designation");
+                    String phoneNumber = document.getString("phoneNumber");
+                    String iconUrl = document.getString("icon");
+
+                    if (name != null && designation != null && phoneNumber != null) {
+                        hostelList.add(new HostellListItem(name, iconUrl, designation, phoneNumber));
+                    }
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void loadImagesForHostel(String hostel) {
+        List<Integer> imageList = Arrays.asList(R.drawable.chanakya);
+        switch (hostel) {
+            case "aryabhata":
+                imageList = Arrays.asList(R.drawable.aryabhata_1, R.drawable.chanakya, R.drawable.chanakya);
+                break;
+            case "chanakya":
+                imageList = Arrays.asList(R.drawable.chanakya, R.drawable.chanakay_1, R.drawable.chankaya_2);
+                break;
+            case "buddha":
+                imageList = Arrays.asList(R.drawable.chankaya_3, R.drawable.chanakya, R.drawable.chanakya);
+                break;
+            case "godavari":
+                imageList = Arrays.asList(R.drawable.chanakya, R.drawable.chanakya, R.drawable.chanakya);
+                break;
+        }
+        ImageSliderAdapter adapter = new ImageSliderAdapter(imageList);
+        imageSlider.setAdapter(adapter);
+    }
+
+    private String getHostelFullName(String hostel) {
+        switch (hostel) {
+            case "aryabhata": return "Aryabhatta Girls Hostel";
+            case "chanakya": return "Chanakya Boys Hostel";
+            case "buddha": return "Buddha Boys Hostel";
+            case "godavari": return "Godavari Boys Hostel";
+            default: return "Unknown Hostel";
+        }
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
 }
-
-
