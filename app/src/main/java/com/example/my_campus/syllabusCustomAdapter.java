@@ -43,7 +43,7 @@ public class syllabusCustomAdapter extends BaseAdapter {
         this.semesterNames = semesterNames;
         this.pdfUrls = pdfUrls;
 
-        context.registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+//        context.registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     @Override

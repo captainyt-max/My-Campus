@@ -42,7 +42,8 @@ public class noticeListAdapter extends BaseAdapter {
     public noticeListAdapter (Context context, ArrayList<noticeListItems> listItems){
         this.context = context;
         this.listItems = listItems;
-        context.registerReceiver(broadcastReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+//        context.registerReceiver(broadcastReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
     }
 
     @Override

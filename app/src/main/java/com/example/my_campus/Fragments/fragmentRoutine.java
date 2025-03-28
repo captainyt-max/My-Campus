@@ -57,7 +57,8 @@ public class fragmentRoutine extends Fragment {
         pdfIcon = view.findViewById(R.id.pdf_icon);
         btnText = view.findViewById(R.id.btnText);
 
-        requireContext().registerReceiver(broadcastReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+//        requireContext().registerReceiver(broadcastReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
 
 
         Map<String, String> branchMap = new HashMap<>();

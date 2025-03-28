@@ -89,7 +89,7 @@
         </provider>
 
 
-        <receiver android:name=".DownloadReceiver" />
+<!--        <receiver android:name=".DownloadReceiver" />-->
     </application>
 
 </manifest>
