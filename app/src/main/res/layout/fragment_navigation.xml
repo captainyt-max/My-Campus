@@ -24,7 +24,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:clickable="true"
-        android:id="@+id/constraintLayout5"
+        android:id="@+id/campus"
         android:layout_width="match_parent"
         android:layout_height="53dp"
         android:layout_marginStart="15dp"
@@ -64,7 +64,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:clickable="true"
-        android:id="@+id/constraintLayout6"
+        android:id="@+id/hostel"
         android:layout_width="match_parent"
         android:layout_height="53dp"
         android:layout_marginStart="15dp"
@@ -75,7 +75,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout5">
+        app:layout_constraintTop_toBottomOf="@+id/campus">
 
         <TextView
             android:id="@+id/textView21"
@@ -91,46 +91,6 @@
 
         <ImageView
             android:id="@+id/image12"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="4dp"
-            android:src="@drawable/ic_arrow"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.461" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:clickable="true"
-        android:id="@+id/constraintLayout7"
-        android:layout_width="match_parent"
-        android:layout_height="53dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/help_tile_background"
-        app:flow_horizontalBias="0.0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout6">
-
-        <TextView
-            android:id="@id/textView25"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:text="Important Places"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.529" />
-
-        <ImageView
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="4dp"

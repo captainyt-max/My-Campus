@@ -34,7 +34,6 @@ public class fragmentGuidance extends Fragment {
         buttonResult = view.findViewById(R.id.result);
         buttonLibrary = view.findViewById(R.id.library);
         buttonRules = view.findViewById(R.id.rules);
-        buttonLinks = view.findViewById(R.id.links);
 
 
 
@@ -98,14 +97,6 @@ public class fragmentGuidance extends Fragment {
             @Override
             public void onClick(View view) {
                 nextFragment("rules");
-                clickAnimation(view);
-            }
-        });
-
-        buttonLinks.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                nextFragment("links");
                 clickAnimation(view);
             }
         });
