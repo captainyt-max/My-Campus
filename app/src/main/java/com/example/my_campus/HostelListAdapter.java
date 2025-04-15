@@ -69,6 +69,7 @@ public class HostelListAdapter extends RecyclerView.Adapter<HostelListAdapter.Vi
 
     @Override
     public int getItemCount() {
+
         return (hostelList != null) ? hostelList.size() : 0;
     }
 

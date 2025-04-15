@@ -6,13 +6,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
 import java.util.List;
 
 public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.ViewHolder> {
 
-    private final List<Integer> imageList;
+    private final List<String> imageList;
 
-    public ImageSliderAdapter(List<Integer> imageList) {
+    public ImageSliderAdapter(List<String> imageList) {
         this.imageList = imageList;
     }
 
@@ -25,7 +26,14 @@ public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.imageView.setImageResource(imageList.get(position));
+        String imageUrl = imageList.get(position);
+
+        // Load image from URL using Glide
+        Glide.with(holder.imageView.getContext())
+                .load(imageUrl)
+//                .placeholder(R.drawable.placeholder)  // Placeholder image while loading
+//                .error(R.drawable.error_image)        // Error image if URL fails
+                .into(holder.imageView);
     }
 
     @Override

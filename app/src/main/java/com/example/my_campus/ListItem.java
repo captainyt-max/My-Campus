@@ -2,30 +2,30 @@ package com.example.my_campus;
 
 public class ListItem {
     private String name;
-    private int icon;
+    private String iconUrl;
     private String designation;
-    private String phone;
+    private String phoneNumber;
     private String email;
 
-    public ListItem(String name, int icon, String designation, String phone, String email) {
+    public ListItem(String name, String iconUrl, String designation, String phoneNumber, String email) {
         this.name = name;
-        this.icon = icon;
+        this.iconUrl = iconUrl;
         this.designation = designation;
-        this.phone= phone;
+        this.phoneNumber = phoneNumber;
         this.email= email;
     }
 
     public String getName() {
         return name;
     }
-    public int getIcon() {
-        return icon;
+    public String getIconUrl() {
+        return iconUrl;
     }
     public String getDesignation() {
         return designation;
     }
-    public String getPhone() {
-        return phone;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
     public String getEmail() {
         return email;

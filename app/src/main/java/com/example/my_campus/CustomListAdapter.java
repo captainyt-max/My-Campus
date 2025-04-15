@@ -6,79 +6,116 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
+import java.util.List;
 
-public class CustomListAdapter extends BaseAdapter {
-
+public class CustomListAdapter extends RecyclerView.Adapter<CustomListAdapter.ViewHolder> {
     private Context context;
-    private ArrayList<ListItem> listItems;
+    private List<ListItem> facultyList; // No need for default initialization, handled in constructor
 
-    public CustomListAdapter(Context context, ArrayList<ListItem> listItems) {
+    public CustomListAdapter(Context context, List<ListItem> facultyList) {
         this.context = context;
-        this.listItems = listItems;
+        this.facultyList = (facultyList != null) ? facultyList : new ArrayList<>(); // Prevents null list
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.faculties_list_items, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public int getCount() {
-        return listItems.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return listItems.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.faculties_list_items, parent, false);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        if (facultyList == null || facultyList.isEmpty()) {
+            return; // Prevent crash when data is empty
         }
 
-        ListItem currentItem = (ListItem) getItem(position);
+        ListItem item = facultyList.get(position);
 
-        ImageView imageView = convertView.findViewById(R.id.icon);
-        TextView faculty_name = convertView.findViewById(R.id.Itemname);
-        TextView faculty_designation = convertView.findViewById(R.id.designation);
-        TextView faculty_phone = convertView.findViewById(R.id.phone);
-        TextView faculty_email = convertView.findViewById(R.id.email);
+        // Check for null before setting text to prevent crashes
+        holder.name.setText(item.getName() != null ? item.getName() : "N/A");
+        holder.designation.setText(item.getDesignation() != null ? item.getDesignation() : "N/A");
+        holder.phoneNumber.setText(item.getPhoneNumber() != null ? item.getPhoneNumber() : "N/A");
+        holder.email.setText((item.getEmail() != null ? item.getEmail() : "N/A"));
 
+        // Load image safely with Glide, using a placeholder
+        if (item.getIconUrl() != null && !item.getIconUrl().isEmpty()) {
+            Glide.with(holder.icon.getContext())
+                    .load(item.getIconUrl())
+                    .placeholder(R.drawable.default_icon)
+                    .error(R.drawable.default_icon) // Set error fallback
+                    .into(holder.icon);
+        } else {
+            holder.icon.setImageResource(R.drawable.default_icon); // Default image if URL is null
+        }
 
+        // Set onClickListener safely
+        holder.phoneNumber.setOnClickListener(v -> {
+            if (item.getPhoneNumber() != null && !item.getPhoneNumber().isEmpty()) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + item.getPhoneNumber()));
 
-        imageView.setImageResource(currentItem.getIcon());
-        faculty_name.setText(currentItem.getName());
-        faculty_designation.setText(currentItem.getDesignation());
-        faculty_phone.setText(currentItem.getPhone());
-        faculty_email.setText(currentItem.getEmail());
+                if (context != null) {
+                    context.startActivity(intent);
+                }
+            }
+        });
+        // Set onClickListener safely for email
+        holder.email.setOnClickListener(v -> {
+            if (item.getEmail() != null && !item.getEmail().isEmpty()) {
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:" + item.getEmail()));
 
-        faculty_phone.setOnClickListener( v -> {
-            Intent intent = new Intent(Intent.ACTION_DIAL);
-            intent.setData(Uri.parse("tel:" + currentItem.getPhone()));
-            context.startActivity(intent);
+                if (context != null) {
+                    context.startActivity(intent);
+                }
+            }
         });
 
-        faculty_email.setOnClickListener( v -> {
-            Intent intent = new Intent(Intent.ACTION_SENDTO);
-            intent.setData(Uri.parse("mailto:" + currentItem.getEmail()));
-            context.startActivity(intent);
+        // Set onClickListener safely for icon
+        holder.icon.setOnClickListener(v -> {
+            if (item.getIconUrl() != null && !item.getIconUrl().isEmpty()) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(item.getIconUrl()));
+
+                if (context != null) {
+                    context.startActivity(intent);
+                }
+            }
         });
 
-        utility ut = new utility();
+    }
 
-        imageView.setOnClickListener(click -> {
-            ut.navigateToProfileImage(context, currentItem.getIcon(), currentItem.getName(), "facultiesProfileImage");
+    @Override
+    public int getItemCount() {
+        return (facultyList != null) ? facultyList.size() : 0;
+    }
 
-        });
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView name, designation, phoneNumber, email;
+        ImageView icon;
 
+        public ViewHolder(View itemView) {
+            super(itemView);
+            name = itemView.findViewById(R.id.Itemname);
+            designation = itemView.findViewById(R.id.designation);
+            phoneNumber = itemView.findViewById(R.id.phone);
+            email = itemView.findViewById(R.id.email);
+            icon = itemView.findViewById(R.id.icon);
 
-        return convertView;
+            // Null check to prevent crashes if views are not found
+            if (name == null || designation == null || phoneNumber == null || icon == null || email == null) {
+                throw new NullPointerException("ViewHolder: Some views are not found in faculty_list_items.xml");
+            }
+        }
     }
 }

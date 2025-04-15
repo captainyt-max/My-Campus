@@ -46,6 +46,7 @@ public class fragmentRoutine extends Fragment {
     private File file;
     private long downloadId;
     private FileObserver fileObserver;
+    private boolean isReceiverRegistered = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -127,14 +128,36 @@ public class fragmentRoutine extends Fragment {
             }
         }
     };
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isReceiverRegistered) {
+//            requireContext().registerReceiver(broadcastReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+            isReceiverRegistered = true;
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        unregisterReceiverSafely();
+    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        requireContext().unregisterReceiver(broadcastReceiver);
+        unregisterReceiverSafely();
     }
 
-
-
+    private void unregisterReceiverSafely() {
+        try {
+            if (isReceiverRegistered) {
+                requireContext().unregisterReceiver(broadcastReceiver);
+                isReceiverRegistered = false;
+            }
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace(); // Prevents the app from crashing
+        }
+    }
 }
 
