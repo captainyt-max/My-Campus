@@ -4,6 +4,9 @@ package com.example.my_campus.Fragments;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -75,6 +78,32 @@ public class fragmentNearbyPlaces extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(
+                getViewLifecycleOwner(),
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        Fragment fragment = getParentFragmentManager().findFragmentByTag("fragmentHomepage");
+
+                        if (fragment == null || !fragment.isVisible()) {
+                            // User is NOT on homepage → go to homepage
+                            fragmentHomepage homePageFragment = new fragmentHomepage();
+                            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                            transaction.replace(R.id.mainLayout, homePageFragment, "fragmentHomepage");
+                            transaction.commit();
+                        } else {
+                            // User is already on homepage → exit app
+                            requireActivity().finish();
+                        }
+                    }
+                }
+        );
     }
 
     private void nextFragment(String reference) {

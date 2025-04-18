@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 public class CustomListAdapter extends RecyclerView.Adapter<CustomListAdapter.ViewHolder> {
     private Context context;
     private List<ListItem> facultyList; // No need for default initialization, handled in constructor
+    private utility ut = new utility();
 
     public CustomListAdapter(Context context, List<ListItem> facultyList) {
         this.context = context;
@@ -52,6 +54,7 @@ public class CustomListAdapter extends RecyclerView.Adapter<CustomListAdapter.Vi
             Glide.with(holder.icon.getContext())
                     .load(item.getIconUrl())
                     .placeholder(R.drawable.default_icon)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .error(R.drawable.default_icon) // Set error fallback
                     .into(holder.icon);
         } else {
@@ -83,14 +86,7 @@ public class CustomListAdapter extends RecyclerView.Adapter<CustomListAdapter.Vi
 
         // Set onClickListener safely for icon
         holder.icon.setOnClickListener(v -> {
-            if (item.getIconUrl() != null && !item.getIconUrl().isEmpty()) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(item.getIconUrl()));
-
-                if (context != null) {
-                    context.startActivity(intent);
-                }
-            }
+            ut.navigateToProfileImage(context, item.getIconUrl(), item.getName(), "facultiesProfileImage");
         });
 
     }

@@ -17,6 +17,7 @@ import com.example.my_campus.noticeListItems;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -351,8 +352,5 @@ public class fragmentHomepage extends Fragment {
                     Toast.makeText(requireContext(), "Unable To remove like : "+ e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
-
-
-
 
 }

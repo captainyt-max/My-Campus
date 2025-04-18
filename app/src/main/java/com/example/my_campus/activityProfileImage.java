@@ -44,10 +44,8 @@ public class activityProfileImage extends AppCompatActivity {
         Log.d("profile image", "category code: " + categoryCode);
 
         if (categoryCode.equals("facultiesProfileImage")){
-            imageResId = intent.getIntExtra("profileImageRes", -1);
-            imageName = intent.getStringExtra("imageName");
-            setImage.setImageResource(imageResId);
-            setName.setText(imageName);
+            ut.setProfileImage(this, intent.getStringExtra("imageUrl"), setImage);
+            setName.setText(intent.getStringExtra("imageName"));
         }
 
 

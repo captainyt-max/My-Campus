@@ -15,6 +15,8 @@ import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 import java.io.File;
+import java.util.Objects;
+
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +28,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -47,9 +52,15 @@ import com.example.my_campus.Fragments.fragmentRoutine;
 import com.example.my_campus.Fragments.fragmentSyllabus;
 import com.example.my_campus.Fragments.fragmentfacultiesinfo;
 import com.example.my_campus.Fragments.fragmentnavigation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.Firebase;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
     private static final int NOTIFICATION_PERMISSION_REQUEST_CODE = 0;
@@ -63,12 +74,23 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+//    private ActivityResultLauncher<String> resultLauncher = registerForActivityResult(
+//            new ActivityResultContracts.RequestPermission(), isGranted -> {
+//                if (isGranted){
+//                    // Permission granted
+//                    // Get device token from firebase
+//                    getDeviceToken();
+//                }else {
+//                    // Permission denied
+//                }
+//    });
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
-
+//        requestPermission();
+        FirebaseApp.initializeApp(this);
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
@@ -105,6 +127,10 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, NOTIFICATION_PERMISSION_REQUEST_CODE);
+            }
+            else {
+                //Toast.makeText(this, "Fetching token function", Toast.LENGTH_SHORT).show();
+                getDeviceToken();
             }
         }
 
@@ -352,6 +378,7 @@ public class MainActivity extends AppCompatActivity {
                     ut.clickAnimation(view);
                     loginState.setLoginState(MainActivity.this, false);
                     Intent loginIntent = new Intent(MainActivity.this, activityLogin.class);
+                    loginState.setDeviceToken(MainActivity.this, "");
                     startActivity(loginIntent);
                     finish();
                 }
@@ -391,6 +418,43 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
+    public void getDeviceToken() {
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()){
+                Log.e("FireBaseLogs", "Fetching Token failed"+ task.getException());
+                return;
+            }
+
+            // Get device Token
+            String token = task.getResult();
+            Log.v("FireBaseLogs", "Device Token "+token);
+            if (!Objects.equals(token, loginState.getDeviceToken(this))){
+                addTokenToUser(token);
+            }
+            loginState.setDeviceToken(this, token);
+        });
+    }
+
+    private void addTokenToUser(String token){
+        DocumentReference docRef = db.collection("users").document(loginState.getUserEmail(this));
+                    docRef.get().addOnCompleteListener(task->{
+                    if (task.isSuccessful()){
+                        DocumentSnapshot snapshot = task.getResult();
+                        if (snapshot.exists()){
+                            docRef.update("token", token)
+                                    .addOnSuccessListener(aVoid->{
+                                        Log.d("FCM", "addTokenToUser: token uploaded to user document");
+                                    })
+                                    .addOnFailureListener(e->{
+                                        Log.e("FCM", "addTokenToUser: "+e.getMessage() );
+                                    });
+                        }
+                    }
+                });
+    }
+
 
     public static void createAppDirectories() {
         // Get the base directory inside Documents folder

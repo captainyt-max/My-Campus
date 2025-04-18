@@ -90,4 +90,16 @@ public class loginState {
         return sharedPref.getString("userRole", "No such data");
     }
 
+    public static void setDeviceToken(Context context, String token){
+        SharedPreferences sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("deviceToken", token);
+        editor.apply();
+    }
+
+    public static String getDeviceToken(Context context){
+        SharedPreferences sharedPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPref.getString("deviceToken", "No such data");
+    }
+
 }

@@ -1,23 +1,22 @@
 package com.example.my_campus.Fragments;
 
-
 import android.os.Bundle;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.my_campus.R;
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.example.my_campus.R;
 
 public class fragmentHostelInfo extends Fragment {
 
     ConstraintLayout buttonChanakya, buttonAryabhata, buttonGodavari, buttonBuddha;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -27,43 +26,56 @@ public class fragmentHostelInfo extends Fragment {
 
         buttonAryabhata = view.findViewById(R.id.aryabhata);
         buttonChanakya = view.findViewById(R.id.chanakya);
-        buttonGodavari= view.findViewById(R.id.godavari);
+        buttonGodavari = view.findViewById(R.id.godavari);
         buttonBuddha = view.findViewById(R.id.buddha);
 
-
-        buttonAryabhata.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                nextFragment("aryabhata");
-                clickAnimation(view);
-            }
+        buttonAryabhata.setOnClickListener(v -> {
+            nextFragment("aryabhata");
+            clickAnimation(v);
         });
 
-        buttonChanakya.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                nextFragment("chanakya");
-                clickAnimation(view);
-            }
+        buttonChanakya.setOnClickListener(v -> {
+            nextFragment("chanakya");
+            clickAnimation(v);
         });
 
-        buttonGodavari.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                nextFragment("godavari");
-                clickAnimation(view);
-            }
+        buttonGodavari.setOnClickListener(v -> {
+            nextFragment("godavari");
+            clickAnimation(v);
         });
 
-        buttonBuddha.setOnClickListener((new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                nextFragment("buddha");
-                clickAnimation(view);
-            }
-        }));
+        buttonBuddha.setOnClickListener(v -> {
+            nextFragment("buddha");
+            clickAnimation(v);
+        });
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(
+                getViewLifecycleOwner(),
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        Fragment fragment = getParentFragmentManager().findFragmentByTag("fragmentHomepage");
+
+                        if (fragment == null || !fragment.isVisible()) {
+                            // User is NOT on homepage → go to homepage
+                            fragmentHomepage homePageFragment = new fragmentHomepage();
+                            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                            transaction.replace(R.id.mainLayout, homePageFragment, "fragmentHomepage");
+                            transaction.commit();
+                        } else {
+                            // User is already on homepage → exit app
+                            requireActivity().finish();
+                        }
+                    }
+                }
+        );
     }
 
     private void nextFragment(String hostel) {
@@ -75,23 +87,18 @@ public class fragmentHostelInfo extends Fragment {
 
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.setCustomAnimations(
-                R.anim.slide_in_right,  // enter animation
-                R.anim.slide_out_left,  // exit animation
-                R.anim.slide_in_left,   // pop enter (when returning back)
-                R.anim.slide_out_right  // pop exit (when returning back)
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
         );
         transaction.replace(R.id.mainLayout, fragmentSelectedHostelInfo);
         transaction.addToBackStack(null);
         transaction.commit();
     }
 
-    public void clickAnimation(View v){
-        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).withEndAction(new Runnable() {
-            @Override
-            public void run() {
-                v.animate().scaleX(1f).scaleY(1f).setDuration(100);
-            }
-        });
+    public void clickAnimation(View v) {
+        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).withEndAction(() ->
+                v.animate().scaleX(1f).scaleY(1f).setDuration(100));
     }
-
 }
