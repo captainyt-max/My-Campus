@@ -76,6 +76,8 @@ dependencies {
     implementation(libs.play.services.maps)
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation("com.google.firebase:firebase-messaging:24.1.1")
+    implementation ("org.mindrot:jbcrypt:0.4")
+
 
 
     // Testing dependencies

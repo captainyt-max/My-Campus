@@ -2,11 +2,13 @@ package com.example.my_campus;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,7 +19,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
@@ -66,48 +67,56 @@ public class campusActivityAdapter extends RecyclerView.Adapter<campusActivityAd
         holder.msgBody.setText(currentItem.getMessageBody());
         holder.sentTime.setText(currentItem.getSentTime());
 
+
+
+        // Set layout appearance based on whether the current user is the sender
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) holder.messageLayoutParent.getLayoutParams();
-        if (isUserSender(currentItem.getSenderEmail())){
+        if (isUserSender(currentItem.getSenderEmail())) {
             holder.messageLayout.setBackgroundResource(R.drawable.registration_details_background);
-            holder.imageLayout.setVisibility(View.GONE);
-            // Set start and end margins (in pixels)
-            int marginStart = (int) (95 * context.getResources().getDisplayMetrics().density);
-            int marginEnd = (int) (12 * context.getResources().getDisplayMetrics().density);
-            params.setMarginStart(marginStart);
-            params.setMarginEnd(marginEnd);
-            holder.messageLayoutParent.setLayoutParams(params);
-        }
-        else {
+            holder.messageLayoutParent.setGravity(Gravity.END);
+        } else {
             holder.messageLayout.setBackgroundResource(R.drawable.rounded_ractangle_1);
-            holder.imageLayout.setVisibility(View.VISIBLE);
-            int marginStart = (int) (0 * context.getResources().getDisplayMetrics().density);
-            int marginEnd = (int) (60 * context.getResources().getDisplayMetrics().density);
-            params.setMarginStart(marginStart);
-            params.setMarginEnd(marginEnd);
-            holder.messageLayoutParent.setLayoutParams(params);
+            holder.messageLayoutParent.setGravity(Gravity.START);
         }
 
-        holder.imageLayout.setOnClickListener( click-> {
+        // Logic to hide sender name and profile image for consecutive messages from the same user
+        if (position > 0) {
+            campusActivityItem previousItem = messageList.get(position - 1);
+            if (previousItem.getSenderEmail().equals(currentItem.getSenderEmail()) || (isUserSender(currentItem.getSenderEmail()))) {
+                holder.senderName.setVisibility(View.GONE);  // Hide sender's name
+                holder.imageLayout.setVisibility(View.INVISIBLE);  // Hide profile image
+                holder.imageLayout.setEnabled(false);
+            } else {
+                holder.senderName.setVisibility(View.VISIBLE);  // Show sender's name
+                holder.imageLayout.setVisibility(View.VISIBLE);  // Show profile image
+                holder.imageLayout.setEnabled(true);
+            }
+        } else {
+            holder.senderName.setVisibility(View.VISIBLE);  // Always show sender name for the first message
+            holder.imageLayout.setVisibility(View.VISIBLE);  // Always show profile image for the first message
+        }
+
+
+        holder.imageLayout.setOnClickListener(click -> {
             ut.clickAnimation(click);
             ut.showProfile(context, currentItem.getSenderEmail());
         });
 
-        holder.itemView.setOnLongClickListener( view -> {
+        holder.itemView.setOnLongClickListener(view -> {
             showContextMenu(view, currentItem.getSenderEmail(), currentItem.getDocID());
             return true;
         });
 
         db.collection("users").document(currentItem.getSenderEmail())
-                .addSnapshotListener( (snapshot, e) -> {
-                    if (e != null){
-                        Log.d("campusActivityAdapter", "onBindViewHolder: "+ e.getMessage());
+                .addSnapshotListener((snapshot, e) -> {
+                    if (e != null) {
+                        Log.d("campusActivityAdapter", "onBindViewHolder: " + e.getMessage());
                         return;
                     }
-                    if (snapshot != null && snapshot.exists()){
-                        if (isUserSender(currentItem.getSenderEmail())){
+                    if (snapshot != null && snapshot.exists()) {
+                        if (isUserSender(currentItem.getSenderEmail())) {
                             holder.senderName.setText("You");
-                        }
-                        else {
+                        } else {
                             holder.senderName.setText(snapshot.getString("name"));
                         }
                         String imageUrl = snapshot.getString("profileImage");
@@ -119,6 +128,7 @@ public class campusActivityAdapter extends RecyclerView.Adapter<campusActivityAd
                     }
                 });
     }
+
 
     @Override
     public int getItemCount() {
@@ -133,7 +143,8 @@ public class campusActivityAdapter extends RecyclerView.Adapter<campusActivityAd
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
         TextView senderName, msgBody, sentTime;
         ImageView senderProfileImage;
-        ConstraintLayout messageLayoutParent, messageLayout;
+        ConstraintLayout  messageLayout;
+        LinearLayout messageLayoutParent;
         CardView imageLayout;
 
         public MessageViewHolder(@NonNull View itemView) {
@@ -144,7 +155,7 @@ public class campusActivityAdapter extends RecyclerView.Adapter<campusActivityAd
             senderProfileImage = itemView.findViewById(R.id.senderProfileImage);
             messageLayoutParent = itemView.findViewById(R.id.messageLayoutParent);
             messageLayout = itemView.findViewById(R.id.messageLayout);
-            imageLayout = itemView.findViewById(R.id.imageLayout);
+            imageLayout = itemView.findViewById(R.id.profile);
         }
     }
 

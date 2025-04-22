@@ -88,21 +88,21 @@ public class fragmentHomepage extends Fragment {
                                 campusActivityUpdated.setText(messageDoc.getString("sentTime"));
                                 String sender = messageDoc.getString("sentBy");
                                 firestore.collection("users").document(sender)
-                                                .addSnapshotListener( (snap, ex) -> {
-                                                    if (e !=null ){
-                                                        return;
-                                                    }
-                                                    else {
-                                                        if (snap != null && snap.contains("profileImage")){
-                                                            Glide.with(requireContext())
-                                                                    .load(snap.getString("profileImage"))
-                                                                    .circleCrop()
-                                                                    .error(R.drawable.ic_default_user)
-                                                                    .placeholder(R.drawable.ic_default_user)
-                                                                    .into(btnCampusInfo);
-                                                        }
-                                                    }
-                                                });
+                                        .addSnapshotListener( (snap, ex) -> {
+                                            if (e !=null ){
+                                                return;
+                                            }
+                                            else {
+                                                if (snap != null && snap.contains("profileImage")){
+                                                    Glide.with(requireContext())
+                                                            .load(snap.getString("profileImage"))
+                                                            .circleCrop()
+                                                            .error(R.drawable.ic_default_user)
+                                                            .placeholder(R.drawable.ic_default_user)
+                                                            .into(btnCampusInfo);
+                                                }
+                                            }
+                                        });
                                 btnCampusInfo.setOnClickListener( click -> {
                                     ut.showProfile(requireContext(), messageDoc.getString("sentBy"));
                                 });

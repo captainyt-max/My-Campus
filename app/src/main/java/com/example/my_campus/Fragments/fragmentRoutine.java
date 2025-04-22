@@ -190,4 +190,3 @@ public class fragmentRoutine extends Fragment {
         );
     }
 }
-

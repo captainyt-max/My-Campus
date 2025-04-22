@@ -159,13 +159,6 @@ public class activityCampusActivity extends AppCompatActivity {
             messageView.scrollToPosition(adapter.getItemCount() - 1);
         }
 
-
-
-
-
-
-
-
         //Fetching message documents
         if (intentKey.equals("campus_activity")){
             messageCollection =  db.collection("campus activity");

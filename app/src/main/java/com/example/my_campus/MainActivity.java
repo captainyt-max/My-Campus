@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 import java.io.File;
+import java.util.Collections;
 import java.util.Objects;
 
 import android.view.Gravity;
@@ -88,6 +89,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnSuccessListener(token -> {
+                    FirebaseFirestore.getInstance()
+                            .collection("tokens")
+                            .document("kr624ayush@gmail.com")  // Use FirebaseAuth.getCurrentUser().getEmail() if you're using auth
+                            .set(Collections.singletonMap("token", token));
+                });
 
 //        requestPermission();
         FirebaseApp.initializeApp(this);

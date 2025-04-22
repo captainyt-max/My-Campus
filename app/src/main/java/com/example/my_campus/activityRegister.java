@@ -22,6 +22,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.util.regex.*;
 
 public class activityRegister extends AppCompatActivity {
@@ -232,13 +235,31 @@ public class activityRegister extends AppCompatActivity {
                 docRef.get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
+//                        if (document.exists()) {
+//                            docRef.update("mobileNumber", mobileNumber,  "password", password)
+//                                    .addOnSuccessListener(aVoid -> {
+//                                        hideLoading();
+//                                        isValidated[0]=false;
+//                                        passEmail[0] = "";
+//                                        finish();
+//                                        Toast.makeText(activityRegister.this, "Registration successful, Please Login", Toast.LENGTH_SHORT).show();
+//                                        finish();
+//                                    })
+//                                    .addOnFailureListener(e -> {
+//                                        hideLoading();
+//                                        Toast.makeText(activityRegister.this, "Failed to upload data", Toast.LENGTH_SHORT).show();
+//                                    });
+//                            hideLoading();
+//                        }
+                        // inside registerButton.setOnClickListener...
                         if (document.exists()) {
-                            docRef.update("mobileNumber", mobileNumber,  "password", password)
+                            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt()); // 🔒 hash the password here
+
+                            docRef.update("mobileNumber", mobileNumber, "password", hashedPassword)
                                     .addOnSuccessListener(aVoid -> {
                                         hideLoading();
                                         isValidated[0]=false;
                                         passEmail[0] = "";
-                                        finish();
                                         Toast.makeText(activityRegister.this, "Registration successful, Please Login", Toast.LENGTH_SHORT).show();
                                         finish();
                                     })
@@ -246,8 +267,8 @@ public class activityRegister extends AppCompatActivity {
                                         hideLoading();
                                         Toast.makeText(activityRegister.this, "Failed to upload data", Toast.LENGTH_SHORT).show();
                                     });
-                            hideLoading();
                         }
+
                     } else {
                         hideLoading();
                         Toast.makeText(activityRegister.this, "Unexpected error occurred", Toast.LENGTH_SHORT).show();

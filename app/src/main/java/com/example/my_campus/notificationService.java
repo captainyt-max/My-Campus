@@ -13,29 +13,29 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class notificationService extends Service {
+
     private static final String CHANNEL_ID = "campus_activity_channel";
     private static final String CAMPUS_PREFS_NAME = "CampusActivityPrefs";
-    private static final String CLASS_PREFS_NAME_1 = "ClassActivityPrefs1";
-    private static final String CLASS_PREFS_NAME_2 = "ClassActivityPrefs2";
-    private static final String CLASS_PREFS_NAME_3 = "ClassActivityPrefs3";
 
     @Override
     public void onCreate() {
         super.onCreate();
         createNotificationChannel();
-        listenForCampusActivityChanges(); // Ensure this is added
-        listnerForClassActivityChanges();
-        Log.d("NotificationService", "Service Started");
+        listenForCampusActivityChanges();
+        listenForClassActivityChanges();
+        Log.d("NotificationService", "Service Created");
     }
 
     @Override
@@ -45,113 +45,99 @@ public class notificationService extends Service {
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Campus Service Running")
-                .setContentText("Listening for updates...")
+                .setContentText("")
                 .setSmallIcon(R.drawable.ic_notification)
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .setOngoing(true)
+                .setPriority(NotificationCompat.PRIORITY_MIN);
 
-        startForeground(1, notificationBuilder.build());  // Important: make this a foreground service
+        startForeground(1, notificationBuilder.build());
 
-        return START_STICKY; // Service will be restarted if it's killed
+        return START_STICKY;
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null; // We don't want to bind this service
+        return null;
     }
 
     private void listenForCampusActivityChanges() {
-        DocumentReference docRef = FirebaseFirestore.getInstance()
-                .collection("homePage")
-                .document("campusActivity");
-
-        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.d("NotificationService", "Error: " + e.getMessage());
-                    return;
-                }
-
-                if (documentSnapshot != null && documentSnapshot.exists()) {
-                    String message = documentSnapshot.getString("message");
-                    Log.d("NotificationService", "New Message Received: " + message);
-
-                    // Retrieve the last message from SharedPreferences
-                    SharedPreferences sharedPreferences = getSharedPreferences(CAMPUS_PREFS_NAME, MODE_PRIVATE);
-                    String lastMessage = sharedPreferences.getString("campusLastMessage", "");
-
-                    // Check if the message is different from the last message
-                    if (!message.equals(lastMessage)) {
-                        // Save the new message in SharedPreferences
-                        sharedPreferences.edit().putString("campusLastMessage", message).apply();
-                        Log.d("NotificationService", "Sending Notification: " + message);
-                        sendNotification(message, "Campus Activity Update");  // Send notification if message is different
-
-                        // Update the Firestore document with a new message
-//                        updateMessageInFirestore(message);  // This is the update function
+        FirebaseFirestore.getInstance()
+                .collection("campus activity")
+                .addSnapshotListener((querySnapshot, e) -> {
+                    if (e != null) {
+                        Log.d("NotificationService", "Error: " + e.getMessage());
+                        return;
                     }
-                }else {
-                    Log.d("NotificationService", "Document does not exist");
+
+                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                        SharedPreferences sharedPreferences = getSharedPreferences(CAMPUS_PREFS_NAME, MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                        for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                            String message = document.getString("message");
+                            String docId = document.getId(); // Unique per doc
+
+                            if (message != null) {
+                                String savedMessage = sharedPreferences.getString("msg_" + docId, "");
+
+                                if (!message.equals(savedMessage)) {
+                                    editor.putString("msg_" + docId, message);
+                                    editor.apply();
+
+                                    sendNotification(message, "Campus Activity Update");
+                                }
+                            }
+                        }
+                    } else {
+                        Log.d("NotificationService", "No documents found in campus activity collection");
+                    }
+                });
+    }
+
+    private void listenForClassActivityChanges() {
+        DocumentReference docRef = FirebaseFirestore.getInstance()
+                .collection("homePage")
+                .document("classActivity");
+
+        docRef.addSnapshotListener((documentSnapshot, e) -> {
+            if (e != null) {
+                Log.d("NotificationService", "Error: " + e.getMessage());
+                return;
+            }
+
+            if (documentSnapshot != null && documentSnapshot.exists()) {
+                String message = documentSnapshot.getString("message");
+
+                if (message != null) {
+                    SharedPreferences sharedPreferences = getSharedPreferences(CAMPUS_PREFS_NAME, MODE_PRIVATE);
+                    String lastClassMsg = sharedPreferences.getString("classLastMessage", "");
+
+                    if (!message.equals(lastClassMsg)) {
+                        sharedPreferences.edit().putString("classLastMessage", message).apply();
+                        sendNotification(message, "Class Activity Update");
+                    }
                 }
             }
         });
     }
 
-    private void updateMessageInFirestore(String newMessage) {
-        DocumentReference docRef = FirebaseFirestore.getInstance()
-                .collection("homePage")
-                .document("campusActivity");
-
-        Map<String, Object> updateData = new HashMap<>();
-        updateData.put("message", newMessage);
-
-        docRef.update(updateData).addOnSuccessListener(aVoid -> {
-            Log.d("Firestore", "Message updated successfully");
-        }).addOnFailureListener(e -> {
-            Log.d("Firestore", "Error updating message: " + e.getMessage());
-        });
-    }
-
-    private void listnerForClassActivityChanges(){
-        DocumentReference docRef = FirebaseFirestore.getInstance()
-                .collection("homePage")
-                .document("classActivity");  // Example collection/document for class activity
-
-        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.d("NotificationService", "Error: " + e.getMessage());
-                    return;
-                }
-
-                if (documentSnapshot != null && documentSnapshot.exists()) {
-                    String message = documentSnapshot.getString("message");
-
-                    // Handle the message in a similar way
-                    Log.d("Firestore", "Class activity message: " + message);
-                }
-            }
-        });
-    }
-    
-
-    private void sendNotification(String messageBody, String tittle) {
+    private void sendNotification(String messageBody, String title) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notification) // Replace with your notification icon
-                .setContentTitle(tittle)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(title)
                 .setContentText(messageBody)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        int notificationId = (int) System.currentTimeMillis();
+        int notificationId = (int) System.currentTimeMillis(); // Unique ID
         notificationManager.notify(notificationId, notificationBuilder.build());
     }
 
@@ -162,9 +148,11 @@ public class notificationService extends Service {
                     "Campus Activity Notifications",
                     NotificationManager.IMPORTANCE_HIGH
             );
+            channel.setDescription("Notifications for campus and class updates");
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
         }
     }
-
 }

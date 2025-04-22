@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -42,8 +43,6 @@ public class noticeListAdapter extends BaseAdapter {
     public noticeListAdapter (Context context, ArrayList<noticeListItems> listItems){
         this.context = context;
         this.listItems = listItems;
-//        context.registerReceiver(broadcastReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-
     }
 
     @Override
@@ -73,35 +72,30 @@ public class noticeListAdapter extends BaseAdapter {
         TextView uploadDate = convertView.findViewById(R.id.uploadDate);
         ConstraintLayout btnOpen = convertView.findViewById(R.id.btnOpen1);
 
-        downloadUrl = currentItem.getDownloadUrl();
-        String documentId = currentItem.getDocumentId();
         String fileNameText = currentItem.getFileName();
         String uploadTimeText = currentItem.getUploadTime();
-        String fileSizeText = currentItem.getFileSize();
         String uploadedByText = currentItem.getUploadedBy();
+        String downloadUrl = currentItem.getDownloadUrl();
+        String documentId = currentItem.getDocumentId();
+        String fileSizeText = currentItem.getFileSize();
 
-        if (fileNameText.length()>15){
-            fileName.setText(fileNameText.substring(0,15) + "....");
-        }
-        else {
+        // Truncate file name if it's too long
+        if (fileNameText.length() > 15) {
+            fileName.setText(fileNameText.substring(0, 15) + "....");
+        } else {
             fileName.setText(fileNameText);
         }
         uploadDate.setText(currentItem.getUploadDate());
 
-        if (currentItem.getDownloadUrl()!= null){
-            downloadUrl = currentItem.getDownloadUrl();
-        }
-
-        file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)+"/Pocket Campus/Notices", fileNameText);
-
+        // Create file object specific to this item
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/Pocket Campus/Notices", fileNameText);
 
         btnOpen.setOnClickListener(click -> {
             ut.clickAnimation(click);
-            if ( file.exists()){
+            if (file.exists()) {
                 ut.openPdf(context, file);
-            }
-            else {
-                downloadId = ut.downloadFile(context, downloadUrl, file);
+            } else {
+                long downloadId = ut.downloadFile(context, downloadUrl, file);
             }
         });
 
@@ -148,7 +142,6 @@ public class noticeListAdapter extends BaseAdapter {
         popupMenu.show();
     }
 
-
     private void deleteFileFromFirestoreAndStorage(String documentId, String fileUrl) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         if (fileUrl.isEmpty()){
@@ -158,16 +151,16 @@ public class noticeListAdapter extends BaseAdapter {
 
         firestore.collection("notice pdfs").document(documentId)
                 .delete()
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show();
-                    });
+                .addOnFailureListener(e -> {
+                    Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show();
+                });
         storageReference.delete().addOnSuccessListener( success -> {
             Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
         }).addOnFailureListener( e -> {
             Toast.makeText(context, "Error " + e.getMessage(), Toast.LENGTH_SHORT).show();
         });
-
     }
+
     private void showFileInfoDialog(String fileName, String fileSize, String uploadTime, String uploadedBy) {
         View dialogView = LayoutInflater.from(context).inflate(R.layout.file_info_dialog, null);
 
@@ -222,12 +215,19 @@ public class noticeListAdapter extends BaseAdapter {
         @Override
         public void onReceive(Context context, Intent intent) {
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-            if (id == downloadId){
+            if (id == downloadId) {
                 Toast.makeText(context, "Downloaded", Toast.LENGTH_SHORT).show();
-                ut.openPdf(context, file);
+
+                // Open the PDF file after it's downloaded
+                if (file.exists()) {
+                    Uri fileUri = FileProvider.getUriForFile(context, "com.example.my_campus.provider", file);
+                    Intent openIntent = new Intent(Intent.ACTION_VIEW);
+                    openIntent.setDataAndType(fileUri, "application/pdf");
+                    openIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    openIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // Grant URI permission
+                    context.startActivity(openIntent);
+                }
             }
         }
     };
-
-
 }

@@ -21,6 +21,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 public class activityLogin extends AppCompatActivity {
 
     private LinearLayout loadingLayout;
@@ -68,23 +70,62 @@ public class activityLogin extends AppCompatActivity {
 
             DocumentReference docRef = db.collection("users").document(email);
             // Check if user exists
+//            docRef.get().addOnCompleteListener(task -> {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        String password = document.getString("password");
+//                        if (password.isEmpty()) {
+//                            ut.dismissBufferingDialog();
+//                            Toast.makeText(activityLogin.this, "Please register first", Toast.LENGTH_SHORT).show();
+//                            return;
+//                        }
+//                        if (password != null && password.equals(enteredPassword)) {
+//                            String name = document.getString("name");
+//                            String branch =document.getString("branch");
+//                            String year = document.getString("year");
+//                            String rollNo = document.getString("rollNo");
+//                            String mobileNumber = document.getString("mobileNumber");
+//                            loginState.setLoginState(activityLogin.this,true, mobileNumber, email, name, branch, year, rollNo);
+//                            Intent intent = new Intent(activityLogin.this, MainActivity.class);
+//                            ut.dismissBufferingDialog();
+//                            startActivity(intent);
+//                            finish();
+//                        } else {
+//                            ut.dismissBufferingDialog();
+//                            Toast.makeText(activityLogin.this, "Invalid Password", Toast.LENGTH_SHORT).show();
+//                        }
+//                    } else {
+//                        // User not authorized
+//                        ut.dismissBufferingDialog();
+//                        Toast.makeText(activityLogin.this, "User not allowed", Toast.LENGTH_SHORT).show();
+//                    }
+//                } else {
+//                    ut.dismissBufferingDialog();
+//                    Toast.makeText(activityLogin.this, "Unexpected error occurred, Try checking internet", Toast.LENGTH_SHORT).show();
+//                }
+
+
             docRef.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         String password = document.getString("password");
-                        if (password.isEmpty()) {
+                        if (password == null || password.isEmpty()) {
                             ut.dismissBufferingDialog();
                             Toast.makeText(activityLogin.this, "Please register first", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        if (password != null && password.equals(enteredPassword)) {
+
+                        if (BCrypt.checkpw(enteredPassword, password)) {
+                            // Password matched
                             String name = document.getString("name");
-                            String branch =document.getString("branch");
+                            String branch = document.getString("branch");
                             String year = document.getString("year");
                             String rollNo = document.getString("rollNo");
                             String mobileNumber = document.getString("mobileNumber");
-                            loginState.setLoginState(activityLogin.this,true, mobileNumber, email, name, branch, year, rollNo);
+
+                            loginState.setLoginState(activityLogin.this, true, mobileNumber, email, name, branch, year, rollNo);
                             Intent intent = new Intent(activityLogin.this, MainActivity.class);
                             ut.dismissBufferingDialog();
                             startActivity(intent);
@@ -94,7 +135,6 @@ public class activityLogin extends AppCompatActivity {
                             Toast.makeText(activityLogin.this, "Invalid Password", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        // User not authorized
                         ut.dismissBufferingDialog();
                         Toast.makeText(activityLogin.this, "User not allowed", Toast.LENGTH_SHORT).show();
                     }
@@ -103,7 +143,6 @@ public class activityLogin extends AppCompatActivity {
                     Toast.makeText(activityLogin.this, "Unexpected error occurred, Try checking internet", Toast.LENGTH_SHORT).show();
                 }
             });
-
 
         });
 

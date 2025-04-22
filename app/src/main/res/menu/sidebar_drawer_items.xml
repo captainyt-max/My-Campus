@@ -41,7 +41,7 @@
     <item
         android:icon="@drawable/ic_nav_syllabus"
         android:id="@+id/navSyllabus"
-        android:title="Syllabus"
+        android:title="Curriculum"
         android:titleTextAppearance="@style/DrawerItemText"/>
 
     <item
