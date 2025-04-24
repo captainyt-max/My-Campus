@@ -36,6 +36,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.downloader.OnDownloadListener;
+import com.downloader.PRDownloader;
 import com.example.my_campus.Fragments.fragmentManageRoutines;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -382,6 +384,55 @@ public class utility {
 
         context.startActivity(intent);
 
+    }
+
+    public void openFile(Context context, File file) {
+        Uri fileUri = FileProvider.getUriForFile(context, context.getPackageName() + ".provider", file);
+        if (file.exists()) {
+            Log.d("FILE_URI", "File Exists: " + file.getAbsolutePath());
+        } else {
+            Log.e("FILE_ERROR", "File Does Not Exist at: " + file.getAbsolutePath());
+            return;
+        }
+        // Get MIME type automatically
+        String mimeType = context.getContentResolver().getType(fileUri);
+        if (mimeType == null) {
+            mimeType = "application/octet-stream"; // Default fallback
+        }
+        Log.d("FILE URI", "Opening file: " + fileUri.toString()); // Debugging
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(fileUri, mimeType);
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        try{
+            context.startActivity(intent);
+        }
+        catch (Exception e){
+            Toast.makeText(context, "No apps found to handle the request", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void downloadFilePr(Context context, File file, String url) {
+        // Extract directory path and filename from the File object
+        String directoryPath = file.getParent();
+        String fileName = file.getName();
+
+        PRDownloader.download(url, directoryPath, fileName)
+                .build()
+                .start(new OnDownloadListener() {
+                    @Override
+                    public void onDownloadComplete() {
+                        Toast.makeText(context, "Downloaded", Toast.LENGTH_SHORT).show();
+                        openFile(context, file);
+                    }
+
+                    @Override
+                    public void onError(com.downloader.Error error) {
+                        Toast.makeText(context, "Download failed!", Toast.LENGTH_SHORT).show();
+                        Log.e("DOWNLOAD", "onError: " + error.getConnectionException() );
+                    }
+                });
     }
 
 }

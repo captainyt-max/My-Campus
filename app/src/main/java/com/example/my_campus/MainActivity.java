@@ -147,8 +147,6 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
         }
 
-        Intent serviceIntent = new Intent(this, notificationService.class);
-        startService(serviceIntent);
 
 
 

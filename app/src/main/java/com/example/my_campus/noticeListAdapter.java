@@ -93,9 +93,9 @@ public class noticeListAdapter extends BaseAdapter {
         btnOpen.setOnClickListener(click -> {
             ut.clickAnimation(click);
             if (file.exists()) {
-                ut.openPdf(context, file);
+                ut.openFile(context, file);
             } else {
-                long downloadId = ut.downloadFile(context, downloadUrl, file);
+                ut.downloadFilePr(context, file, downloadUrl);
             }
         });
 
@@ -211,23 +211,4 @@ public class noticeListAdapter extends BaseAdapter {
         fileInfoDialog.show();
     }
 
-    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-            if (id == downloadId) {
-                Toast.makeText(context, "Downloaded", Toast.LENGTH_SHORT).show();
-
-                // Open the PDF file after it's downloaded
-                if (file.exists()) {
-                    Uri fileUri = FileProvider.getUriForFile(context, "com.example.my_campus.provider", file);
-                    Intent openIntent = new Intent(Intent.ACTION_VIEW);
-                    openIntent.setDataAndType(fileUri, "application/pdf");
-                    openIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    openIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // Grant URI permission
-                    context.startActivity(openIntent);
-                }
-            }
-        }
-    };
 }

@@ -77,6 +77,7 @@ dependencies {
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation("com.google.firebase:firebase-messaging:24.1.1")
     implementation ("org.mindrot:jbcrypt:0.4")
+    implementation("com.github.amitshekhariitbhu:PRDownloader:1.0.2")
 
 
 

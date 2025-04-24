@@ -86,12 +86,12 @@ public class syllabusCustomAdapter extends BaseAdapter {
         // Set click listener on the "Open" button to open the PDF
         openButton.setOnClickListener(v -> {
             if (file.exists()) {
-                ut.openPdf(context, file);
+                ut.openFile(context, file);
             } else {
-                downloadID = ut.downloadFile(context, pdfUrls.get(position), file);
+                //downloadID = ut.downloadFile(context, pdfUrls.get(position), file);
+                ut.downloadFilePr(context, file, pdfUrls.get(position));
             }
         });
-
         return convertView;
     }
 

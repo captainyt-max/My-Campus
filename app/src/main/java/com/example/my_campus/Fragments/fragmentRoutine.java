@@ -111,58 +111,20 @@ public class fragmentRoutine extends Fragment {
         btnDownload.setOnClickListener(click -> {
             ut.clickAnimation(btnDownload);
             if (file.exists()){
-                ut.openPdf(requireContext(), file);
+                ut.openFile(requireContext(), file);
             }
             else {
-                downloadId = ut.downloadFile(requireContext(), pdfUrl, file);
+                ut.downloadFilePr(requireContext(), file, pdfUrl);
             }
         });
 
         return view;
     }
 
-    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-            Log.d("Routine", "completed Id : " + id);
-            if (downloadId == id) {
-                Toast.makeText(context, "Downloaded", Toast.LENGTH_SHORT).show();
-                btnText.setText("Open"); // Refresh the adapter
-            }
-        }
-    };
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (!isReceiverRegistered) {
-//            requireContext().registerReceiver(broadcastReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-            isReceiverRegistered = true;
-        }
-    }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        unregisterReceiverSafely();
-    }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unregisterReceiverSafely();
-    }
 
-    private void unregisterReceiverSafely() {
-        try {
-            if (isReceiverRegistered) {
-                requireContext().unregisterReceiver(broadcastReceiver);
-                isReceiverRegistered = false;
-            }
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace(); // Prevents the app from crashing
-        }
-    }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

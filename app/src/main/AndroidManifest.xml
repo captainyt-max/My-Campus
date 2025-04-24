@@ -81,10 +81,6 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <service
-            android:name=".notificationService"
-            android:exported="false"
-            android:foregroundServiceType="dataSync" />
 
         <service
             android:name="com.google.firebase.messaging.FirebaseMessagingService"
