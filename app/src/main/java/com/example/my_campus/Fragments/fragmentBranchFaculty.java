@@ -16,6 +16,7 @@ import com.example.my_campus.CustomListAdapter;
 import com.example.my_campus.HostellListItem;
 import com.example.my_campus.ListItem;
 import com.example.my_campus.R;
+import com.example.my_campus.utility;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,6 +34,7 @@ public class fragmentBranchFaculty extends Fragment {
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     private CustomListAdapter adapter;
     private ArrayList<ListItem> facultyList;
+    private utility ut = new utility();
 
 
     public fragmentBranchFaculty() {
@@ -67,11 +69,17 @@ public class fragmentBranchFaculty extends Fragment {
     }
 
     private void loadFacultyData(String branch) {
+        // Show the buffering dialog
+        ut.showBufferingDialog(requireContext(), "Loading files"); // Assuming 'ut' is an existing utility class
+
         CollectionReference branchRef = firestore.collection("Faculties").document(branch).collection("People");
 
         branchRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot snapshot, FirebaseFirestoreException error) {
+                // Dismiss the buffering dialog after data fetch is complete (either success or failure)
+                ut.dismissBufferingDialog();
+
                 if (error != null) {
                     showToast("Error fetching data: " + error.getMessage());
                     return;

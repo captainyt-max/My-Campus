@@ -80,6 +80,8 @@ dependencies {
     implementation("com.github.amitshekhariitbhu:PRDownloader:1.0.2")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation ("com.auth0:java-jwt:4.4.0")
+    implementation ("com.squareup.okhttp3:okhttp:4.12.0")
+
 
 
 

@@ -54,12 +54,14 @@ public class CustomListAdapter extends RecyclerView.Adapter<CustomListAdapter.Vi
             Glide.with(holder.icon.getContext())
                     .load(item.getIconUrl())
                     .placeholder(R.drawable.default_icon)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .error(R.drawable.default_icon) // Set error fallback
+                    .error(R.drawable.default_icon)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL) // Stronger caching
+                    .transition(com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade()) // Smooth fade-in
                     .into(holder.icon);
         } else {
-            holder.icon.setImageResource(R.drawable.default_icon); // Default image if URL is null
+            holder.icon.setImageResource(R.drawable.default_icon);
         }
+
 
         // Set onClickListener safely
         holder.phoneNumber.setOnClickListener(v -> {

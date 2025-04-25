@@ -286,7 +286,7 @@ public class utility {
                 .load(imageUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)// Cache both original and resized image
                 .placeholder(R.drawable.ic_default_user)
-                .error(R.drawable.ic_default_user)
+                .error(R.drawable.default_icon)
                 .fitCenter()
                 .into(imageView);
     }
