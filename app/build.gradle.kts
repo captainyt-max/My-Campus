@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.my_campus"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -78,6 +78,9 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging:24.1.1")
     implementation ("org.mindrot:jbcrypt:0.4")
     implementation("com.github.amitshekhariitbhu:PRDownloader:1.0.2")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation ("com.auth0:java-jwt:4.4.0")
+
 
 
 

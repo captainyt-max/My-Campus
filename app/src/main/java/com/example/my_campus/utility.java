@@ -3,6 +3,8 @@ package com.example.my_campus;
 import static android.app.PendingIntent.getActivity;
 
 
+import static com.google.common.net.MediaType.JWT;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DownloadManager;
@@ -15,6 +17,7 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.provider.OpenableColumns;
 import android.util.Log;
@@ -34,6 +37,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.auth0.jwt.algorithms.Algorithm;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.downloader.OnDownloadListener;
@@ -46,10 +50,23 @@ import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.json.JSONObject;
+
 import java.io.File;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class utility {
 
@@ -58,6 +75,10 @@ public class utility {
     public interface DialogCallback {
         void onConfirm();
         void onCancel();
+    }
+
+    public interface DownloadCallback{
+        void onDownloadComplete();
     }
 
     public void dialogBox(Context context, String message, DialogCallback callback){
@@ -413,7 +434,7 @@ public class utility {
 
     }
 
-    public void downloadFilePr(Context context, File file, String url) {
+    public void downloadFilePr(Context context, File file, String url, DownloadCallback callback) {
         // Extract directory path and filename from the File object
         String directoryPath = file.getParent();
         String fileName = file.getName();
@@ -423,7 +444,7 @@ public class utility {
                 .start(new OnDownloadListener() {
                     @Override
                     public void onDownloadComplete() {
-                        Toast.makeText(context, "Downloaded", Toast.LENGTH_SHORT).show();
+                        callback.onDownloadComplete();
                         openFile(context, file);
                     }
 
@@ -434,5 +455,6 @@ public class utility {
                     }
                 });
     }
+
 
 }

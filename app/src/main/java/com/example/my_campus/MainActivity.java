@@ -437,9 +437,7 @@ public class MainActivity extends AppCompatActivity {
             // Get device Token
             String token = task.getResult();
             Log.v("FireBaseLogs", "Device Token "+token);
-            if (!Objects.equals(token, loginState.getDeviceToken(this))){
-                addTokenToUser(token);
-            }
+            addTokenToUser(token);
             loginState.setDeviceToken(this, token);
         });
     }

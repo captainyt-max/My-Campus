@@ -114,7 +114,10 @@ public class fragmentRoutine extends Fragment {
                 ut.openFile(requireContext(), file);
             }
             else {
-                ut.downloadFilePr(requireContext(), file, pdfUrl);
+                ut.downloadFilePr(requireContext(), file, pdfUrl, ()->{
+                    Toast.makeText(requireContext(), "Downloaded", Toast.LENGTH_SHORT).show();
+                    btnText.setText("Open");
+                });
             }
         });
 

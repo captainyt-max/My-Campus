@@ -88,8 +88,10 @@ public class syllabusCustomAdapter extends BaseAdapter {
             if (file.exists()) {
                 ut.openFile(context, file);
             } else {
-                //downloadID = ut.downloadFile(context, pdfUrls.get(position), file);
-                ut.downloadFilePr(context, file, pdfUrls.get(position));
+                ut.downloadFilePr(context, file, pdfUrls.get(position), ()->{
+                    Toast.makeText(context, "Downloaded", Toast.LENGTH_SHORT).show();
+                    btnText.setText("Open");
+                });
             }
         });
         return convertView;

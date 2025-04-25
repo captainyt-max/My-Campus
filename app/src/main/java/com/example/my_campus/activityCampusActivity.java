@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -27,11 +28,22 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class activityCampusActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -219,8 +231,10 @@ public class activityCampusActivity extends AppCompatActivity {
                         ut.playSentSound(this);
                         btnSend.setEnabled(true);
                         Toast.makeText(this, "Sent", Toast.LENGTH_SHORT).show();
+                        sendNotificationToAllUsers(messageData.get("message").toString());
                     })
                     .addOnFailureListener(e -> {
+                        btnSend.setEnabled(true);
                         Toast.makeText(this, "Error while sending message", Toast.LENGTH_SHORT).show();
                     });
         }
@@ -233,6 +247,7 @@ public class activityCampusActivity extends AppCompatActivity {
                         Toast.makeText(this, "Sent", Toast.LENGTH_SHORT).show();
                     })
                     .addOnFailureListener(e -> {
+                        btnSend.setEnabled(true);
                         Toast.makeText(this, "Error while sending message", Toast.LENGTH_SHORT).show();
                     });
         }
@@ -280,8 +295,63 @@ public class activityCampusActivity extends AppCompatActivity {
                     Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener( e -> {
+                    btnSend.setEnabled(true);
                     Toast.makeText(this, "Error while updating message", Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    private void sendNotificationToAllUsers(String messageText) {
+        FirebaseFirestore.getInstance().collection("users")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                        String token = doc.getString("token");
+                        if (token != null) {
+                            sendFCMNotification(token, messageText);
+                        }
+                    }
+                });
+    }
+
+    private void sendFCMNotification(String token, String messageText) {
+        OkHttpClient client = new OkHttpClient();
+
+        JSONObject json = new JSONObject();
+        JSONObject notification = new JSONObject();
+
+        try {
+            notification.put("title", "New Message");
+            notification.put("body", messageText);
+            json.put("to", token);
+            json.put("notification", notification);
+
+            RequestBody body = RequestBody.create(
+                    json.toString(),
+                    MediaType.get("application/json; charset=utf-8")
+            );
+
+            Request request = new Request.Builder()
+                    .url("https://fcm.googleapis.com/fcm/send")
+                    .addHeader("Authorization", "key=YOUR_SERVER_KEY_HERE")
+                    .addHeader("Content-Type", "application/json")
+                    .post(body)
+                    .build();
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    Log.e("FCM_API", "Notification failed", e);
+                }
+
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    Log.d("FCM_API", "FCM API: " + response.body().string());
+                }
+            });
+
+        } catch (Exception e) {
+            Log.d("FCM_API_ERROR", "sendFCMNotification: "+ e.getMessage());
+        }
     }
 
 }

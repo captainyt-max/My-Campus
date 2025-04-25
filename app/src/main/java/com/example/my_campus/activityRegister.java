@@ -47,9 +47,7 @@ public class activityRegister extends AppCompatActivity {
             Python.start(new AndroidPlatform(this));
         }
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         loadingLayout = findViewById(R.id.loadingLayout);
         loadingText = findViewById(R.id.loadingText);
@@ -106,7 +104,7 @@ public class activityRegister extends AppCompatActivity {
                     return;
                 }
                 // Show the ProgressBar and "Processing" Text
-                showLoading("Validating user...");
+                ut.showBufferingDialog(activityRegister.this, "Validating user");
 
                 DocumentReference docRef = db.collection("users").document(email);
                 // Check if user exists
@@ -116,7 +114,7 @@ public class activityRegister extends AppCompatActivity {
                         if (document.exists()) {
                             //check if already registered
                             if(!document.getString("password").isEmpty()){
-                                hideLoading();
+                                ut.dismissBufferingDialog();
                                 Toast.makeText(activityRegister.this, "Already Registered, Please Login", Toast.LENGTH_SHORT).show();
                                 return;
                             }
@@ -140,16 +138,16 @@ public class activityRegister extends AppCompatActivity {
 //                            createPassword.setEnabled(true);
 //                            confirmPassword.setEnabled(true);
 
-                            hideLoading();
+                            ut.dismissBufferingDialog();
                             // Continue with signup
 
                             } else {
                             // User not authorized
-                            hideLoading();
+                            ut.dismissBufferingDialog();
                             Toast.makeText(activityRegister.this, "User not allowed", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        hideLoading();
+                        ut.dismissBufferingDialog();
                         Toast.makeText(activityRegister.this, "Unexpected error occurred. try checking internet", Toast.LENGTH_SHORT).show();
                         }
                 });
@@ -161,7 +159,7 @@ public class activityRegister extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ut.clickAnimation(view);
-                showLoading("Sending OTP");
+                ut.showBufferingDialog(activityRegister.this, "Sending OTP");
                 sendOtp();
             }
         });
@@ -228,7 +226,7 @@ public class activityRegister extends AppCompatActivity {
                     return;
                 }
                 // Show the ProgressBar and "Processing" Text
-                showLoading("Registering user...");
+                ut.showBufferingDialog(activityRegister.this, "Registering user");
 
                 DocumentReference docRef = db.collection("users").document(email);
                 // Check if user exists
@@ -257,22 +255,21 @@ public class activityRegister extends AppCompatActivity {
 
                             docRef.update("mobileNumber", mobileNumber, "password", hashedPassword)
                                     .addOnSuccessListener(aVoid -> {
-                                        hideLoading();
+                                        ut.dismissBufferingDialog();
                                         isValidated[0]=false;
                                         passEmail[0] = "";
                                         Toast.makeText(activityRegister.this, "Registration successful, Please Login", Toast.LENGTH_SHORT).show();
                                         finish();
                                     })
                                     .addOnFailureListener(e -> {
-                                        hideLoading();
+                                        ut.dismissBufferingDialog();
                                         Toast.makeText(activityRegister.this, "Failed to upload data", Toast.LENGTH_SHORT).show();
                                     });
                         }
 
                     } else {
-                        hideLoading();
+                        ut.dismissBufferingDialog();
                         Toast.makeText(activityRegister.this, "Unexpected error occurred", Toast.LENGTH_SHORT).show();
-                        hideLoading();
                     }
                 });
             }
@@ -281,16 +278,6 @@ public class activityRegister extends AppCompatActivity {
 
     }
 
-    // Show loading animation and processing text
-    private void showLoading(String message) {
-        loadingLayout.setVisibility(View.VISIBLE);
-        loadingText.setText(message);
-    }
-
-    // Hide loading animation and processing text
-    private void hideLoading() {
-        loadingLayout.setVisibility(View.GONE);
-    }
 
     private void sendOtp(){
         TextView otpButtonText = findViewById(R.id.textView34);
@@ -311,7 +298,7 @@ public class activityRegister extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            hideLoading(); // Stop loading animation
+                            ut.dismissBufferingDialog();
 
                             if (!sentOtp.isEmpty()) {
                                 storeOtp[0] = sentOtp;
@@ -330,7 +317,7 @@ public class activityRegister extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            hideLoading(); // Stop loading animation
+                            ut.dismissBufferingDialog();
                             Toast.makeText(activityRegister.this, "Error sending OTP", Toast.LENGTH_SHORT).show();
                         }
                     });

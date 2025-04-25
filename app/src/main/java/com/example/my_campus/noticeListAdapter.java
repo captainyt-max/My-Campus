@@ -36,9 +36,6 @@ public class noticeListAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<noticeListItems> listItems;
     private utility ut = new utility();
-    private String downloadUrl = "";
-    private long downloadId;
-    private File file;
 
     public noticeListAdapter (Context context, ArrayList<noticeListItems> listItems){
         this.context = context;
@@ -95,7 +92,13 @@ public class noticeListAdapter extends BaseAdapter {
             if (file.exists()) {
                 ut.openFile(context, file);
             } else {
-                ut.downloadFilePr(context, file, downloadUrl);
+                if (!ut.isNetworkAvailable(context)){
+                    Toast.makeText(context, "offline", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                ut.downloadFilePr(context, file, downloadUrl, ()->{
+                    Toast.makeText(context, "Downloaded", Toast.LENGTH_SHORT).show();
+                });
             }
         });
 
