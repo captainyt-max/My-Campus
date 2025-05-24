@@ -48,7 +48,7 @@ public class fragmentBranchFaculty extends Fragment {
         View view = inflater.inflate(R.layout.fragment_branch_faculty, container, false);
 
         branchName = view.findViewById(R.id.branch);
-        //adding items to cse faculties array list
+        // adding items to cse faculties array list
         recyclerView = view.findViewById(R.id.facultyrecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -56,7 +56,7 @@ public class fragmentBranchFaculty extends Fragment {
         adapter = new CustomListAdapter(getContext(), facultyList);
         recyclerView.setAdapter(adapter);
 
-        //getting bundle containing branch name from previous fragment
+        // getting bundle containing branch name from previous fragment
         Bundle bundle = getArguments();
         if (bundle != null) {
             String branch = bundle.getString(("branch"));

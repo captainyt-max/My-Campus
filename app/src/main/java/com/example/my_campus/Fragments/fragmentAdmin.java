@@ -56,11 +56,13 @@ public class fragmentAdmin extends Fragment {
 
      ConstraintLayout btnManageRoutine = view.findViewById(R.id.btnManageRoutine);
      ConstraintLayout btnManageNotices = view.findViewById(R.id.btnManageNotices);
+     ConstraintLayout btnManagefaculties = view.findViewById(R.id.btnManageFaculties);
 
 
 
 
 
+        // Open Manage Routines Fragment
         btnManageRoutine.setOnClickListener( click -> {
             fragmentManageRoutines fragManageRoutines = new fragmentManageRoutines();
             FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
@@ -74,11 +76,26 @@ public class fragmentAdmin extends Fragment {
             transaction.commit();
         });
 
+        // Open Manage Notices Fragment
         btnManageNotices.setOnClickListener( click -> {
             ut.replaceFragment(getParentFragmentManager(), new fragementManageNotice(), R.id.mainLayout);
         });
 
 
+        // Open Manage Faculties Fragment
+        btnManagefaculties.setOnClickListener(click -> {
+            fragmentManageFaculties fragManageFaculties = new fragmentManageFaculties();
+            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_left,
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_right
+            );
+            transaction.replace(R.id.mainLayout, fragManageFaculties);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        });
 
         return view;
     }

@@ -43,26 +43,28 @@ public class fragmentSelectednavigation extends Fragment {
             String mapHtml = "";
             if (selectedTittle != null) {
                 if (selectedTittle.equals("campus")) {
-                    title.setText("College Campus Map");
-                    mapHtml = "<iframe src=\"https://www.google.com/maps/d/embed?mid=1TAmar8DlRbwC095t2dkLE3aZXIQtO9k&ehbc=2E312F\" "
-                            + "style=\"width:100%; height:100vh; border:0;\" "
-                            + "allowfullscreen"
-                            + "loading=\"lazy\">"
-                            + "</iframe>";
+//                    title.setText("College Campus Map");
 
+                    mapHtml = "<iframe src=\"https://www.google.com/maps/d/embed?mid=18jHIqa1O_Qq1jVM_4BmNHduUzxy5eUQ&ehbc=2E312F\" "
+                            + "style=\"width:100%; height:100%; border:0;\" "
+                            + "allowfullscreen "
+                            + "loading=\"lazy\"></iframe>";
 
                 } else if (selectedTittle.equals("hostel")) {
-                    title.setText("Hostel Map");
-                    mapHtml = "<iframe src=\"https://www.google.com/maps/d/embed?mid=1B_9vhN7VTzhWRIv95uyUW3V0G0zbHSU&hl=en&ehbc=2E312F\" "
-                            + "style=\"width:100%; height:100vh; border:0;\" "
+//                    title.setText("Hostel Map");
+
+                    mapHtml = "<iframe src=\"https://www.google.com/maps/d/embed?mid=1UVDNtpbRMAO3g9PkZYjwHO1D09apikE&ehbc=2E312F\" "
+                            + "style=\"width:100%; height:100%; border:0;\" "
                             + "allowfullscreen "
-                            + "loading=\"lazy\">"
-                            + "</iframe>";
-
+                            + "loading=\"lazy\"></iframe>";
                 }
+                // Proper HTML with viewport settings
+                String htmlData = "<html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'>" +
+                        "<style>html, body { margin:0; padding:0; height:100%; } " +
+                        "iframe { width:100%; height:100%; border:0; }</style></head>" +
+                        "<body>" + mapHtml + "</body></html>";
 
-                String htmlData = "<html><body style='margin:0;padding:0;'><div style='width:100%; height:100vh;'>" + mapHtml + "</div></body></html>";
-                webView.loadData(htmlData, "text/html", "UTF-8");
+                webView.loadDataWithBaseURL(null, htmlData, "text/html", "UTF-8", null);
             }
 
         }

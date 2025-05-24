@@ -89,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EdgeToEdge.enable(this);
+
+        // Disable screenshot and screen recording
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         FirebaseMessaging.getInstance().getToken()
                 .addOnSuccessListener(token -> {
@@ -162,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                 String profileImageUrl = documentSnapshot.getString("profileImage");
                 ut.setProfileImage(this, profileImageUrl, profileIconHome);
                 loginState.setUserRole(this, role);
-                Toast.makeText(this, role, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, role, Toast.LENGTH_SHORT).show();
                 Menu menu = navigationView.getMenu();
                 MenuItem admin = menu.findItem(R.id.navAdmin);
                 assert role != null;

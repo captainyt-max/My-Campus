@@ -17,6 +17,7 @@ import java.util.List;
 public class HostelListAdapter extends RecyclerView.Adapter<HostelListAdapter.ViewHolder> {
     private Context context;
     private List<HostellListItem> hostelList; // No need for default initialization, handled in constructor
+    private utility ut = new utility();
 
     public HostelListAdapter(Context context, List<HostellListItem> hostelList) {
         this.context = context;
@@ -64,6 +65,10 @@ public class HostelListAdapter extends RecyclerView.Adapter<HostelListAdapter.Vi
                     context.startActivity(intent);
                 }
             }
+        });
+        // Set onClickListener safely for icon
+        holder.icon.setOnClickListener(v -> {
+            ut.navigateToProfileImage(context, item.getIconUrl(), item.getName(), "facultiesProfileImage");
         });
     }
 

@@ -1,22 +1,24 @@
 package com.example.my_campus.Fragments;
 
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.my_campus.HostelListAdapter;
 import com.example.my_campus.HostellListItem;
 import com.example.my_campus.ImageSliderAdapter;
 import com.example.my_campus.R;
+import com.example.my_campus.utility;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -27,7 +29,6 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class fragmentSelectedHostelInfo extends Fragment {
     private ArrayList<HostellListItem> hostelList;
     private Handler sliderHandler = new Handler();
     private Runnable sliderRunnable;
+    private utility ut = new utility();
 
     public fragmentSelectedHostelInfo() {
         // Required empty public constructor
@@ -71,11 +73,13 @@ public class fragmentSelectedHostelInfo extends Fragment {
     }
 
     private void loadHostelData(String hostel) {
+        ut.showBufferingDialog(requireContext(), "Loading files");
         CollectionReference hostelRef = firestore.collection("Hostels").document(hostel).collection("People");
 
         hostelRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot snapshot, FirebaseFirestoreException error) {
+                ut.dismissBufferingDialog();
                 if (error != null) {
                     showToast("Error fetching data: " + error.getMessage());
                     return;
@@ -96,6 +100,7 @@ public class fragmentSelectedHostelInfo extends Fragment {
             }
         });
     }
+
     private void loadImagesForHostel(String hostel) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("hostel images").document(hostel);
@@ -114,6 +119,9 @@ public class fragmentSelectedHostelInfo extends Fragment {
                 ImageSliderAdapter adapter = new ImageSliderAdapter(imageList);
                 imageSlider.setAdapter(adapter);
 
+                // Set the fancy page transformer
+                setFancyPageTransformer();
+
                 // Start auto-scroll
                 startAutoSlide(imageList.size());
             }
@@ -121,18 +129,41 @@ public class fragmentSelectedHostelInfo extends Fragment {
     }
 
     private void startAutoSlide(int size) {
-        if (size == 0)return;
-        
+        if (size == 0) return;
+
         sliderRunnable = new Runnable() {
             @Override
             public void run() {
                 int currentItem = imageSlider.getCurrentItem();
-                int nextItem = (currentItem + 1) % size; // Loop back to first item
+                int nextItem = (currentItem + 1) % size;
                 imageSlider.setCurrentItem(nextItem, true);
-                sliderHandler.postDelayed(this, 3000); // Change slide every 3 seconds
+                sliderHandler.postDelayed(this, 5000);
             }
         };
-        sliderHandler.postDelayed(sliderRunnable, 3000);
+        sliderHandler.postDelayed(sliderRunnable, 5000);
+    }
+
+    private void setFancyPageTransformer() {
+        imageSlider.setPageTransformer(new ViewPager2.PageTransformer() {
+            @Override
+            public void transformPage(@NonNull View page, float position) {
+                page.setCameraDistance(20000); // 3D rotation depth effect
+
+                if (position < -1) { // Page bahar hai
+                    page.setAlpha(0f);
+                } else if (position <= 0) { // Left side swipe
+                    page.setAlpha(1f);
+                    page.setRotationY(90 * Math.abs(position)); // Rotate karta hai
+                    page.setTranslationX(-page.getWidth() * position);
+                } else if (position <= 1) { // Right side swipe
+                    page.setAlpha(1f);
+                    page.setRotationY(-90 * Math.abs(position));
+                    page.setTranslationX(-page.getWidth() * position);
+                } else { // Page bahar hai
+                    page.setAlpha(0f);
+                }
+            }
+        });
     }
 
 
