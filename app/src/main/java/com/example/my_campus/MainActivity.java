@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
 
         // Disable screenshot and screen recording
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        // getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         FirebaseMessaging.getInstance().getToken()
                 .addOnSuccessListener(token -> {
@@ -456,20 +456,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void addTokenToUser(String token){
         DocumentReference docRef = db.collection("users").document(loginState.getUserEmail(this));
-                    docRef.get().addOnCompleteListener(task->{
-                    if (task.isSuccessful()){
-                        DocumentSnapshot snapshot = task.getResult();
-                        if (snapshot.exists()){
-                            docRef.update("token", token)
-                                    .addOnSuccessListener(aVoid->{
-                                        Log.d("FCM", "addTokenToUser: token uploaded to user document");
-                                    })
-                                    .addOnFailureListener(e->{
-                                        Log.e("FCM", "addTokenToUser: "+e.getMessage() );
-                                    });
-                        }
-                    }
-                });
+        docRef.get().addOnCompleteListener(task->{
+            if (task.isSuccessful()){
+                DocumentSnapshot snapshot = task.getResult();
+                if (snapshot.exists()){
+                    docRef.update("token", token)
+                            .addOnSuccessListener(aVoid->{
+                                Log.d("FCM", "addTokenToUser: token uploaded to user document");
+                            })
+                            .addOnFailureListener(e->{
+                                Log.e("FCM", "addTokenToUser: "+e.getMessage() );
+                            });
+                }
+            }
+        });
     }
 
 

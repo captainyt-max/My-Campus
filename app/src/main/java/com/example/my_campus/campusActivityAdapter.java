@@ -25,12 +25,12 @@ import java.util.List;
 
 public class campusActivityAdapter extends RecyclerView.Adapter<campusActivityAdapter.MessageViewHolder> {
 
-    private Context context;
-    private List<campusActivityItem> messageList;
-    private FirebaseFirestore db;
-    private utility ut = new utility();
-    private editMessageCallback callback;
-    private String adapterMode;
+    private final Context context;
+    private final List<campusActivityItem> messageList;
+    private final FirebaseFirestore db;
+    private final utility ut = new utility();
+    private final editMessageCallback callback;
+    private final String adapterMode;
     private String classActivityCollection;
 
     public campusActivityAdapter(Context context, List<campusActivityItem> messageList, String adapterMode, editMessageCallback callback) {
@@ -62,9 +62,11 @@ public class campusActivityAdapter extends RecyclerView.Adapter<campusActivityAd
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         campusActivityItem currentItem = messageList.get(position);
+
         holder.msgBody.setText(currentItem.getMessageBody());
         holder.sentTime.setText(currentItem.getSentTime());
 
+        // Sender or Receiver bubble
         if (isUserSender(currentItem.getSenderEmail())) {
             holder.messageLayout.setBackgroundResource(R.drawable.registration_details_background);
             holder.messageLayoutParent.setGravity(Gravity.END);
@@ -73,6 +75,7 @@ public class campusActivityAdapter extends RecyclerView.Adapter<campusActivityAd
             holder.messageLayoutParent.setGravity(Gravity.START);
         }
 
+        // Show / Hide sender name and profile
         if (position > 0) {
             campusActivityItem previousItem = messageList.get(position - 1);
             if (previousItem.getSenderEmail().equals(currentItem.getSenderEmail()) || isUserSender(currentItem.getSenderEmail())) {
@@ -99,6 +102,7 @@ public class campusActivityAdapter extends RecyclerView.Adapter<campusActivityAd
             return true;
         });
 
+        // Load sender info
         db.collection("users").document(currentItem.getSenderEmail())
                 .addSnapshotListener((snapshot, e) -> {
                     if (e != null) {
@@ -115,14 +119,20 @@ public class campusActivityAdapter extends RecyclerView.Adapter<campusActivityAd
                     }
                 });
 
-        // Bind reply message preview if available
+        // Reply Preview
         if (currentItem.getReplyMessage() != null && !currentItem.getReplyMessage().isEmpty()) {
             holder.replyLayout.setVisibility(View.VISIBLE);
             holder.replyMessage.setText(currentItem.getReplyMessage());
-            if (currentItem.getReplySender() != null) {
-                holder.replySender.setText(currentItem.getReplySender().equals(loginState.getUserEmail(context)) ? "You" : currentItem.getReplySender());
+
+            String replySenderText = currentItem.getReplySender();
+            if (replySenderText != null && !replySenderText.isEmpty()) {
+                holder.replySender.setText(replySenderText.equals(loginState.getUserEmail(context)) ? "You" : replySenderText);
             } else {
                 holder.replySender.setText("Unknown");
+            }
+
+            if (holder.replyCancelBtn != null) {
+                holder.replyCancelBtn.setVisibility(View.GONE);
             }
         } else {
             holder.replyLayout.setVisibility(View.GONE);
@@ -141,7 +151,7 @@ public class campusActivityAdapter extends RecyclerView.Adapter<campusActivityAd
 
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
         TextView senderName, msgBody, sentTime, replySender, replyMessage;
-        ImageView senderProfileImage;
+        ImageView senderProfileImage, replyCancelBtn;
         ConstraintLayout messageLayout;
         LinearLayout messageLayoutParent, replyLayout;
         CardView imageLayout;
@@ -158,6 +168,12 @@ public class campusActivityAdapter extends RecyclerView.Adapter<campusActivityAd
             replyLayout = itemView.findViewById(R.id.replyLayout);
             replySender = itemView.findViewById(R.id.replySender);
             replyMessage = itemView.findViewById(R.id.replyMessage);
+
+            int id1 = itemView.getResources().getIdentifier("replyCancelBtn", "id", itemView.getContext().getPackageName());
+            int id2 = itemView.getResources().getIdentifier("btnCancelReply", "id", itemView.getContext().getPackageName());
+            replyCancelBtn = null;
+            if (id1 != 0) replyCancelBtn = itemView.findViewById(id1);
+            else if (id2 != 0) replyCancelBtn = itemView.findViewById(id2);
         }
     }
 
