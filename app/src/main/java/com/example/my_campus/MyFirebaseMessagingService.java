@@ -11,6 +11,8 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Objects;
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -24,16 +26,26 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Intent intent;
 
         String clickAction = remoteMessage.getData().get("click_action");
-        String chatId = remoteMessage.getData().get("chatId");
-        int messagePosition = Integer.parseInt(remoteMessage.getData().get("messagePosition"));
-        Log.d("INTENT_KEY", "sendCustomNotification: "+ chatId);
-        Log.d("INTENT_KEY", "sendCustomNotification: "+ messagePosition);
+        String messageType = remoteMessage.getData().get("messageType");
+        String messagePos = remoteMessage.getData().get("messagePosition");
+        int messagePosition = -1;
+        if (messagePos!=null){
+            messagePosition = Integer.parseInt(Objects.requireNonNull(remoteMessage.getData().get("messagePosition")));
+        }
 
-        if (clickAction.equals("OPEN_CHAT_ACTIVITY")) {
+        Log.d("INTENT_KEY", "chatID: "+ messageType);
+        Log.d("INTENT_KEY", "messagePosition: "+ messagePosition);
+        Log.d("INTENT_KEY", "clickAction: "+ clickAction);
+
+        if ("OPEN_CAMPUS_ACTIVITY".equals(clickAction)) {
             intent = new Intent(this, activityCampusActivity.class);
-            intent.putExtra("key", chatId);
             intent.putExtra("messagePosition", messagePosition);
-        } else {
+        }else if ("OPEN_CLASS_ACTIVITY".equals(clickAction)){
+            intent = new Intent(this, activityClassActivity.class);
+            intent.putExtra("messagePosition", messagePosition);
+            Log.d("INTENT_KEY", "intent class : "+ intent);
+        }
+        else {
             intent = new Intent(this, MainActivity.class);
         }
 
@@ -47,7 +59,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentText(remoteMessage.getData().get("body"))
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
-                .setGroup(chatId);
+                .setGroup(messageType);
 
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify((int) System.currentTimeMillis(), builder.build());

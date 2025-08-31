@@ -3,22 +3,17 @@ package com.example.my_campus;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 import java.io.File;
 import java.util.Collections;
-import java.util.Objects;
 
 import android.view.Gravity;
 import android.view.Menu;
@@ -31,9 +26,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -55,10 +47,7 @@ import com.example.my_campus.Fragments.fragmentRoutine;
 import com.example.my_campus.Fragments.fragmentSyllabus;
 import com.example.my_campus.Fragments.fragmentfacultiesinfo;
 import com.example.my_campus.Fragments.fragmentnavigation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.Firebase;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -395,11 +384,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onConfirm() {
                     Toast.makeText(MainActivity.this, "Logout successful", Toast.LENGTH_SHORT).show();
                     ut.clickAnimation(view);
-                    loginState.setLoginState(MainActivity.this, false);
-                    Intent loginIntent = new Intent(MainActivity.this, activityLogin.class);
-                    loginState.setDeviceToken(MainActivity.this, "");
-                    startActivity(loginIntent);
-                    finish();
+                    proceedLogout();
                 }
                 @Override
                 public void onCancel() {
@@ -466,6 +451,29 @@ public class MainActivity extends AppCompatActivity {
                             })
                             .addOnFailureListener(e->{
                                 Log.e("FCM", "addTokenToUser: "+e.getMessage() );
+                            });
+                }
+            }
+        });
+    }
+
+    private void proceedLogout(){
+        DocumentReference docRef = db.collection("users").document(loginState.getUserEmail(this));
+        docRef.get().addOnCompleteListener(task->{
+            if (task.isSuccessful()){
+                DocumentSnapshot snapshot = task.getResult();
+                if (snapshot.exists()){
+                    docRef.delete()
+                            .addOnSuccessListener(aVoid->{
+                                Log.d("FCM", "removeToken: token uploaded to user document");
+                                loginState.setLoginState(MainActivity.this, false);
+                                Intent loginIntent = new Intent(MainActivity.this, activityLogin.class);
+                                loginState.setDeviceToken(MainActivity.this, "");
+                                startActivity(loginIntent);
+                                finish();
+                            })
+                            .addOnFailureListener(e->{
+                                Log.e("FCM", "removeToken: "+e.getMessage() );
                             });
                 }
             }

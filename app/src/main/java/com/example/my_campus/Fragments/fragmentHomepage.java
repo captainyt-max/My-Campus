@@ -3,6 +3,7 @@ package com.example.my_campus.Fragments;
 import com.bumptech.glide.Glide;
 import com.example.my_campus.R;
 import com.example.my_campus.activityCampusActivity;
+import com.example.my_campus.activityClassActivity;
 import com.example.my_campus.activityHelp;
 import com.example.my_campus.loginState;
 import com.example.my_campus.noticeListAdapter;
@@ -115,46 +116,48 @@ public class fragmentHomepage extends Fragment {
                     }
                 });
 
-        firestore.collection(classActivityCollection)
-                .orderBy("timestamp", Query.Direction.DESCENDING)
-                .addSnapshotListener((snapshot, e) -> {
-                    if (e != null || getContext() == null) return;
+        Query q = firestore.collection("class activity")
+                .whereEqualTo("branch", loginState.getUserBranch(context))
+                .whereEqualTo("year",   loginState.getUserYear(context))
+                .orderBy("timestamp", Query.Direction.DESCENDING);
+        q.addSnapshotListener((snapshot, e) -> {
+            if (e != null || getContext() == null) return;
 
-                    if (snapshot != null && !snapshot.getDocuments().isEmpty()) {
-                        DocumentSnapshot messageDoc = snapshot.getDocuments().get(0);
-                        if (messageDoc != null && messageDoc.exists()) {
-                            btnClassInfo.setVisibility(View.VISIBLE);
-                            classActivityMessage.setText(messageDoc.getString("message"));
-                            classActivityUpdated.setText(messageDoc.getString("sentTime"));
-                            String sender = messageDoc.getString("sentBy");
+            if (snapshot != null && !snapshot.getDocuments().isEmpty()) {
+                DocumentSnapshot messageDoc = snapshot.getDocuments().get(0);
+                if (messageDoc != null && messageDoc.exists()) {
+                    btnClassInfo.setVisibility(View.VISIBLE);
+                    classActivityMessage.setText(messageDoc.getString("message"));
+                    classActivityUpdated.setText(messageDoc.getString("sentTime"));
+                    String sender = messageDoc.getString("sentBy");
 
-                            firestore.collection("users").document(sender)
-                                    .addSnapshotListener((snap, ex) -> {
-                                        if (ex != null || getContext() == null) return;
-                                        if (snap != null && snap.contains("profileImage")) {
-                                            Context ctx = getContext();
-                                            if (ctx != null) {
-                                                Glide.with(ctx)
-                                                        .load(snap.getString("profileImage"))
-                                                        .circleCrop()
-                                                        .error(R.drawable.ic_default_user)
-                                                        .placeholder(R.drawable.ic_default_user)
-                                                        .into(btnClassInfo);
-                                            }
-                                        }
-                                    });
-
-                            btnClassInfo.setOnClickListener(click -> {
-                                Context ctx = getContext();
-                                if (ctx != null) ut.showProfile(ctx, sender);
+                    firestore.collection("users").document(sender)
+                            .addSnapshotListener((snap, ex) -> {
+                                if (ex != null || getContext() == null) return;
+                                if (snap != null && snap.contains("profileImage")) {
+                                    Context ctx = getContext();
+                                    if (ctx != null) {
+                                        Glide.with(ctx)
+                                                .load(snap.getString("profileImage"))
+                                                .circleCrop()
+                                                .error(R.drawable.ic_default_user)
+                                                .placeholder(R.drawable.ic_default_user)
+                                                .into(btnClassInfo);
+                                    }
+                                }
                             });
-                        }
-                    } else {
-                        btnClassInfo.setVisibility(View.GONE);
-                        classActivityMessage.setText("No message yet");
-                        classActivityUpdated.setText("");
-                    }
-                });
+
+                    btnClassInfo.setOnClickListener(click -> {
+                        Context ctx = getContext();
+                        if (ctx != null) ut.showProfile(ctx, sender);
+                    });
+                }
+            } else {
+                btnClassInfo.setVisibility(View.GONE);
+                classActivityMessage.setText("No message yet");
+                classActivityUpdated.setText("");
+            }
+        });
 
         return view;
     }
@@ -188,13 +191,11 @@ public class fragmentHomepage extends Fragment {
 
         campusActivityTile.setOnClickListener(click -> {
             Intent intent = new Intent(context, activityCampusActivity.class);
-            intent.putExtra("key", "campus_activity");
             startActivity(intent);
         });
 
         classActivityTile.setOnClickListener(click -> {
-            Intent intent = new Intent(context, activityCampusActivity.class);
-            intent.putExtra("key", "class_activity");
+            Intent intent = new Intent(context, activityClassActivity.class);
             startActivity(intent);
         });
 

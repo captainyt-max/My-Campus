@@ -213,7 +213,7 @@ public class campusActivityAdapter extends RecyclerView.Adapter<campusActivityAd
     }
 
     private void deleteMessage(String docId) {
-        if (adapterMode.equals(activityCampusActivity.campusActivity)) {
+        if (adapterMode.equals("campus_activity")) {
             db.collection("campus activity").document(docId)
                     .delete()
                     .addOnSuccessListener(unused ->
